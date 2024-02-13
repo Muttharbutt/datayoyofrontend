@@ -1,0 +1,27 @@
+.headerbarbox {
+  height: 12px;
+  display: flex;
+  padding: 2%;
+  padding-top: 1%;
+  border-bottom: #dddfe1 solid 1px;
+}
+.logostyle {
+  width: 131px;
+  height: 31px;
+}
+.headertext {
+  display: flex;
+  margin-left: 5%;
+  margin-top: 0.5%;
+  width: 100%;
+}
+.headerheading {
+  margin-left: 5%;
+}
+.acoountlogo {
+  border-radius: 100%;
+  background-color: blue;
+  color: white;
+  width: 40px;
+  height: 40px;
+}
