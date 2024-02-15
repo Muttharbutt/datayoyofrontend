@@ -3,9 +3,11 @@
   display: flex;
   padding: 2%;
   padding-top: 1%;
+  padding-bottom: 2.5%;
   border-bottom: #dddfe1 solid 1px;
 }
 .logostyle {
+  margin-top: .5%;
   width: 131px;
   height: 31px;
 }
@@ -19,9 +21,37 @@
   margin-left: 5%;
 }
 .acoountlogo {
+  margin-top: .5%;
   border-radius: 100%;
   background-color: blue;
   color: white;
-  width: 40px;
+  width: 45px;
   height: 40px;
+  text-align: center;
+}
+.logoutdiv{
+  position: fixed;    
+  right: -8%;
+  transform: translateX(-50%);
+  width:350px; /* Set width as needed */
+  background-color: white; /* Customize background color */
+  border: 1px solid lightgrey; /* Add border if needed */
+border-bottom-left-radius: 10px;
+border-bottom-right-radius: 10px;
+  text-align: center;
+}
+.logostyling{
+text-align: center;
+margin-left: 45%;
+margin-top: 10%;
+}
+.titleoflogout1{
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: -3%;
+}
+.titleoflogout2{
+  font-size: 12px;
+  font-weight: 700;
+  color: gray;
 }

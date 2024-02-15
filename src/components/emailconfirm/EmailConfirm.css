@@ -1,0 +1,21 @@
+.settingboxforemail{
+    margin-top: 0%;
+    height: 260px;
+    width: 35%;
+    background-color: white;
+    border-radius: 15px;
+    margin-left: 33%;
+}
+.signupheader {
+    font-size: 40px;
+    font-weight: 950;
+    margin-left: 40%;
+    padding-top: 1%;
+  }
+  .formsignupheader {
+    font-size: 24px;    
+    font-weight: 700;
+    margin-left: 35%;
+    margin-top: 5%;
+    padding-top: 4%;
+  }
