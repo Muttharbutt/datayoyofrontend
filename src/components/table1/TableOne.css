@@ -1,0 +1,96 @@
+.button4{
+    border-radius: 5px;
+    background-color: #1054FB;
+    color:white;
+    width: 300px;
+    border: none;
+    height: 30px;
+    margin-left: 30%;
+}
+.container1 {
+    position: relative;
+    padding: 0;
+    margin-left: 66%;
+  }
+
+  .tableinputstyle2 {
+    border: none;
+    width: 150% ;
+    color: #1054FB;
+    height: 35px;
+    border-radius: 10px;
+    
+  }
+  .givinginputmargin4 {
+    margin-top: 2%;
+    border: #1054FB solid 1px !important;
+    padding-left: 15%;
+  }
+  .imagestyleforlogin2 {
+
+    position: absolute;
+    bottom: 12px;
+    left: 10px;
+    width: 15px;
+    height: 15px;
+  }
+  .bluebox{
+    width: 50%;
+  }
+  .redbox{
+    width: 50%;
+  }
+  .selectstyle{
+    border-color: lightgray;
+    width: 90%;
+    height: 40px;
+    margin-top: 3%;
+    margin-left: 4%;
+    border-radius: 10px;
+  }
+  .settingexcesise{
+    margin-left: 7%;
+    margin-top: 1%;
+    font-size: 20px;
+  }
+  .settingdate1{
+    margin-left: 7%;
+    margin-top: 1%;
+    font-size: 14px;
+  }
+  .styledate{
+    border:none;
+    border: 1px solid lightgray;
+    width: 84%;
+    height: 40px;
+    margin-top: 3%;
+    border-radius: 10px;
+  }
+  .modal-buttons1 {
+    display: flex;
+    justify-content:center;
+    margin-top: 5%;
+  }
+
+  .button11{
+    border-radius: 30px;
+    background-color: white;
+    border-color: #1054FB;
+    color: #1054FB;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 55px;
+    padding-right: 55px;
+    margin-left: 8%;
+    margin-right: 10%;
+    }
+    .button12{
+      border-radius: 30px;
+      background-color: #1054FB;
+      color: white;
+      border:none;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      padding-left: 55px;
+      padding-right: 55px;
+      }

@@ -4,7 +4,9 @@ import Login from "./components/login/Login";
 import EmailConfirm from "./components/emailconfirm/EmailConfirm";
 import PasswordConfirm from "./components/passwordconfirm/PasswordConfirm";
 import Table from "./components/table/Table";
+import TableOne from "./components/table1/TableOne";
 import Logout from "./components/Logout/Logout";
+import Stepone from "./components/stepone/Stepone";
 function App() {
   return (
     <BrowserRouter>
@@ -14,6 +16,8 @@ function App() {
           <Route  path="passwordconfirm" element={<PasswordConfirm />} />
           <Route  path="table" element={<Table />} />
           <Route  path="logout" element={<Logout />} />
+          <Route  path="tableone" element={<TableOne />} />
+          <Route  path="stepone" element={<Stepone />} />
       </Routes>
     </BrowserRouter>
   );

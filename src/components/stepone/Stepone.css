@@ -1,0 +1,87 @@
+.settingside{
+  margin-left: 40%;
+  font-size: 20px;
+  font-weight: 700;
+}
+.box1{
+  margin-left: 7%;
+  width: 40%;
+  margin-top: 2%;
+  height: 450px;
+}
+.settingsetponeheader{
+  margin-top: 1%;
+ 
+}
+.divinsidestepone{
+  padding: 50px;
+  margin-top: 3%;
+  background-color: white;
+  border-radius: 10px;
+  height: 100%;
+}
+
+.logoutdiv1{   
+  width:36%; /* Set width as needed */
+  background-color: white; /* Customize background color */
+  border: 1px solid lightgrey; /* Add border if needed */
+border-radius: 10px;
+padding: 2%;
+  display: none; 
+}
+.textsetting{
+  font-size: 17px;
+  font-weight: 700;
+}
+.textsetting1{
+  font-size: 17px;
+  font-weight: 400;
+}
+.paddingboot{
+  margin-top: 4%;
+ margin-bottom: 2%; 
+}
+.textspan{
+  font-size: 18px;
+  font-weight: 700;
+  margin-left: 10%;
+}
+.parent:hover .logoutdiv1 {
+  display: block; /* Show logout div when parent is hovered */
+  position: absolute;
+}
+.custom-file-input {
+  background-color: #1054FB;
+  color: white;
+  border-radius: 18px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-family: Arial, sans-serif;
+}
+
+.custom-file-input:hover {
+  background-color: navy;
+}
+
+.hidden {
+  color: transparent;
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+.greybox{
+  border: 1px solid lightgrey;
+  border-radius: 10px;
+  padding: 13px;
+  padding-left: 30px;
+}
+.topmargin{
+  margin-top: 20%;
+}
+
+.topmargin1{
+  margin-top: 15%;
+}
