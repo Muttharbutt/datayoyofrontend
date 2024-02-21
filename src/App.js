@@ -7,6 +7,8 @@ import Table from "./components/table/Table";
 import TableOne from "./components/table1/TableOne";
 import Logout from "./components/Logout/Logout";
 import Stepone from "./components/stepone/Stepone";
+import Steptwo from "./components/steptwo/steptwo";
+import Stepthree from "./components/stepthree/stepthree";
 function App() {
   return (
     <BrowserRouter>
@@ -18,6 +20,8 @@ function App() {
           <Route  path="logout" element={<Logout />} />
           <Route  path="tableone" element={<TableOne />} />
           <Route  path="stepone" element={<Stepone />} />
+          <Route  path="steptwo" element={<Steptwo />} />
+          <Route  path="stepthree" element={<Stepthree />} />
       </Routes>
     </BrowserRouter>
   );

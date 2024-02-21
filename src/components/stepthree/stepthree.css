@@ -1,0 +1,23 @@
+.centerbox{
+    margin-left: 30%;
+    background-color: white;
+    border-radius: 10px;
+    width: 40%;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 10px;
+    padding-bottom: 30px;
+}
+.styletext{
+    font-size: 13px;
+    font-weight: 500;
+    margin-left: 3%;
+    margin-bottom: -1%;
+}
+.teststeting{
+    margin-top: 3%;
+    margin-bottom: 2%;
+    font-size: 20px;
+    font-weight: 700;
+    margin-left: 33%;
+}

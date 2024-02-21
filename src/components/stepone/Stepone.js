@@ -127,7 +127,66 @@ const handle = () => {
         
         </div>
         <button style={{marginTop:"10%",marginLeft:"43%",background:"white",border:"1px solid #1054FB",borderRadius:"10px",padding:"10px",paddingLeft:"20px",paddingRight:"20px",color:"#1054FB"}} >Annuler </button>
-       
+        <Popup
+        trigger={ <button style={{marginTop:"10%",marginLeft:"2%",background:"#1054FB",border:"1px solid #1054FB",borderRadius:"10px",padding:"10px",paddingLeft:"20px",paddingRight:"20px",color:"white"}}>Enregistrer et passer à l’étape suivante</button> }
+        modal
+        nested
+    >
+        {close => (
+            <div className="modal-overlay" onClick={close}>
+                <div className="modal1" onClick={e => e.stopPropagation()}>  
+            <div className="modal-content">
+              <div>
+              {handleing ? (   <>
+          <h4 style={{fontWeight:"700"}}>Balance générale - Exercice N</h4>
+          <h4 style={{color:"#5DA83C",fontWeight:"500"}}>Chargement de la balance générale N effectué avec succès !</h4>
+           <h4 style={{fontWeight:"600"}}>Il est nécessaire de rapprocher les champs “Numéro de compte”, “Libellé de compte” et “Solde”.</h4>
+           <div style={{display:"flex",paddingLeft:"1%",marginBottom:"-7%",marginTop:"4%"}}>
+           <div  style={{width:"42%"}} >       <label style={{display:"block"}}>Numéro de compte</label>
+           <select style={{width:"90%",height:"40px",borderRadius:"20px",backgroundColor:"#EDEEFB",color:"#1054FB",border:"none",paddingLeft:"20px",marginTop:"2%",marginLeft:"-5%"}} >
+  <option label="Volvo">Volvo (Latin for "I roll")</option>
+  <option label="Saab">Saab (Swedish Aeroplane AB)</option>
+  <option label="Mercedes">Mercedes (Mercedes-Benz)</option>
+  <option label="Audi">Audi (Auto Union Deutschland Ingolstadt)</option>
+</select></div>
+<div  style={{width:"42%"}}>       <label style={{display:"block"}}>Numéro de compte</label>
+           <select style={{width:"90%",height:"40px",borderRadius:"20px",backgroundColor:"#EDEEFB",color:"#1054FB",border:"none",paddingLeft:"20px",marginTop:"2%",marginLeft:"-5%"}} >
+  <option label="Volvo">Volvo (Latin for "I roll")</option>
+  <option label="Saab">Saab (Swedish Aeroplane AB)</option>
+  <option label="Mercedes">Mercedes (Mercedes-Benz)</option>
+  <option label="Audi">Audi (Auto Union Deutschland Ingolstadt)</option>
+</select></div>
+  <div  style={{width:"42%"}}>       <label style={{display:"block"}}>Numéro de compte</label>
+           <select style={{width:"90%",height:"40px",borderRadius:"20px",backgroundColor:"#EDEEFB",color:"#1054FB",border:"none",paddingLeft:"20px",marginTop:"2%",marginLeft:"-5%"}} >
+  <option label="Volvo">Volvo (Latin for "I roll")</option>
+  <option label="Saab">Saab (Swedish Aeroplane AB)</option>
+  <option label="Mercedes">Mercedes (Mercedes-Benz)</option>
+  <option label="Audi">Audi (Auto Union Deutschland Ingolstadt)</option>
+</select></div>
+</div>  
+           <div>
+          
+           <div className="modal-buttons1">
+                            <button style={{marginTop:"10%",marginLeft:"32%",background:"white",border:"1px solid #1054FB",borderRadius:"20px",padding:"10px",paddingLeft:"20px",paddingRight:"20px",color:"#1054FB"}} onClick={close}>Annuler</button>
+                            <button style={{marginTop:"10%",marginLeft:"2%",background:"#1054FB",border:"1px solid #1054FB",borderRadius:"20px",padding:"10px",paddingLeft:"20px",paddingRight:"20px",color:"white"}} onClick={handle} >Enregistrer et passer à l’étape suivante</button>
+                          </div>
+           </div>
+           </>
+              ):(<>
+               <h4 style={{color:"#5DA83C",fontWeight:"500"}}>Fichiers importés avec succès !</h4>
+               <h4 style={{fontWeight:"400",fontSize:"15px"}}>Votre demande de génération de livrable est en cours de traitement.</h4>
+               <h4 style={{fontWeight:"400",marginTop:"-1 %",fontSize:"15px"}}>Veuillez noter qu’un délai est nécessaire pour une mise à jour de votre tableau de bord.</h4>
+               <img style={{width:"100px",height:"100px",marginLeft:"44%"}} src={tick} alt='tick'/>
+               <button style={{marginTop:"0",marginLeft:"77%",background:"#1054FB",border:"1px solid #1054FB",borderRadius:"20px",padding:"12px",paddingLeft:"30px",paddingRight:"30px",color:"white"}} onClick={handle} >Fermer</button>
+              </>)}
+ 
+              </div>
+              </div>
+           
+                </div>
+            </div>
+        )}
+    </Popup>
         <Popup
         trigger={ <button style={{marginTop:"10%",marginLeft:"2%",background:"#1054FB",border:"1px solid #1054FB",borderRadius:"10px",padding:"10px",paddingLeft:"20px",paddingRight:"20px",color:"white"}}>Enregistrer et passer à l’étape suivante</button> }
         modal
