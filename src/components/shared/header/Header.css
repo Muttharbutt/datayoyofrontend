@@ -55,3 +55,7 @@ margin-top: 10%;
   font-weight: 700;
   color: gray;
 }
+.button2{
+  height: 37px;
+  cursor: pointer;
+}

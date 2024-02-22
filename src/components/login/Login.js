@@ -57,21 +57,25 @@ function Login() {
     e.preventDefault();
     const response = await fetch('http://127.0.0.1:8000/login/  ', {
       method: 'POST',
-      headers: {
-        "Content-Type": "application/json",
-        'X-CSRFToken': csrftoken
-      },
+    
       body: JSON.stringify(formData1),
-      credentials: "same-origin",
-      withCredentials: true
     });
-    console.log(response)
+    const data = await response.json();
+
+    if (response.ok) {
+        // Authentication successful
+        console.log('User ID:', data.user_id);
+        // Do something with the user ID, like redirecting to a new page or storing it in state
+    } else {
+        // Authentication failed
+        console.log('User ID:', data.error);
+    }
   }
   const handleSubmit = async (e) => {
     e.preventDefault();
     try 
     {
-const response = await fetch('http://127.0.0.1:8000/reports/register/', {
+const response = await fetch('http://127.0.0.1:8000/register/', {
   method: 'POST',
   body: JSON.stringify(formData)
 });

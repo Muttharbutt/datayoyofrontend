@@ -6,10 +6,11 @@ import moc3 from '../../assets/moc3.png'
 import moc4 from '../../assets/moc4.png'
 import moc5 from '../../assets/moc5.png'
 import moc6 from '../../assets/moc6.png'
+import Logoheader from "../shared/Loginheader/Loginheader";
 function Logout() {
   return (
     <>
-      <Header />
+      <Logoheader />
      <div className="flexdiv">
 <div className="settingwidthofbox">
     <div className="titleoflogout">

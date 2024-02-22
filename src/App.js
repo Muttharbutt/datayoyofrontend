@@ -13,11 +13,12 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+      <Route index path="/" element={<Logout />} />
           <Route index path="login" element={<Login />} />
           <Route  path="emailconfirm" element={<EmailConfirm />} />
           <Route  path="passwordconfirm" element={<PasswordConfirm />} />
           <Route  path="table" element={<Table />} />
-          <Route  path="logout" element={<Logout />} />
+          <Route  path="Home" element={<Logout />} />
           <Route  path="tableone" element={<TableOne />} />
           <Route  path="stepone" element={<Stepone />} />
           <Route  path="steptwo" element={<Steptwo />} />
