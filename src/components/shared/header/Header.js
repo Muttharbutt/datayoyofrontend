@@ -1,7 +1,12 @@
 import "./Header.css";
 import mainlogo from "../../../assets/logo.png";
 import Popup from "reactjs-popup";
+import Cookies from 'universal-cookie';
 function Header() {
+  const cookies = new Cookies();
+ let  email=cookies.get("email")
+ let  name=cookies.get("name")
+ let  id=cookies.get("id")
   return (
     <>
       <div className="headerbarbox ">
@@ -13,12 +18,12 @@ function Header() {
           <div className="headerheading">Nous contacter</div>
         </div>
         <Popup trigger=
-                {<div className="acoountlogo">.</div>}
+                {<div className="acoountlogo">{id}</div>}
                 position="bottom center">
                   <div className="logoutdiv">
-                  <div className="acoountlogo logostyling">.</div>
-                  <p className="titleoflogout1">John Hill</p>
-                  <p className="titleoflogout2">john.hill@datayoyo.fr</p>
+                  <div className="acoountlogo logostyling">{id}</div>
+                  <p className="titleoflogout1">{name}</p>
+                  <p className="titleoflogout2">{email}</p>
                 <button style={{margin:"0%",marginBottom:"5%",marginTop:"5%"}} className="button3">Se déconnecter</button>
                   </div>
              

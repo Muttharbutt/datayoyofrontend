@@ -21,12 +21,12 @@
   margin-left: 5%;
 }
 .acoountlogo {
-  margin-top: .5%;
   border-radius: 100%;
   background-color: blue;
   color: white;
   width: 45px;
-  height: 40px;
+  height: 33px;
+  padding-top: 7px;
   text-align: center;
 }
 .logoutdiv{

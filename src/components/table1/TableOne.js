@@ -11,7 +11,7 @@ import cross from "../../assets/cross.png"
 import alert from "../../assets/alert.png"
 import add from '../../assets/add.png'
 import hand from "../../assets/hand.png"
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 function TableOne() {
   const [showSecondPopup, setShowSecondPopup] = useState(false);
   const [checking, setchecking] = useState(true);
@@ -27,6 +27,13 @@ const falsechangechecking = () => {
   const closeSecondPopup = () => {
       setShowSecondPopup(false);
   };
+  
+  useEffect(() => {
+    fetch('http://127.0.0.1:8000/accounts/users/',{
+      method: 'GET',
+    contentType:'application/json',})
+      .then(results => console.log(results));
+  }, []);
   return (
     <>
       <Header />

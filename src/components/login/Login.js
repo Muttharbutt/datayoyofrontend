@@ -4,40 +4,27 @@ import email from "../../assets/email.png";
 import entreprise from "../../assets/entreprise.png";
 import lock from "../../assets/lock.png";
 import number from "../../assets/number.png";
-import Header from "../shared/header/Header";
 import React, { useState } from 'react';
-import axios from 'axios'; // Import Axios
-import $ from 'jquery'; 
+import { useNavigate  } from 'react-router-dom';
+import Cookies from 'universal-cookie';
+import Logoheader from "../shared/Loginheader/Loginheader";
 function Login() {
+
   const [formData, setFormData] = useState({
-    username: '',
-    name: '',
+    first_name: '',
+    last_name: '',
     email: '',
-    phoneNumber: '',
-    company: '',
+    phone_number: '',
+    company_name: '',
     password1: '',
     password2: '',
-    agreeTerms: false,
   });
-  function getCookie(name) {
-    var cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = $.trim(cookies[i]);
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
+  const cookies = new Cookies();
   const [formData1, setFormData1] = useState({
-    username1: '',
-    password11: '',
+    username: '',
+    password: '',
   });
-  var csrftoken = getCookie('csrftoken');
+  const history = useNavigate();
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData(prevData => ({
@@ -55,16 +42,18 @@ function Login() {
     
   const handleSubmit1 = async (e) => {
     e.preventDefault();
-    const response = await fetch('http://127.0.0.1:8000/login/  ', {
+    const response = await fetch('http://127.0.0.1:8000/accounts/login/', {
       method: 'POST',
-    
+      contentType:'application/json',
       body: JSON.stringify(formData1),
     });
     const data = await response.json();
 
     if (response.ok) {
-        // Authentication successful
-        console.log('User ID:', data.user_id);
+        cookies.set('id', data.user_id, { path: '/' });
+        cookies.set('name', data.user_name, { path: '/' });
+        cookies.set('email', data.email, { path: '/' });
+        history('/tableone');
         // Do something with the user ID, like redirecting to a new page or storing it in state
     } else {
         // Authentication failed
@@ -75,18 +64,20 @@ function Login() {
     e.preventDefault();
     try 
     {
-const response = await fetch('http://127.0.0.1:8000/register/', {
+const response = await fetch('http://127.0.0.1:8000/accounts/signup/', {
   method: 'POST',
-  body: JSON.stringify(formData)
+  body: JSON.stringify(formData),
+  contentType:'application/json'
 });
       console.log(response); // Handle response from backend
+      window.location.reload();
     } catch (error) {
       console.error('Error submitting form:', error);
     }
   };
   return (
     <>
-      <Header />
+      <Logoheader />
       <div className="settingbackground">
         <div className="loginheader">Bienvenue chez Datayoyo</div>
         <div className="flexdiv">
@@ -97,8 +88,8 @@ const response = await fetch('http://127.0.0.1:8000/register/', {
           type="text"
           placeholder="John"
           className="logininputstyle givinginputmargin"
-          name="username"
-          value={formData.username}
+          name="first_name"
+          value={formData.first_name}
           onChange={handleChange}
         />
         <div className="container">
@@ -106,8 +97,8 @@ const response = await fetch('http://127.0.0.1:8000/register/', {
             type="text"
             placeholder="Nam *"
             className="logininputstyle givinginputmargin1"
-            name="name"
-            value={formData.name}
+            name="last_name"
+            value={formData.last_name}
             onChange={handleChange}
           />
           <img src={profileicon} alt="profile" className="imagestyleforlogin" />
@@ -128,8 +119,8 @@ const response = await fetch('http://127.0.0.1:8000/register/', {
             type="tel"
             placeholder="Numéro de téléphone *"
             className="logininputstyle givinginputmargin1"
-            name="phoneNumber"
-            value={formData.phoneNumber}
+            name="phone_number"
+            value={formData.phone_number}
             onChange={handleChange}
           />
           <img src={number} alt="profile" className="imagestyleforlogin" />
@@ -139,8 +130,8 @@ const response = await fetch('http://127.0.0.1:8000/register/', {
             type="text"
             placeholder="Entreprise"
             className="logininputstyle givinginputmargin1"
-            name="company"
-            value={formData.company}
+            name="company_name"
+            value={formData.company_name}
             onChange={handleChange}
           />
           <img src={entreprise} alt="profile" className="imagestyleforlogin" />
@@ -193,8 +184,8 @@ const response = await fetch('http://127.0.0.1:8000/register/', {
               type="text"
               placeholder="john.hill@datayoyo.fr"
               className="logininputstyle givinginputmargin"
-              name="username1"
-              value={formData1.username1}
+              name="username"
+              value={formData1.username}
               onChange={handleChange1}
             />
             <div class="container">
@@ -202,8 +193,8 @@ const response = await fetch('http://127.0.0.1:8000/register/', {
                 type="password"
                 placeholder="Mot de passe"
                 className="logininputstyle givinginputmargin1"
-                name="password11"
-                value={formData1.password11}
+                name="password"
+                value={formData1.password}
                 onChange={handleChange1}
               />
               <img src={lock} alt="profile" class="imagestyleforlogin" />
