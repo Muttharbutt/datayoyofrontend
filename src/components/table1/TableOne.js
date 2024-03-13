@@ -4,28 +4,40 @@ import search from "../../assets/search.png"
 import Popup from 'reactjs-popup';
 import rocket from "../../assets/Rocket.png"
 import Cookies from 'universal-cookie';
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
-// function getCookie(name) {
-//   let cookieValue = null;
-//   if (document.cookie && document.cookie !== '') {
-//     const cookies = document.cookie.split(';');
-//     for (let i = 0; i < cookies.length; i++) {
-//       const cookie = cookies[i].trim();
-//       if (cookie.substring(0, name.length + 1) === (name + '=')) {
-//         cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-//         break;
-//       }
-//     }
-//   }
-//   return cookieValue;
-// }
-
-// const csrftoken = getCookie('csrftoken');
 const cookies = new Cookies();
+
 function TableOne() {
   const [data, setData] = useState([]); // Initialize state to store fetched data
   const userId = cookies.get('id');
+
+  // Handler to save input values to cookies and proceed to the next step
+  const handleSaveAndNext = () => {
+    // Access the input values
+    const clientName = document.getElementById('clientName').value;
+    const firstMonthFiscal = document.getElementById('firstMonthFiscal').value;
+    const dateOpenN = document.getElementById('dateOpenN').value;
+    const dateCloseN = document.getElementById('dateCloseN').value;
+    const dateOpenNMinus1 = document.getElementById('dateOpenNMinus1').value;
+    const dateCloseNMinus1 = document.getElementById('dateCloseNMinus1').value;
+
+    // Create a cookies instance
+    const cookies = new Cookies();
+
+    // Save the values in cookies
+    cookies.set('clientName', clientName, { path: '/' });
+    cookies.set('firstMonthFiscal', firstMonthFiscal, { path: '/' });
+    cookies.set('dateOpenN', dateOpenN, { path: '/' });
+    cookies.set('dateCloseN', dateCloseN, { path: '/' });
+    cookies.set('dateOpenNMinus1', dateOpenNMinus1, { path: '/' });
+    cookies.set('dateCloseNMinus1', dateCloseNMinus1, { path: '/' });
+
+    // Here, you would also include any logic to proceed to the next step
+    console.log("Data saved to cookies and moving to the next step");
+
+    window.location.href = "http://localhost:3000/stepone";
+  };
 
   // useEffect(() => {
   //   fetch(`http://localhost:8000/reports/reports/?user_id=${userId}`,{
@@ -78,20 +90,16 @@ function TableOne() {
              <div className="flexdiv">
 <div className="bluebox">
 <div className="container">
-              <input
-                type="text"
-                placeholder="Nom du client *"
-                className="logininputstyle givinginputmargin1"
-              />
-            </div>
-            <div className="settingexcesise">Exercice <b>N</b></div>
-            <div className="settingdate1"><b>Date d’ouverture</b></div>
-            <input className="settingdate1 styledate" type="date" />
-            <div className="settingdate1"><b>Date de clôture+</b></div>
-            <input  className="settingdate1 styledate" type="date" />
-   </div>
+  <input id="clientName" type="text" placeholder="Nom du client *" className="logininputstyle givinginputmargin1" />
+</div>
+<div className="settingexcesise">Exercice <b>N</b></div>
+<div className="settingdate1"><b>Date d’ouverture</b></div>
+<input id="dateOpenN" className="settingdate1 styledate" type="date"/>
+<div className="settingdate1"><b>Date de clôture+</b></div>
+<input id="dateCloseN" className="settingdate1 styledate" type="date"/>
+</div>
 <div className="redbox">
-<select id="cars" className="selectstyle">
+<select id="firstMonthFiscal" className="selectstyle">
   <option value="1">Janvier</option>
   <option value="2">Février</option>
   <option value="3">Mars</option>
@@ -107,9 +115,9 @@ function TableOne() {
 </select>
 <div className="settingexcesise">Exercice <b>N-1</b></div>
             <div className="settingdate1"><b>Date d’ouverture</b></div>
-            <input className="settingdate1 styledate" type="date" />
+            <input id="dateOpenNMinus1" className="settingdate1 styledate" type="date"/>
             <div className="settingdate1"><b>Date de clôture+</b></div>
-            <input  className="settingdate1 styledate" type="date" />
+            <input id="dateCloseNMinus1" className="settingdate1 styledate" type="date"/>
 </div>
              </div>
 
@@ -118,7 +126,7 @@ function TableOne() {
               </div>
               <div className="modal-buttons1">
                             <button className="button11" onClick={close}>Annuler</button>
-                            <button className="button12" >Enregistrer et passer à l’étape suivante</button>
+                            <button className="button12" onClick={handleSaveAndNext}>Enregistrer et passer à l’étape suivante</button>
                           </div></div>
 
                 </div>
