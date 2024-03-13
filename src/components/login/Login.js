@@ -8,9 +8,10 @@ import React, { useState } from 'react';
 import { useNavigate  } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import Logoheader from "../shared/Loginheader/Loginheader";
+
 function Login() {
 
-  const [formData, setFormData] = useState({
+  const [signupFormData, setSignupFormData] = useState({
     first_name: '',
     last_name: '',
     email: '',
@@ -20,38 +21,43 @@ function Login() {
     password2: '',
   });
   const cookies = new Cookies();
-  const [formData1, setFormData1] = useState({
+  const [loginFormData, setLoginFormData] = useState({
     username: '',
     password: '',
   });
   const history = useNavigate();
-  const handleChange = (e) => {
+
+  const handleSignupChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData(prevData => ({
+    setSignupFormData(prevData => ({
       ...prevData,
       [name]: type === 'checkbox' ? checked : value
     }));
   };
-  const handleChange1 = (e) => {
+
+  const handleLoginChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData1(prevData => ({
+    setLoginFormData(prevData => ({
       ...prevData,
       [name]: type === 'checkbox' ? checked : value
     }));
   };
-    
-  const handleSubmit1 = async (e) => {
+
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch('http://127.0.0.1:8000/accounts/login/', {
+    const response = await fetch('http://localhost:8000/accounts/login/', {
       method: 'POST',
-      contentType:'application/json',
-      body: JSON.stringify(formData1),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(loginFormData),
     });
     const data = await response.json();
 
     if (response.ok) {
         cookies.set('id', data.user_id, { path: '/' });
-        cookies.set('name', data.user_name, { path: '/' });
+        cookies.set('first_name', data.first_name, { path: '/' });
+        cookies.set('last_name', data.last_name, { path: '/' });
         cookies.set('email', data.email, { path: '/' });
         history('/tableone');
         // Do something with the user ID, like redirecting to a new page or storing it in state
@@ -60,15 +66,17 @@ function Login() {
         console.log('User ID:', data.error);
     }
   }
-  const handleSubmit = async (e) => {
+  const handleSignupSubmit = async (e) => {
     e.preventDefault();
-    try 
+    try
     {
-const response = await fetch('http://127.0.0.1:8000/accounts/signup/', {
-  method: 'POST',
-  body: JSON.stringify(formData),
-  contentType:'application/json'
-});
+      const response = await fetch('http://localhost:8000/accounts/signup/', {
+        method: 'POST',
+        body: JSON.stringify(signupFormData),
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
       console.log(response); // Handle response from backend
       window.location.reload();
     } catch (error) {
@@ -83,23 +91,23 @@ const response = await fetch('http://127.0.0.1:8000/accounts/signup/', {
         <div className="flexdiv">
         <div className="signupdiv">
       <div className="formheader">Je m’inscris</div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSignupSubmit}>
         <input
           type="text"
-          placeholder="John"
+          placeholder="Prénom *"
           className="logininputstyle givinginputmargin"
           name="first_name"
-          value={formData.first_name}
-          onChange={handleChange}
+          value={signupFormData.first_name}
+          onChange={handleSignupChange}
         />
         <div className="container">
           <input
             type="text"
-            placeholder="Nam *"
+            placeholder="Nom *"
             className="logininputstyle givinginputmargin1"
             name="last_name"
-            value={formData.last_name}
-            onChange={handleChange}
+            value={signupFormData.last_name}
+            onChange={handleLoginChange}
           />
           <img src={profileicon} alt="profile" className="imagestyleforlogin" />
         </div>
@@ -109,8 +117,8 @@ const response = await fetch('http://127.0.0.1:8000/accounts/signup/', {
             placeholder="Email professionnel *"
             className="logininputstyle givinginputmargin1"
             name="email"
-            value={formData.email}
-            onChange={handleChange}
+            value={signupFormData.email}
+            onChange={handleSignupChange}
           />
           <img src={email} alt="profile" className="imagestyleforlogin" />
         </div>
@@ -120,8 +128,8 @@ const response = await fetch('http://127.0.0.1:8000/accounts/signup/', {
             placeholder="Numéro de téléphone *"
             className="logininputstyle givinginputmargin1"
             name="phone_number"
-            value={formData.phone_number}
-            onChange={handleChange}
+            value={signupFormData.phone_number}
+            onChange={handleSignupChange}
           />
           <img src={number} alt="profile" className="imagestyleforlogin" />
         </div>
@@ -131,8 +139,8 @@ const response = await fetch('http://127.0.0.1:8000/accounts/signup/', {
             placeholder="Entreprise"
             className="logininputstyle givinginputmargin1"
             name="company_name"
-            value={formData.company_name}
-            onChange={handleChange}
+            value={signupFormData.company_name}
+            onChange={handleSignupChange}
           />
           <img src={entreprise} alt="profile" className="imagestyleforlogin" />
         </div>
@@ -142,8 +150,8 @@ const response = await fetch('http://127.0.0.1:8000/accounts/signup/', {
             placeholder="Mot de passe *"
             className="logininputstyle givinginputmargin1"
             name="password1"
-            value={formData.password1}
-            onChange={handleChange}
+            value={signupFormData.password1}
+            onChange={handleSignupChange}
           />
           <img src={lock} alt="profile" className="imagestyleforlogin" />
         </div>
@@ -153,8 +161,8 @@ const response = await fetch('http://127.0.0.1:8000/accounts/signup/', {
             placeholder="Confirmer mot de passe *"
             className="logininputstyle givinginputmargin1"
             name="password2"
-            value={formData.password2}
-            onChange={handleChange}
+            value={signupFormData.password2}
+            onChange={handleSignupChange}
           />
           <img src={lock} alt="profile" className="imagestyleforlogin" />
         </div>
@@ -163,8 +171,8 @@ const response = await fetch('http://127.0.0.1:8000/accounts/signup/', {
             type="checkbox"
             className="checkboxstyle"
             name="agreeTerms"
-            checked={formData.agreeTerms}
-            onChange={handleChange}
+            checked={signupFormData.agreeTerms}
+            onChange={handleSignupChange}
           />
           <div className="flexdiv fontsizesmall">
             J’accepte les
@@ -179,23 +187,23 @@ const response = await fetch('http://127.0.0.1:8000/accounts/signup/', {
     </div>
           <div className="signupdiv">
             <div className="formheader">Je m’inscris</div>
-            <form onSubmit={handleSubmit1}>
+            <form onSubmit={handleLoginSubmit}>
             <input
               type="text"
-              placeholder="john.hill@datayoyo.fr"
+              placeholder="Adresse email"
               className="logininputstyle givinginputmargin"
               name="username"
-              value={formData1.username}
-              onChange={handleChange1}
+              value={loginFormData.username}
+              onChange={handleLoginChange}
             />
-            <div class="container">
+            <div className="container">
               <input
                 type="password"
                 placeholder="Mot de passe"
                 className="logininputstyle givinginputmargin1"
                 name="password"
-                value={formData1.password}
-                onChange={handleChange1}
+                value={loginFormData.password}
+                onChange={handleLoginChange}
               />
               <img src={lock} alt="profile" class="imagestyleforlogin" />
             </div>

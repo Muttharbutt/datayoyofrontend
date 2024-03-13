@@ -5,7 +5,7 @@ import Cookies from 'universal-cookie';
 function Header() {
   const cookies = new Cookies();
  let  email=cookies.get("email")
- let  name=cookies.get("name")
+ let  name=cookies.get("first_name") + " " + cookies.get("last_name")
  let  id=cookies.get("id")
   return (
     <>
@@ -26,9 +26,9 @@ function Header() {
                   <p className="titleoflogout2">{email}</p>
                 <button style={{margin:"0%",marginBottom:"5%",marginTop:"5%"}} className="button3">Se déconnecter</button>
                   </div>
-             
+
             </Popup>
-        
+
       </div>
     </>
   );

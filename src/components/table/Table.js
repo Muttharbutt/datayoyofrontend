@@ -19,7 +19,7 @@ function Table() {
       <div className="settingbackground">
         <div className="tableheader">Mes rapports CAC BI</div>
         <div className="tableheader1">Tableau de bord</div>
-        <div class="container">
+        <div className="container">
               <input
                 type="text"
                 placeholder="Rechercher un dossier"
@@ -28,7 +28,7 @@ function Table() {
               <img src={search} alt="profile" className="imagestyleforlogin1" />
             </div>
         <div className="tablewidth">
-            
+
   <div className="tableheaderstyle"  >
     <div>Accès au rapport</div>
     <div>Généré par</div>
@@ -49,12 +49,12 @@ function Table() {
             <div className="modal-overlay" onClick={close}>
                 <div className="modal" onClick={e => e.stopPropagation()}>
                 {showSecondPopup ? (
-              
+
              <><div className="modal-content"><span className="givingsize">
               <h3 className="textaligning">Suppression d’un dossier</h3>
              <p>Votre demande de suppression est en cours de traitement.</p>
              <p>Veuillez noter qu’un délai est nécessaire pour une mise à jour de votre tableau de bord.</p>
-           </span> 
+           </span>
            <div className="modal-buttons">
                             <button className="button2"onClick={() => {close(); closeSecondPopup();}}>Fermer</button>
                           </div></div></>
@@ -79,7 +79,7 @@ function Table() {
             </div>
         )}
     </Popup>
-  
+
   </div>
   <div className="flexdiv settingsetter">
   <div>&lt;&lt; </div>

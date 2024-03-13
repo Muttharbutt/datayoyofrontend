@@ -9,7 +9,7 @@ function EmailConfirm() {
         <div className="signupheader">Mot de passe oublié ?</div>
         <div className="settingboxforemail">
             <div className="formsignupheader">Email de confirmation ?</div>
-            <div class="container">
+            <div className="container">
               <input
                 type="text"
                 placeholder="email"
@@ -17,7 +17,7 @@ function EmailConfirm() {
               />
               <img src={email} alt="profile" class="imagestyleforlogin" />
             </div>
-           
+
             <button className="signupbuttonstyle">Me connecter</button>
           </div>
       </div>

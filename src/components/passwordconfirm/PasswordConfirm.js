@@ -9,7 +9,7 @@ function PasswordConfirm() {
         <div className="passwordheader">Réinitialisation du mot de passe</div>
         <div className="settingboxforpassowrd">
             <div className="formpassowrdheader">Nouveau mot de passe</div>
-            <div class="container">
+            <div className="container">
               <input
                 type="text"
                 placeholder="Nouveau mot de passe *"
@@ -17,7 +17,7 @@ function PasswordConfirm() {
               />
               <img src={lock} alt="profile" class="imagestyleforlogin" />
             </div>
-            <div class="container">
+            <div className="container">
               <input
                 type="text"
                 placeholder="Confirmer le mot de passe *"

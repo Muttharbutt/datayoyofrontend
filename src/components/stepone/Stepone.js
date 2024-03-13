@@ -67,8 +67,8 @@ const handle = () => {
           <div className="box1">
           <div className="settingsetponeheader parent"><span className='textspan'>1.Importation des données comptables
           <img style={{width:"40px"}} src={question}/>  </span>
-    
-    <div class="logoutdiv1">
+
+    <div className="logoutdiv1">
       <div className='textsetting'>   <img style={{width:"40px"}} src={question}/>  Informations importante : importation des données comptables.</div>
  <ul className='textsetting1'>
   <li className='paddingboot'>Les formats de fichiers acceptés sont les suivants : .csv, .txt, .xlsx.</li>
@@ -77,7 +77,7 @@ const handle = () => {
 </div>
 
              </div>
-        
+
           <div className='divinsidestepone'>
             <h3>Exercice N</h3>
            <div className='greybox'> Glisser ici le FEC ou le grand-livre de l’<b>année N</b> ou <label htmlFor="fileInput" className="custom-file-input">
@@ -93,7 +93,7 @@ const handle = () => {
           </div>
           <div className="box1">
           <div className="settingsetponeheader parent"><span className='textspan'>2.Importation des reports à nouveaux <img style={{width:"40px"}} src={question}/> </span>
-          <div class="logoutdiv1">
+          <div className="logoutdiv1">
       <div className='textsetting'>   <img style={{width:"40px"}} src={question}/>  Informations importante : importation des données comptables.</div>
  <ul className='textsetting1'>
   <li className='paddingboot'>Les reports à nouveaux sont obligatoires dans les extractions des FEC au sens de l’administration fiscale. Cependant, il est encore parfois difficile de les obtenir auprès des clients. C’est la raison pour laquelle il est possible d’intégrer les balances générales des exercices précédents : CAC BI réintégrera alors automatiquement les reports à nouveaux dans le GL N à partir de la BG N-1 ainsi que les reports à nouveaux dans le GL N-1 à partir de la BG N-2.</li>
@@ -107,7 +107,7 @@ const handle = () => {
             <input style={{transform: "scale(1.3)"}} type='checkbox'/>
             <label style={{marginTop:'100px'}} > Non</label><br/>
             <br/>
-            
+
            <div className='greybox'> Glisser ici le FEC ou le grand-livre de l’<b>année N</b> ou <label htmlFor="fileInput3" className="custom-file-input">
             Importer un fichier
       </label>
@@ -123,8 +123,8 @@ const handle = () => {
       </label>
       <input type="file" id='fileInput4' className="hidden" /></div>
           </div>
-          </div> 
-        
+          </div>
+
         </div>
         <button style={{marginTop:"10%",marginLeft:"43%",background:"white",border:"1px solid #1054FB",borderRadius:"10px",padding:"10px",paddingLeft:"20px",paddingRight:"20px",color:"#1054FB"}} >Annuler </button>
         <Popup
@@ -134,7 +134,7 @@ const handle = () => {
     >
         {close => (
             <div className="modal-overlay" onClick={close}>
-                <div className="modal1" onClick={e => e.stopPropagation()}>  
+                <div className="modal1" onClick={e => e.stopPropagation()}>
             <div className="modal-content">
               <div>
               {handleing ? (   <>
@@ -163,9 +163,9 @@ const handle = () => {
   <option label="Mercedes">Mercedes (Mercedes-Benz)</option>
   <option label="Audi">Audi (Auto Union Deutschland Ingolstadt)</option>
 </select></div>
-</div>  
+</div>
            <div>
-          
+
            <div className="modal-buttons1">
                             <button style={{marginTop:"10%",marginLeft:"32%",background:"white",border:"1px solid #1054FB",borderRadius:"20px",padding:"10px",paddingLeft:"20px",paddingRight:"20px",color:"#1054FB"}} onClick={close}>Annuler</button>
                             <button style={{marginTop:"10%",marginLeft:"2%",background:"#1054FB",border:"1px solid #1054FB",borderRadius:"20px",padding:"10px",paddingLeft:"20px",paddingRight:"20px",color:"white"}} onClick={handle} >Enregistrer et passer à l’étape suivante</button>
@@ -179,10 +179,10 @@ const handle = () => {
                <img style={{width:"100px",height:"100px",marginLeft:"44%"}} src={tick} alt='tick'/>
                <button style={{marginTop:"0",marginLeft:"77%",background:"#1054FB",border:"1px solid #1054FB",borderRadius:"20px",padding:"12px",paddingLeft:"30px",paddingRight:"30px",color:"white"}} onClick={handle} >Fermer</button>
               </>)}
- 
+
               </div>
               </div>
-           
+
                 </div>
             </div>
         )}
@@ -194,7 +194,7 @@ const handle = () => {
     >
         {close => (
             <div className="modal-overlay" onClick={close}>
-                <div className="modal1" onClick={e => e.stopPropagation()}>  
+                <div className="modal1" onClick={e => e.stopPropagation()}>
             <div className="modal-content">
               <div>
               {handleing ? (   <>
@@ -223,9 +223,9 @@ const handle = () => {
   <option label="Mercedes">Mercedes (Mercedes-Benz)</option>
   <option label="Audi">Audi (Auto Union Deutschland Ingolstadt)</option>
 </select></div>
-</div>  
+</div>
            <div>
-          
+
            <div className="modal-buttons1">
                             <button style={{marginTop:"10%",marginLeft:"32%",background:"white",border:"1px solid #1054FB",borderRadius:"20px",padding:"10px",paddingLeft:"20px",paddingRight:"20px",color:"#1054FB"}} onClick={close}>Annuler</button>
                             <button style={{marginTop:"10%",marginLeft:"2%",background:"#1054FB",border:"1px solid #1054FB",borderRadius:"20px",padding:"10px",paddingLeft:"20px",paddingRight:"20px",color:"white"}} onClick={handle} >Enregistrer et passer à l’étape suivante</button>
@@ -239,15 +239,15 @@ const handle = () => {
                <img style={{width:"100px",height:"100px",marginLeft:"44%"}} src={tick} alt='tick'/>
                <button style={{marginTop:"0",marginLeft:"77%",background:"#1054FB",border:"1px solid #1054FB",borderRadius:"20px",padding:"12px",paddingLeft:"30px",paddingRight:"30px",color:"white"}} onClick={handle} >Fermer</button>
               </>)}
- 
+
               </div>
               </div>
-           
+
                 </div>
             </div>
         )}
     </Popup>
-      </div>  
+      </div>
 </>
   );
 }
