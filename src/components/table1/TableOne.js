@@ -3,46 +3,58 @@ import Header from "../shared/header/Header";
 import search from "../../assets/search.png"
 import Popup from 'reactjs-popup';
 import rocket from "../../assets/Rocket.png"
-import email from "../../assets/email.png";
+import Cookies from 'universal-cookie';
 import React, { useState,useEffect } from 'react';
 
-function getCookie(name) {
-  let cookieValue = null;
-  if (document.cookie && document.cookie !== '') {
-    const cookies = document.cookie.split(';');
-    for (let i = 0; i < cookies.length; i++) {
-      const cookie = cookies[i].trim();
-      if (cookie.substring(0, name.length + 1) === (name + '=')) {
-        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-        break;
-      }
-    }
-  }
-  return cookieValue;
-}
+// function getCookie(name) {
+//   let cookieValue = null;
+//   if (document.cookie && document.cookie !== '') {
+//     const cookies = document.cookie.split(';');
+//     for (let i = 0; i < cookies.length; i++) {
+//       const cookie = cookies[i].trim();
+//       if (cookie.substring(0, name.length + 1) === (name + '=')) {
+//         cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+//         break;
+//       }
+//     }
+//   }
+//   return cookieValue;
+// }
 
-const csrftoken = getCookie('csrftoken');
-
+// const csrftoken = getCookie('csrftoken');
+const cookies = new Cookies();
 function TableOne() {
   const [data, setData] = useState([]); // Initialize state to store fetched data
+  const userId = cookies.get('id');
 
+  // useEffect(() => {
+  //   fetch(`http://localhost:8000/reports/reports/?user_id=${userId}`,{
+  //     method: 'GET',
+  //     headers: {
+  //       'Content-Type':'application/json',
+  //     },
+  //   })
+  //   .then(response => {
+  //     if (response.ok) return response.json();
+  //     throw new Error('Network response was not ok.');
+  //   })
+  //   .then(jsonData => {setData(jsonData);console.log("data:",jsonData)}) // Store the fetched data in state
+  //   .catch(error => console.error("Failed to fetch data:", error));
+  // }, []);
   useEffect(() => {
-    fetch('http://localhost:8000/reports/reports/',{
+    fetch(`http://localhost:8000/accounts/users/?user_id=${userId}`,{
       method: 'GET',
       headers: {
         'Content-Type':'application/json',
-        'X-CSRFToken': csrftoken,
       },
-      credentials: 'include', // Necessary for cookies to be sent with the request
     })
     .then(response => {
       if (response.ok) return response.json();
       throw new Error('Network response was not ok.');
     })
-    .then(jsonData => setData(jsonData)) // Store the fetched data in state
+    .then(jsonData => {setData(jsonData);console.log("data:",jsonData)}) // Store the fetched data in state
     .catch(error => console.error("Failed to fetch data:", error));
   }, []);
-
   return (
     <>
       <Header />
@@ -71,7 +83,6 @@ function TableOne() {
                 placeholder="Nom du client *"
                 className="logininputstyle givinginputmargin1"
               />
-              <img src={email} alt="profile" class="imagestyleforlogin" />
             </div>
             <div className="settingexcesise">Exercice <b>N</b></div>
             <div className="settingdate1"><b>Date d’ouverture</b></div>
