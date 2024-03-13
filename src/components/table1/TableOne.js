@@ -11,29 +11,44 @@ import add from '../../assets/add.png'
 import cross from "../../assets/cross.png"
 import trash from '../../assets/trash.png'
 import hand from "../../assets/hand.png"
-// function getCookie(name) {
-//   let cookieValue = null;
-//   if (document.cookie && document.cookie !== '') {
-//     const cookies = document.cookie.split(';');
-//     for (let i = 0; i < cookies.length; i++) {
-//       const cookie = cookies[i].trim();
-//       if (cookie.substring(0, name.length + 1) === (name + '=')) {
-//         cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-//         break;
-//       }
-//     }
-//   }
-//   return cookieValue;
-// }
 
 const cookies = new Cookies();
+
 function TableOne() {
   const [data, setData] = useState([]); // Initialize state to store fetched data
-  const [creater, setcreater] = useState([]); 
-  const [user, setuser] = useState([]); 
+  const [creater, setcreater] = useState([]);
+  const [user, setuser] = useState([]);
   const userId = cookies.get('id');
   const [showSecondPopup, setShowSecondPopup] = useState(false);
   const [checking, setchecking] = useState(true);
+
+  // Handler to save input values to cookies and proceed to the next step
+  const handleSaveAndNext = () => {
+    // Access the input values
+    const clientName = document.getElementById('clientName').value;
+    const firstMonthFiscal = document.getElementById('firstMonthFiscal').value;
+    const dateOpenN = document.getElementById('dateOpenN').value;
+    const dateCloseN = document.getElementById('dateCloseN').value;
+    const dateOpenNMinus1 = document.getElementById('dateOpenNMinus1').value;
+    const dateCloseNMinus1 = document.getElementById('dateCloseNMinus1').value;
+
+    // Create a cookies instance
+    const cookies = new Cookies();
+
+    // Save the values in cookies
+    cookies.set('clientName', clientName, { path: '/' });
+    cookies.set('firstMonthFiscal', firstMonthFiscal, { path: '/' });
+    cookies.set('dateOpenN', dateOpenN, { path: '/' });
+    cookies.set('dateCloseN', dateCloseN, { path: '/' });
+    cookies.set('dateOpenNMinus1', dateOpenNMinus1, { path: '/' });
+    cookies.set('dateCloseNMinus1', dateCloseNMinus1, { path: '/' });
+
+    // Here, you would also include any logic to proceed to the next step
+    console.log("Data saved to cookies and moving to the next step");
+
+    window.location.href = "http://localhost:3000/stepone";
+  };
+
   const changechecking = () => {
     setchecking(false);
   };
@@ -43,15 +58,15 @@ function TableOne() {
   };
   const closeSecondPopup = () => {
     setShowSecondPopup(false);
-};
-const handleButton1Click = () => {
-  setShowSecondPopup(true);
-};
-const addItem = (newItem) => {
-  setcreater([...creater, newItem]);
-};
-useEffect(() => {
-  fetch(`http://localhost:8000/reports/reports/?user_id=${userId}`)
+  };
+  const handleButton1Click = () => {
+    setShowSecondPopup(true);
+  };
+  const addItem = (newItem) => {
+    setcreater([...creater, newItem]);
+  };
+  useEffect(() => {
+    fetch(`http://localhost:8000/reports/reports/?user_id=${userId}`)
     .then(response => {
       if (!response.ok) {
         throw new Error('Network response was not ok.');
@@ -60,78 +75,78 @@ useEffect(() => {
     })
     .then(jsonData => {setData(jsonData);console.log(jsonData)})
     .catch(error => console.error("Failed to fetch reports:", error));
-}, []);
+  }, []);
 
-useEffect(() => {
-  if (data.length === 0) return;
+  useEffect(() => {
+    if (data.length === 0) return;
 
-  const fetchUsers = async () => {
-    try {
-      const sharedUsersIds = data.reduce((acc, curr) => acc.concat(curr.shared_with_users), []);
-      const uniqueUserIds = [...new Set(sharedUsersIds)]; // Remove duplicates
+    const fetchUsers = async () => {
+      try {
+        const sharedUsersIds = data.reduce((acc, curr) => acc.concat(curr.shared_with_users), []);
+        const uniqueUserIds = [...new Set(sharedUsersIds)]; // Remove duplicates
 
-      const responses = await Promise.all(
-        uniqueUserIds.map(userId =>
-          fetch(`http://localhost:8000/accounts/users/?user_id=${userId}`)
-        )
-      );
-      
-      const userData = await Promise.all(
-        responses.map(async response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok.');
+        const responses = await Promise.all(
+          uniqueUserIds.map(userId =>
+            fetch(`http://localhost:8000/accounts/users/?user_id=${userId}`)
+          )
+        );
+
+        const userData = await Promise.all(
+          responses.map(async response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok.');
+            }
+            const userData = await response.json();
+            return userData[0]; // Only save the zero index
+          })
+        );
+        userData.forEach((user, index) => {
+          const fullName = `${user.first_name} ${user.last_name}`;
+          if (index === 0) {
+            setuser(fullName);
+          } else {
+            setuser(  [...user, `, ${fullName}`]);
           }
-          const userData = await response.json();
-          return userData[0]; // Only save the zero index
-        })
-      );
-       userData.forEach((user, index) => {
-        const fullName = `${user.first_name} ${user.last_name}`;
-        if (index === 0) {
-          setuser(fullName);
-        } else {
-          setuser(  [...user, `, ${fullName}`]);
-        }
-      });
-    
-      // addItem(userData[0].first_name+" "+userData[0].last_name);
-    } catch (error) {
-      console.error("Failed to fetch user data:", error);
-    }
-  };
+        });
 
-  fetchUsers();
-}, [data]);
+        // addItem(userData[0].first_name+" "+userData[0].last_name);
+      } catch (error) {
+        console.error("Failed to fetch user data:", error);
+      }
+    };
 
-useEffect(() => {
-  if (data.length === 0) return;
+    fetchUsers();
+  }, [data]);
 
-  const fetchUsers = async () => {
-    try {
-      const creatorid = data.map(data => data.creator);
-      const responses = await Promise.all(
-        creatorid.map(creatorid =>
-          fetch(`http://localhost:8000/accounts/users/?user_id=${creatorid}`)
-        )
-      );
+  useEffect(() => {
+    if (data.length === 0) return;
 
-      const userData = await Promise.all(
-        responses.map(async response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok.');
-          }
-          const userData = await response.json();
-          return userData[0]; // Only save the zero index
-        })
-      );
-      addItem(userData[0].first_name+" "+userData[0].last_name);
-    } catch (error) {
-      console.error("Failed to fetch user data:", error);
-    }
-  };
+    const fetchUsers = async () => {
+      try {
+        const creatorid = data.map(data => data.creator);
+        const responses = await Promise.all(
+          creatorid.map(creatorid =>
+            fetch(`http://localhost:8000/accounts/users/?user_id=${creatorid}`)
+          )
+        );
 
-  fetchUsers();
-}, [data]);
+        const userData = await Promise.all(
+          responses.map(async response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok.');
+            }
+            const userData = await response.json();
+            return userData[0]; // Only save the zero index
+          })
+        );
+        addItem(userData[0].first_name+" "+userData[0].last_name);
+      } catch (error) {
+        console.error("Failed to fetch user data:", error);
+      }
+    };
+
+    fetchUsers();
+  }, [data]);
 
   return (
     <>
@@ -157,6 +172,7 @@ useEffect(() => {
 <div className="bluebox">
 <div className="container">
               <input
+                id="clientName"
                 type="text"
                 placeholder="Nom du client *"
                 className="logininputstyle givinginputmargin1"
@@ -164,12 +180,12 @@ useEffect(() => {
             </div>
             <div className="settingexcesise">Exercice <b>N</b></div>
             <div className="settingdate1"><b>Date d’ouverture</b></div>
-            <input className="settingdate1 styledate" type="date" />
+            <input id="dateOpenN" className="settingdate1 styledate" type="date" />
             <div className="settingdate1"><b>Date de clôture+</b></div>
-            <input  className="settingdate1 styledate" type="date" />
+            <input id="dateCloseN" className="settingdate1 styledate" type="date" />
    </div>
 <div className="redbox">
-<select id="cars" className="selectstyle">
+<select id="firstMonthFiscal" className="selectstyle">
   <option value="1">Janvier</option>
   <option value="2">Février</option>
   <option value="3">Mars</option>
@@ -185,9 +201,9 @@ useEffect(() => {
 </select>
 <div className="settingexcesise">Exercice <b>N-1</b></div>
             <div className="settingdate1"><b>Date d’ouverture</b></div>
-            <input className="settingdate1 styledate" type="date" />
+            <input id="dateOpenNMinus1" className="settingdate1 styledate" type="date" />
             <div className="settingdate1"><b>Date de clôture+</b></div>
-            <input  className="settingdate1 styledate" type="date" />
+            <input id="dateCloseNMinus1" className="settingdate1 styledate" type="date" />
 </div>
              </div>
 
@@ -196,7 +212,7 @@ useEffect(() => {
               </div>
               <div className="modal-buttons1">
                             <button className="button11" onClick={close}>Annuler</button>
-                            <button className="button12" >Enregistrer et passer à l’étape suivante</button>
+                            <button className="button12" onClick={handleSaveAndNext}>Enregistrer et passer à l’étape suivante</button>
                           </div></div>
 
                 </div>
@@ -224,12 +240,6 @@ useEffect(() => {
     <div>Suppression du dossier</div>
   </div>
   {data.map((item, index) => (
-            // <div key={item.id} className="tablecontent">
-            //   <div>{item.account_legal_name}</div>
-            //   <div>{item.creator}</div>
-            //   <div>{item.team}</div>
-            //   {/* Add deletion or any other controls here */}
-            // </div>
             <div className="tablecontent">
             <div>{item.account_legal_name}</div>
             <div>{creater[index]}</div>
@@ -242,7 +252,7 @@ useEffect(() => {
             >
                 {close => (
                     <div className="modal-overlay" onClick={close}>
-                        
+
                           {checking ? (
                       <div className="modal" onClick={e => {e.stopPropagation(); }}>
                      <><div className="modal-content"><span className="givingsize">
@@ -250,7 +260,7 @@ useEffect(() => {
                      <p> <img style={{width:"20px",marginRight:"12px"}} src={add} alt="trash" />Ajouter un utilisateur <img style={{width:"20px",marginRight:"12px"}} src={alert} alt="trash" /><span style={{color:"red",fontSize:""}}>Ce compte Datayoyo n’existe pas</span></p>
                    <div><input style={{border:"1px solid lightgrey",height:"40px",borderRadius:"10px",width:"40%",paddingLeft:"20px",color:"black"}} placeholder="Email du compte Datayoyo"/>
                    <button style={{marginLeft:"2%",paddingLeft:"30px",paddingRight:"30px"}} className="button2">Valider</button>
-                   </div>  
+                   </div>
                    <p> <img style={{width:"20px",marginRight:"12px"}} src={cross} alt="trash" />Supprimer un utilisateur</p>
                    <div className="flexdiv" style={{border:"1px solid lightgrey",height:"140px",borderRadius:"10px",width:"80%",padding:"10px"}}>
         <div className="flexdiv" style={{border:"1px solid lightgrey",height:"30px",borderRadius:"10px",width:"30%",fontSize:"14px",paddingTop:"10px",paddingBottom:"-10px",paddingLeft:"10px",paddingRight:"-10px"}}>
@@ -260,7 +270,7 @@ useEffect(() => {
          <div>john.hill@datayoyo.fr</div>
           <img style={{width:"25px",height:"25px"}} src={trash} alt="trash" /></div>
                    </div>
-                   </span> 
+                   </span>
                    <div style={{marginTop:"3%", marginBottom:"-3%", marginLeft:"27%"}}>
                    <button className="button1" style={{marginRight:"4%"}} onClick={() => {close(); falsechangechecking();}}>Annuler</button>
                                     <button className="button2" onClick={changechecking}>Enregistrer et passer à l’étape suivante</button>
@@ -275,7 +285,7 @@ useEffect(() => {
                                   </div>
                                   </div>
                                   </>)}
-                       
+
                     </div>
                 )}
                    </Popup></div>
@@ -288,18 +298,18 @@ useEffect(() => {
                     <div className="modal-overlay" onClick={close}>
                         <div className="modal" onClick={e => e.stopPropagation()}>
                         {showSecondPopup ? (
-                      
+
                      <><div className="modal-content"><span className="givingsize">
                       <h3 className="textaligning">Suppression d’un dossier</h3>
                      <p>Votre demande de suppression est en cours de traitement.</p>
                      <p>Veuillez noter qu’un délai est nécessaire pour une mise à jour de votre tableau de bord.</p>
-                   </span> 
+                   </span>
                    <div className="modal-buttons">
                                     <button className="button2"onClick={() => {close(); closeSecondPopup();}}>Fermer</button>
                                   </div></div></>
                     ) : (
                       <><div className="modal-content">
-        
+
                                   <h3 className="textaligning">Suppression d’un dossier</h3>
                                   <span className="givingsize">
                                     <p>Cette action est :</p>
@@ -318,7 +328,7 @@ useEffect(() => {
                     </div>
                 )}
             </Popup>
-          
+
           </div>
           ))
   }
