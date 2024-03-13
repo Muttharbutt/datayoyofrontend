@@ -39,22 +39,8 @@ function TableOne() {
     window.location.href = "http://localhost:3000/stepone";
   };
 
-  // useEffect(() => {
-  //   fetch(`http://localhost:8000/reports/reports/?user_id=${userId}`,{
-  //     method: 'GET',
-  //     headers: {
-  //       'Content-Type':'application/json',
-  //     },
-  //   })
-  //   .then(response => {
-  //     if (response.ok) return response.json();
-  //     throw new Error('Network response was not ok.');
-  //   })
-  //   .then(jsonData => {setData(jsonData);console.log("data:",jsonData)}) // Store the fetched data in state
-  //   .catch(error => console.error("Failed to fetch data:", error));
-  // }, []);
   useEffect(() => {
-    fetch(`http://localhost:8000/accounts/users/?user_id=${userId}`,{
+    fetch(`http://localhost:8000/reports/reports/?user_id=${userId}`,{
       method: 'GET',
       headers: {
         'Content-Type':'application/json',
