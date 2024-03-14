@@ -59,9 +59,26 @@ function TableOne() {
   const closeSecondPopup = () => {
     setShowSecondPopup(false);
   };
-  const handleButton1Click = () => {
-    setShowSecondPopup(true);
+
+  const handleDeleteReport = async (reportId) => {
+    try {
+      const response = await fetch(`http://localhost:8000/reports/reports/${reportId}/?user_id=${userId}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        console.log('Report deleted successfully');
+        // TODO : data should be refreshed after deletion
+      } else {
+        console.error('Failed to delete the report:', response.statusText);
+        // Handle failure, perhaps show a user-friendly error message
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      // Handle error, perhaps show a user-friendly error message
+    }
   };
+
   const addItem = (newItem) => {
     setcreater([...creater, newItem]);
   };
@@ -320,7 +337,7 @@ function TableOne() {
                                     <p><b>Êtes-vous sûr de vouloir supprimer ce dossier ?</b></p>
                                   </span>
                                 </div><div className="modal-buttons">
-                                    <button className="button1" onClick={handleButton1Click}>Oui</button>
+                                    <button className="button1" onClick={() => {handleDeleteReport(item.id); close();}}>Oui</button>
                                     <button className="button2" onClick={close}>Non</button>
                                   </div></>
                     )}
