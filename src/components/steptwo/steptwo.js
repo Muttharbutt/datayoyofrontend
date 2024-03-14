@@ -379,7 +379,7 @@ function Steptwo() {
           </div>
           <div style={{marginTop:"3%"}} className='flexdiv'>
           <div style={{width:"33%"}}>
-          <div style={{fontWeight:"500"}}>Montnat en devise</div>
+          <div style={{fontWeight:"500"}}>Montant en devise</div>
           <select style={{width:"90%",height:"40px",borderRadius:"20px",backgroundColor:"#EDEEFB",color:"#1054FB",border:"none",paddingLeft:"20px",marginTop:"2%",marginLeft:"-5%"}} >
     {selectOptionsNMinus1.map((option, index) => (
       <option key={index} value={option}>{option}</option>
