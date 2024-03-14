@@ -66,6 +66,14 @@ function Stepone() {
         console.log("Success:", data);
         cookies.set('reportId', data.id, { path: '/' });
 
+        // TODO : retrieve them from the response : implementation to be done on backend side to return the list
+        const listOfValuesN = ["a", "b", "c", "d", "e"];
+        const serializedListN = JSON.stringify(listOfValuesN);
+        cookies.set('headersN', serializedListN, { path: '/' });
+        const listOfValuesNMinus1 = ["v", "w", "x", "y", "z"];
+        const serializedListNMinus1 = JSON.stringify(listOfValuesNMinus1);
+        cookies.set('headersNMinus1', serializedListNMinus1, { path: '/' });
+
         window.location.href = "http://localhost:3000/steptwo";
       } else {
         console.error("Upload failed:", response.statusText);
