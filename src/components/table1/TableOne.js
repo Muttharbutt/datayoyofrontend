@@ -1,6 +1,6 @@
 import "./TableOne.css";
 import Header from "../shared/header/Header";
-import search from "../../assets/search.png"
+import searching from "../../assets/search.png"
 import Popup from 'reactjs-popup';
 import rocket from "../../assets/Rocket.png"
 import Cookies from 'universal-cookie';
@@ -11,6 +11,7 @@ import add from '../../assets/add.png'
 import cross from "../../assets/cross.png"
 import trash from '../../assets/trash.png'
 import hand from "../../assets/hand.png"
+import alert from "../../assets/alert.png"
 
 const cookies = new Cookies();
 
@@ -21,7 +22,9 @@ function TableOne() {
   const userId = cookies.get('id');
   const [showSecondPopup, setShowSecondPopup] = useState(false);
   const [checking, setchecking] = useState(true);
-
+  const [isOpen, setIsOpen] = useState(false);
+let arrayo=[]
+let arrayu=[]
   // Handler to save input values to cookies and proceed to the next step
   const handleSaveAndNext = () => {
     // Access the input values
@@ -43,9 +46,6 @@ function TableOne() {
     cookies.set('dateOpenNMinus1', dateOpenNMinus1, { path: '/' });
     cookies.set('dateCloseNMinus1', dateCloseNMinus1, { path: '/' });
 
-    // Here, you would also include any logic to proceed to the next step
-    console.log("Data saved to cookies and moving to the next step");
-
     window.location.href = "http://localhost:3000/stepone";
   };
 
@@ -59,7 +59,37 @@ function TableOne() {
   const closeSecondPopup = () => {
     setShowSecondPopup(false);
   };
+  const [searchQuery, setSearchQuery] = useState('');
+  const [dataBackup, setDataBackup] = useState([]);
 
+  // Backup data on component mount
+  useEffect(() => {
+    setDataBackup(data);
+  }, []);
+
+  // Function to handle input change
+  const handleInputChange = (event) => {
+    const query = event.target.value;
+    setSearchQuery(query);
+    // If the search query is empty, restore data from backup
+    if (query === ' ') {
+      setData(dataBackup);
+    } else {
+      // Call the search function here with the updated search query
+      search(query);
+    }
+  };
+  const settingdataforshare = (number) => {
+console.log(number)
+  };
+
+  // Function to perform the search
+  const search = (query) => {
+    const filteredData = data.filter(item =>
+      item.account_legal_name.toLowerCase().includes(query.toLowerCase())
+    );
+    setData(filteredData);
+  };
   const handleDeleteReport = async (reportId) => {
     try {
       const response = await fetch(`http://localhost:8000/reports/reports/${reportId}/?user_id=${userId}`, {
@@ -68,7 +98,7 @@ function TableOne() {
 
       if (response.ok) {
         console.log('Report deleted successfully');
-        // TODO : data should be refreshed after deletion
+       window.location.reload()
       } else {
         console.error('Failed to delete the report:', response.statusText);
         // Handle failure, perhaps show a user-friendly error message
@@ -77,10 +107,6 @@ function TableOne() {
       console.error('Error:', error);
       // Handle error, perhaps show a user-friendly error message
     }
-  };
-
-  const addItem = (newItem) => {
-    setcreater([...creater, newItem]);
   };
   useEffect(() => {
     fetch(`http://localhost:8000/reports/reports/?user_id=${userId}`)
@@ -93,78 +119,52 @@ function TableOne() {
     .then(jsonData => {setData(jsonData);console.log(jsonData)})
     .catch(error => console.error("Failed to fetch reports:", error));
   }, []);
-
   useEffect(() => {
     if (data.length === 0) return;
-
     const fetchUsers = async () => {
       try {
-        const sharedUsersIds = data.reduce((acc, curr) => acc.concat(curr.shared_with_users), []);
-        const uniqueUserIds = [...new Set(sharedUsersIds)]; // Remove duplicates
+        const creatorids = [];
+        for (let i = 0; i < data.length; i++) {
+          creatorids.push(data[i].creator);
+        }
+        for (let i = 0; i < creatorids.length; i++) {
+          const response = await fetch(`http://localhost:8000/accounts/users/?user_id=${creatorids[i]}`);
+         let userDataResponse=await response.json()
+         arrayu.push( userDataResponse[0].first_name + " " + userDataResponse[0].last_name)
+        } 
+        setcreater(arrayu)  
+      } catch (error) {
+        console.error("Failed to fetch user data:", error);
+      }
+    };
 
-        const responses = await Promise.all(
-          uniqueUserIds.map(userId =>
-            fetch(`http://localhost:8000/accounts/users/?user_id=${userId}`)
-          )
-        );
-
-        const userData = await Promise.all(
-          responses.map(async response => {
-            if (!response.ok) {
-              throw new Error('Network response was not ok.');
-            }
-            const userData = await response.json();
-            return userData[0]; // Only save the zero index
-          })
-        );
-        userData.forEach((user, index) => {
-          const fullName = `${user.first_name} ${user.last_name}`;
-          if (index === 0) {
-            setuser(fullName);
-          } else {
-            setuser(  [...user, `, ${fullName}`]);
+    fetchUsers();
+  }, [data]);
+  useEffect(() => {
+    if (data.length === 0) return;
+    const fetchUser = async () => {
+      try {
+        const creatorid = [];
+        for (let i = 0; i < data.length; i++) {
+          creatorid.push(data[i].shared_with_users);
+        }
+        for (let i = 0; i < creatorid.length; i++) {
+          let arrays = creatorid[i];
+          for (let j = 0; j < arrays.length; j++) { // Fixed loop index
+            const response = await fetch(`http://localhost:8000/accounts/users/?user_id=${arrays[j]}`);
+            const userDataResponse = await response.json();
+            if(j==0){arrayo.push( userDataResponse[0].first_name + " " + userDataResponse[0].last_name)}
+            else{arrayo[i]=arrayo[i]+","+ userDataResponse[0].first_name + " " + userDataResponse[0].last_name}
           }
-        });
-
-        // addItem(userData[0].first_name+" "+userData[0].last_name);
+        }
       } catch (error) {
         console.error("Failed to fetch user data:", error);
       }
     };
-
-    fetchUsers();
+  setuser(arrayo)
+    fetchUser();
   }, [data]);
-
-  useEffect(() => {
-    if (data.length === 0) return;
-
-    const fetchUsers = async () => {
-      try {
-        const creatorid = data.map(data => data.creator);
-        const responses = await Promise.all(
-          creatorid.map(creatorid =>
-            fetch(`http://localhost:8000/accounts/users/?user_id=${creatorid}`)
-          )
-        );
-
-        const userData = await Promise.all(
-          responses.map(async response => {
-            if (!response.ok) {
-              throw new Error('Network response was not ok.');
-            }
-            const userData = await response.json();
-            return userData[0]; // Only save the zero index
-          })
-        );
-        addItem(userData[0].first_name+" "+userData[0].last_name);
-      } catch (error) {
-        console.error("Failed to fetch user data:", error);
-      }
-    };
-
-    fetchUsers();
-  }, [data]);
-
+  
   return (
     <>
       <Header />
@@ -239,12 +239,14 @@ function TableOne() {
 
             </div>
             <div className="container1">
-              <input
-                type="text"
-                placeholder="Rechercher un dossier"
-                className="tableinputstyle2 givinginputmargin4"
-              />
-              <img src={search} alt="profile" className="imagestyleforlogin2" />
+             <input
+      type="text"
+      placeholder="Rechercher un dossier"
+      className="tableinputstyle2 givinginputmargin4"
+      value={searchQuery} // This ensures the input value is controlled by the state
+      onChange={handleInputChange} // Call handleInputChange function when input changes
+    />
+              <img src={searching} alt="profile" className="imagestyleforlogin2" />
             </div>
         </div>
 
@@ -261,14 +263,15 @@ function TableOne() {
             <div>{item.account_legal_name}</div>
             <div>{creater[index]}</div>
             <div>
-            <div>{user}</div>
+            <div>{user[index]} </div>
             <Popup
-                trigger={<div onClick={falsechangechecking} className="flexdiv" style={{color:"blue",fontSize:"13px",cursor:"pointer"}}><img style={{width:"20px",marginRight:"10px"}} src={edit} alt="trash" /><div>Ajouter ou supprimer un collaborateur</div></div>}
+                trigger={< div className="flexdiv" style={{color:"blue",fontSize:"13px",cursor:"pointer"}}><img style={{width:"20px",marginRight:"10px"}} src={edit} alt="trash" /><div>Ajouter ou supprimer un collaborateur</div></div>}
                 modal
                 nested
+               
             >
-                {close => (
-                    <div className="modal-overlay" onClick={close}>
+                {onopen => (
+                    <div className="modal-overlay" onClick={onopen}>
 
                           {checking ? (
                       <div className="modal" onClick={e => {e.stopPropagation(); }}>
@@ -280,16 +283,13 @@ function TableOne() {
                    </div>
                    <p> <img style={{width:"20px",marginRight:"12px"}} src={cross} alt="trash" />Supprimer un utilisateur</p>
                    <div className="flexdiv" style={{border:"1px solid lightgrey",height:"140px",borderRadius:"10px",width:"80%",padding:"10px"}}>
-        <div className="flexdiv" style={{border:"1px solid lightgrey",height:"30px",borderRadius:"10px",width:"30%",fontSize:"14px",paddingTop:"10px",paddingBottom:"-10px",paddingLeft:"10px",paddingRight:"-10px"}}>
+                   <div className="flexdiv" style={{border:"1px solid lightgrey",height:"30px",borderRadius:"10px",width:"30%",fontSize:"14px",paddingTop:"10px",paddingBottom:"-10px",paddingLeft:"10px",paddingRight:"-10px"}}>
          <div> victor.laschon@datayoyo.fr</div>
-          <img style={{width:"25px",height:"25px"}} src={trash} alt="trash" /></div>
-          <div className="flexdiv" style={{border:"1px solid lightgrey",height:"30px",marginLeft:"2%",borderRadius:"10px",width:"30%",fontSize:"14px",paddingTop:"10px",paddingBottom:"-10px",paddingLeft:"10px",paddingRight:"-10px"}}>
-         <div>john.hill@datayoyo.fr</div>
           <img style={{width:"25px",height:"25px"}} src={trash} alt="trash" /></div>
                    </div>
                    </span>
                    <div style={{marginTop:"3%", marginBottom:"-3%", marginLeft:"27%"}}>
-                   <button className="button1" style={{marginRight:"4%"}} onClick={() => {close(); falsechangechecking();}}>Annuler</button>
+                   <button className="button1" style={{marginRight:"4%"}} onClick={() => {onopen(); falsechangechecking();}}>Annuler</button>
                                     <button className="button2" onClick={changechecking}>Enregistrer et passer à l’étape suivante</button>
                                   </div></div></> </div>
                       ):(<>
@@ -298,7 +298,7 @@ function TableOne() {
                       <h3 style={{marginLeft:"20%"}}>Êtes-vous sûr de vouloir quitter sans sauvergarder ?</h3>
                       <div className="modal-buttons">
                                     <button className="button1" >Oui</button>
-                                    <button className="button2" onClick={close}>Non</button>
+                                    <button className="button2" onClick={onopen}>Non</button>
                                   </div>
                                   </div>
                                   </>)}
