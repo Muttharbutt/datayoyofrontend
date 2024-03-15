@@ -66,8 +66,8 @@ function Stepone() {
         console.log("Success:", data);
         cookies.set('reportId', data.id, { path: '/' });
 
-        cookies.set('headersNMinus1', data.headers_1, { path: '/' });
-        cookies.set('headersN', data.headers_2, { path: '/' });
+        cookies.set('headersNMinus1', data.headers_n_minus_1, { path: '/' });
+        cookies.set('headersN', data.headers_n, { path: '/' });
 
         window.location.href = "http://localhost:3000/steptwo";
       } else {
