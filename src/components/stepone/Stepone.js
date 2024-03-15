@@ -44,16 +44,16 @@ function Stepone() {
     }
 
     const formData = new FormData();
-    formData.append("file_1", fileN);
-    formData.append("file_2", fileNMinus1);
+    formData.append("file_n", fileN);
+    formData.append("file_n_minus_1", fileNMinus1);
 
     const cookies = new Cookies();
     formData.append("creator", cookies.get('id'));
     formData.append("account_legal_name", cookies.get("clientName"));
-    formData.append("start_date_1", cookies.get("dateOpenNMinus1"));
-    formData.append("end_date_1", cookies.get("dateCloseNMinus1"));
-    formData.append("start_date_2", cookies.get("dateOpenN"));
-    formData.append("end_date_2", cookies.get("dateCloseN"));
+    formData.append("start_date_n_minus_1", cookies.get("dateOpenNMinus1"));
+    formData.append("end_date_n_minus_1", cookies.get("dateCloseNMinus1"));
+    formData.append("start_date_n", cookies.get("dateOpenN"));
+    formData.append("end_date_n", cookies.get("dateCloseN"));
 
     try {
       const response = await fetch("http://localhost:8000/reports/reports/", {
