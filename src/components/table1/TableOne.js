@@ -26,6 +26,8 @@ function TableOne() {
   const [showSecondPopup, setShowSecondPopup] = useState(false);
   const [checking, setchecking] = useState(true);
 
+  const [statuses, setStatuses] = useState({}); // State to store statuses fetched from API
+
   // Handler to save input values to cookies and proceed to the next step
   const handleSaveAndNext = () => {
     // Access the input values
@@ -154,6 +156,55 @@ function TableOne() {
     fetchUser();
   }, [originalItems]);
 
+  // Function to fetch statuses for all items
+  const fetchStatuses = async () => {
+    const statusPromises = items.map(async (item) => {
+      if (item.task_id) {
+        try {
+          const response = await fetch(`http://localhost:8000/reports/task-status/${item.task_id}/`);
+          if (response.ok) {
+            const statusData = await response.json();
+            setStatuses((prevStatuses) => ({
+              ...prevStatuses,
+              [item.id]: statusData.status // Assuming the API response contains a "status" field
+            }));
+          } else {
+            throw new Error('Failed to fetch status');
+          }
+        } catch (error) {
+          console.error('Error fetching status:', error);
+          setStatuses((prevStatuses) => ({
+            ...prevStatuses,
+            [item.id]: 'Error' // Set status as error if there's an issue fetching
+          }));
+        }
+      }
+    });
+    await Promise.all(statusPromises);
+  };
+
+  useEffect(() => {
+    if (originalItems.length > 0) {
+      fetchStatuses();
+    }
+  }, [originalItems]);
+
+  const getStatusDisplay = (status) => {
+    switch (status) {
+      case 'PENDING':
+      case 'STARTED':
+        return { text: "En cours de génération", color: "orange" };
+      case 'FAILURE':
+        return { text: "Erreur", color: "red" };
+      case 'SUCCESS':
+        return { text: "Terminé", color: "green" };
+      case 'Error': // This is for fetch errors
+        return { text: "Erreur", color: "red" };
+      default:
+        return { text: "Erreur", color: "red" }; // Default case for empty task_id or unexpected status
+    }
+  };
+
   return (
     <>
       <Header />
@@ -245,6 +296,7 @@ function TableOne() {
     <div>Accès au rapport</div>
     <div>Généré par</div>
     <div>Équipe</div>
+    <div>Statut du livrable</div>
     <div>Suppression du dossier</div>
   </div>
   {items.map((item, index) => (
@@ -296,6 +348,13 @@ function TableOne() {
                 )}
                    </Popup>
             </div>
+
+            {item.task_id ? ((() => {
+                              const { text, color } = getStatusDisplay(statuses[item.id]);
+                              return <div style={{ color }}>{text}</div>;
+                            })()) : (<div style={{ color: "red" }}>Erreur</div>)
+            }
+
             <Popup
                 trigger={<div><img className="trashimage" src={trash} alt="trash" /></div>}
                 modal
