@@ -16,15 +16,19 @@ import alert from "../../assets/alert.png"
 const cookies = new Cookies();
 
 function TableOne() {
-  const [data, setData] = useState([]); // Initialize state to store fetched data
+  const [searchQuery, setSearchQuery] = useState('');
+  const [items, setItems] = useState([]); // Your data array
+  const [originalItems, setOriginalItems] = useState([]); // Backup of the original data
+
   const [creater, setcreater] = useState([]);
   const [user, setuser] = useState([]);
   const userId = cookies.get('id');
   const [showSecondPopup, setShowSecondPopup] = useState(false);
   const [checking, setchecking] = useState(true);
-  const [isOpen, setIsOpen] = useState(false);
-let arrayo=[]
-let arrayu=[]
+
+  let arrayo=[]
+  let arrayu=[]
+
   // Handler to save input values to cookies and proceed to the next step
   const handleSaveAndNext = () => {
     // Access the input values
@@ -52,44 +56,16 @@ let arrayu=[]
   const changechecking = () => {
     setchecking(false);
   };
+
   // const csrftoken = getCookie('csrftoken');
   const falsechangechecking = () => {
     setchecking(true);
   };
+
   const closeSecondPopup = () => {
     setShowSecondPopup(false);
   };
-  const [searchQuery, setSearchQuery] = useState('');
-  const [dataBackup, setDataBackup] = useState([]);
 
-  // Backup data on component mount
-  useEffect(() => {
-    setDataBackup(data);
-  }, []);
-
-  // Function to handle input change
-  const handleInputChange = (event) => {
-    const query = event.target.value;
-    setSearchQuery(query);
-    // If the search query is empty, restore data from backup
-    if (query === ' ') {
-      setData(dataBackup);
-    } else {
-      // Call the search function here with the updated search query
-      search(query);
-    }
-  };
-  const settingdataforshare = (number) => {
-console.log(number)
-  };
-
-  // Function to perform the search
-  const search = (query) => {
-    const filteredData = data.filter(item =>
-      item.account_legal_name.toLowerCase().includes(query.toLowerCase())
-    );
-    setData(filteredData);
-  };
   const handleDeleteReport = async (reportId) => {
     try {
       const response = await fetch(`http://localhost:8000/reports/reports/${reportId}/?user_id=${userId}`, {
@@ -108,6 +84,18 @@ console.log(number)
       // Handle error, perhaps show a user-friendly error message
     }
   };
+
+  useEffect(() => {
+    if (!searchQuery) {
+      setItems(originalItems); // If searchQuery is empty, reset to original list
+    } else {
+      const filteredItems = originalItems.filter((item) =>
+        item.account_legal_name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setItems(filteredItems); // Update items with filtered list
+    }
+  }, [searchQuery, originalItems]);
+
   useEffect(() => {
     fetch(`http://localhost:8000/reports/reports/?user_id=${userId}`)
     .then(response => {
@@ -116,37 +104,39 @@ console.log(number)
       }
       return response.json();
     })
-    .then(jsonData => {setData(jsonData);console.log(jsonData)})
+    .then(jsonData => {setOriginalItems(jsonData);console.log(jsonData)})
     .catch(error => console.error("Failed to fetch reports:", error));
-  }, []);
+  }, [userId]);
+
   useEffect(() => {
-    if (data.length === 0) return;
+    if (originalItems.length === 0) return;
     const fetchUsers = async () => {
       try {
         const creatorids = [];
-        for (let i = 0; i < data.length; i++) {
-          creatorids.push(data[i].creator);
+        for (let i = 0; i < originalItems.length; i++) {
+          creatorids.push(originalItems[i].creator);
         }
         for (let i = 0; i < creatorids.length; i++) {
           const response = await fetch(`http://localhost:8000/accounts/users/?user_id=${creatorids[i]}`);
          let userDataResponse=await response.json()
          arrayu.push( userDataResponse[0].first_name + " " + userDataResponse[0].last_name)
-        } 
-        setcreater(arrayu)  
+        }
+        setcreater(arrayu)
       } catch (error) {
         console.error("Failed to fetch user data:", error);
       }
     };
 
     fetchUsers();
-  }, [data]);
+  }, [arrayu, originalItems]);
+
   useEffect(() => {
-    if (data.length === 0) return;
+    if (originalItems.length === 0) return;
     const fetchUser = async () => {
       try {
         const creatorid = [];
-        for (let i = 0; i < data.length; i++) {
-          creatorid.push(data[i].shared_with_users);
+        for (let i = 0; i < originalItems.length; i++) {
+          creatorid.push(originalItems[i].shared_with_users);
         }
         for (let i = 0; i < creatorid.length; i++) {
           let arrays = creatorid[i];
@@ -161,10 +151,10 @@ console.log(number)
         console.error("Failed to fetch user data:", error);
       }
     };
-  setuser(arrayo)
+    setuser(arrayo)
     fetchUser();
-  }, [data]);
-  
+  }, [arrayo, originalItems]);
+
   return (
     <>
       <Header />
@@ -244,7 +234,7 @@ console.log(number)
       placeholder="Rechercher un dossier"
       className="tableinputstyle2 givinginputmargin4"
       value={searchQuery} // This ensures the input value is controlled by the state
-      onChange={handleInputChange} // Call handleInputChange function when input changes
+      onChange={(e) => setSearchQuery(e.target.value)} // Call handleInputChange function when input changes
     />
               <img src={searching} alt="profile" className="imagestyleforlogin2" />
             </div>
@@ -258,7 +248,7 @@ console.log(number)
     <div>Équipe</div>
     <div>Suppression du dossier</div>
   </div>
-  {data.map((item, index) => (
+  {items.map((item, index) => (
             <div className="tablecontent">
             <div>{item.account_legal_name}</div>
             <div>{creater[index]}</div>
@@ -268,7 +258,7 @@ console.log(number)
                 trigger={< div className="flexdiv" style={{color:"blue",fontSize:"13px",cursor:"pointer"}}><img style={{width:"20px",marginRight:"10px"}} src={edit} alt="trash" /><div>Ajouter ou supprimer un collaborateur</div></div>}
                 modal
                 nested
-               
+
             >
                 {onopen => (
                     <div className="modal-overlay" onClick={onopen}>
