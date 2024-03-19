@@ -262,8 +262,8 @@ function Steptwo() {
             <div className='whiteboxone' style={{marginTop:"3%"}}><h4 style={{marginBottom:"3%",marginTop:"-1%"}}>Champs facultatifs</h4>
           <div className='flexdiv'>
           <div style={{width:"33%"}}>
-          <div style={{fontWeight:"500"}}>Etablissement</div>
-          <select style={{width:"90%",height:"40px",borderRadius:"20px",backgroundColor:"#EDEEFB",color:"#1054FB",border:"none",paddingLeft:"20px",marginTop:"2%",marginLeft:"-5%"}} name="etablissement_n" id="etablissement_n" value={mapping['etablissement_n'] || ''} onChange={handleSelectChange} >
+          <div style={{fontWeight:"500"}}>Utilisateur</div>
+          <select style={{width:"90%",height:"40px",borderRadius:"20px",backgroundColor:"#EDEEFB",color:"#1054FB",border:"none",paddingLeft:"20px",marginTop:"2%",marginLeft:"-5%"}} name="utilisateur_n" id="utilisateur_n" value={mapping['utilisateur_n'] || ''} onChange={handleSelectChange} >
           <option value=""></option>
     {selectOptionsN.map((option, index) => (
       <option key={index} value={option}>{option}</option>
@@ -367,8 +367,8 @@ function Steptwo() {
 </select>
           </div>
           <div style={{width:"33%"}}>
-          <div style={{fontWeight:"500"}}>Utilisateur</div>
-          <select style={{width:"90%",height:"40px",borderRadius:"20px",backgroundColor:"#EDEEFB",color:"#1054FB",border:"none",paddingLeft:"20px",marginTop:"2%",marginLeft:"-5%"}} name="utilisateur_n" id="utilisateur_n" value={mapping['utilisateur_n'] || ''} onChange={handleSelectChange} >
+          <div style={{fontWeight:"500"}}>Etablissement</div>
+          <select style={{width:"90%",height:"40px",borderRadius:"20px",backgroundColor:"#EDEEFB",color:"#1054FB",border:"none",paddingLeft:"20px",marginTop:"2%",marginLeft:"-5%"}} name="etablissement_n" id="etablissement_n" value={mapping['etablissement_n'] || ''} onChange={handleSelectChange} >
           <option value=""></option>
     {selectOptionsN.map((option, index) => (
       <option key={index} value={option}>{option}</option>
@@ -538,8 +538,8 @@ function Steptwo() {
 <div className='whiteboxone' style={{marginTop:"3%"}}><h4 style={{marginBottom:"3%",marginTop:"-1%"}}>Champs facultatifs</h4>
           <div className='flexdiv'>
           <div style={{width:"33%"}}>
-          <div style={{fontWeight:"500"}}>Etablissement</div>
-          <select style={{width:"90%",height:"40px",borderRadius:"20px",backgroundColor:"#EDEEFB",color:"#1054FB",border:"none",paddingLeft:"20px",marginTop:"2%",marginLeft:"-5%"}} name="etablissement_n_minus_1" id="etablissement_n_minus_1" value={mapping['etablissement_n_minus_1'] || ''} onChange={handleSelectChange} >
+          <div style={{fontWeight:"500"}}>Utilisateur</div>
+          <select style={{width:"90%",height:"40px",borderRadius:"20px",backgroundColor:"#EDEEFB",color:"#1054FB",border:"none",paddingLeft:"20px",marginTop:"2%",marginLeft:"-5%"}} name="utilisateur_n_minus_1" id="utilisateur_n_minus_1" value={mapping['utilisateur_n_minus_1'] || ''} onChange={handleSelectChange} >
           <option value=""></option>
     {selectOptionsNMinus1.map((option, index) => (
       <option key={index} value={option}>{option}</option>
@@ -644,8 +644,8 @@ function Steptwo() {
 </select>
           </div>
           <div style={{width:"33%"}}>
-          <div style={{fontWeight:"500"}}>Utilisateur</div>
-          <select style={{width:"90%",height:"40px",borderRadius:"20px",backgroundColor:"#EDEEFB",color:"#1054FB",border:"none",paddingLeft:"20px",marginTop:"2%",marginLeft:"-5%"}} name="utilisateur_n_minus_1" id="utilisateur_n_minus_1" value={mapping['utilisateur_n_minus_1'] || ''} onChange={handleSelectChange} >
+          <div style={{fontWeight:"500"}}>Etablissement</div>
+          <select style={{width:"90%",height:"40px",borderRadius:"20px",backgroundColor:"#EDEEFB",color:"#1054FB",border:"none",paddingLeft:"20px",marginTop:"2%",marginLeft:"-5%"}} name="etablissement_n_minus_1" id="etablissement_n_minus_1" value={mapping['etablissement_n_minus_1'] || ''} onChange={handleSelectChange} >
           <option value=""></option>
     {selectOptionsNMinus1.map((option, index) => (
       <option key={index} value={option}>{option}</option>
