@@ -117,9 +117,10 @@ function TableOne() {
           creatorids.push(originalItems[i].creator);
         }
         for (let i = 0; i < creatorids.length; i++) {
-          const response = await fetch(`http://localhost:8000/accounts/users/?user_id=${creatorids[i]}`);
-         let userDataResponse=await response.json()
-         arrayu.push( userDataResponse[0].first_name + " " + userDataResponse[0].last_name)
+          const response = await fetch(`http://localhost:8000/accounts/users/${creatorids[i]}/?user_id=${userId}`);
+          let userDataResponse=await response.json()
+          console.log(userDataResponse)
+          arrayu.push( userDataResponse.first_name + " " + userDataResponse.last_name)
         }
         setcreater(arrayu)
       } catch (error) {
@@ -141,11 +142,16 @@ function TableOne() {
         }
         for (let i = 0; i < creatorid.length; i++) {
           let arrays = creatorid[i];
-          for (let j = 0; j < arrays.length; j++) { // Fixed loop index
-            const response = await fetch(`http://localhost:8000/accounts/users/?user_id=${arrays[j]}`);
+          for (let j = 0; j < arrays.length; j++) {
+            const response = await fetch(`http://localhost:8000/accounts/users/${arrays[j]}/?user_id=${userId}`);
             const userDataResponse = await response.json();
-            if(j==0){arrayo.push( userDataResponse[0].first_name + " " + userDataResponse[0].last_name)}
-            else{arrayo[i]=arrayo[i]+","+ userDataResponse[0].first_name + " " + userDataResponse[0].last_name}
+            console.log(userDataResponse)
+            if(j === 0) {
+              arrayo.push( userDataResponse.first_name + " " + userDataResponse.last_name)
+            }
+            else{
+              arrayo[i] = arrayo[i] + "," + userDataResponse.first_name + " " + userDataResponse.last_name
+            }
           }
         }
       } catch (error) {
