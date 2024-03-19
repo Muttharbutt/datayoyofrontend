@@ -84,7 +84,6 @@ function Stepthree() {
         <div className="settingside">Étape 2 : Rapprochement des champs</div>
         <div className="teststeting">Importation des à nouveaux</div>
         <div className='centerbox'>
-          <p  style={{marginBottom:"4%"}}>Lors de l’étape de chargement des fichiers, il a été indiqué que la base de données N ne contient pas les reports à nouveaux.</p>
           <p style={{marginBottom:"5%"}}>Ci-dessous il convient de sélectionner parmi les codes journaux importés, celui qui correspond aux reports à nouveaux dans la base N et dans la base N-1.</p>
           <div className='styletext'>Code journal des AN - N</div>
           <select
