@@ -5,17 +5,17 @@ import Cookies from 'universal-cookie';
 
 function Stepthree() {
   const [selectOptionsN, setSelectOptionsN] = useState([]);
-  // const [selectOptionsNMinus1, setSelectOptionsNMinus1] = useState([]);
+  const [selectOptionsNMinus1, setSelectOptionsNMinus1] = useState([]);
 
   const [ANouveauN, setANouveauN] = useState('');
-  // const [ANouveauNMinus1, setANouveauNMinus1] = useState('');
+  const [ANouveauNMinus1, setANouveauNMinus1] = useState('');
 
   const handleSelectChangeN = (e) => {
     setANouveauN(e.target.value);
   };
-  // const handleSelectChangeNMinus1 = (e) => {
-  //   setANouveauNMinus1(e.target.value);
-  // };
+  const handleSelectChangeNMinus1 = (e) => {
+    setANouveauNMinus1(e.target.value);
+  };
 
   useEffect(() => {
     const cookies = new Cookies();
@@ -24,11 +24,11 @@ function Stepthree() {
       setSelectOptionsN(listStrN);
       setANouveauN(listStrN[0]);
     }
-    // const listStrNMinus1 = cookies.get('aNouveauNMinus1')
-    // if (listStrNMinus1) {
-    //   setSelectOptionsNMinus1(listStrNMinus1);
-    // setANouveauNMinus1(listStrNMinus1[0]);
-    // }
+    const listStrNMinus1 = cookies.get('aNouveauNMinus1')
+    if (listStrNMinus1) {
+      setSelectOptionsNMinus1(listStrNMinus1);
+    setANouveauNMinus1(listStrNMinus1[0]);
+    }
   }, []);
 
 
@@ -48,8 +48,8 @@ function Stepthree() {
       const body = {}
       body['a_nouveau_n'] = true
       body['code_journal_a_nouveau_n'] = ANouveauN
-      // body['a_nouveau_n_minus_1'] = true
-      // body['code_journal_a_nouveau_n_minus_1'] = ANouveauNMinus1
+      body['a_nouveau_n_minus_1'] = true
+      body['code_journal_a_nouveau_n_minus_1'] = ANouveauNMinus1
 
       const response = await fetch(`http://localhost:8000/reports/mapping/${mappingId}/`, {
         method: 'PATCH',
@@ -85,7 +85,7 @@ function Stepthree() {
         <div className="teststeting">Importation des à nouveaux</div>
         <div className='centerbox'>
           <p  style={{marginBottom:"4%"}}>Lors de l’étape de chargement des fichiers, il a été indiqué que la base de données N ne contient pas les reports à nouveaux.</p>
-          <p style={{marginBottom:"5%"}}>Ci-dessous il convient de sélectionner parmi les codes journaux importés, celui qui correspond aux reports à nouveaux dans la base N.</p>
+          <p style={{marginBottom:"5%"}}>Ci-dessous il convient de sélectionner parmi les codes journaux importés, celui qui correspond aux reports à nouveaux dans la base N et dans la base N-1.</p>
           <div className='styletext'>Code journal des AN - N</div>
           <select
             style={{width:"40%", height:"40px", borderRadius:"20px", backgroundColor:"#EDEEFB", color:"#1054FB", border:"none", paddingLeft:"20px", marginTop:"2%"}}
@@ -96,7 +96,18 @@ function Stepthree() {
               <option key={index} value={option}>{option}</option>
             ))}
           </select>
+          <div className='styletext'>Code journal des AN - N-1</div>
+          <select
+            style={{width:"40%", height:"40px", borderRadius:"20px", backgroundColor:"#EDEEFB", color:"#1054FB", border:"none", paddingLeft:"20px", marginTop:"2%"}}
+            value={ANouveauNMinus1}
+            onChange={handleSelectChangeNMinus1}
+          >
+            {selectOptionsNMinus1.map((option, index) => (
+              <option key={index} value={option}>{option}</option>
+            ))}
+          </select>
         </div>
+
         <button style={{marginLeft:"43%", marginTop:"2%"}} className='button2' onClick={handleSaveAndContinue}>Enregistrer et passer à l’étape suivante</button>
       </div>
     </>
