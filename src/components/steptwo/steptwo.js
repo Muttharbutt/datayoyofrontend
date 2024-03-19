@@ -30,11 +30,13 @@ function Steptwo() {
       body['scenario_n'] = scenarioN
       body['scenario_n_minus_1'] = scenarioNMinus1
       console.log(body)
+      const csrftoken = cookies.get('csrftoken');
 
       const response = await fetch('http://localhost:8000/reports/mapping/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'X-CSRFToken': csrftoken,
         },
         body: JSON.stringify(body),
         credentials: 'include',
@@ -48,8 +50,8 @@ function Steptwo() {
       console.log("Success:", data);
       cookies.set('mappingId', data.id, { path: '/' });
 
-      // cookies.set('codeJournalN', data.headers_n_minus_1, { path: '/' });
-      // cookies.set('codeJournalNMinus1', data.headers_n, { path: '/' });
+      cookies.set('aNouveauNMinus1', data.a_nouveau_n_minus_1, { path: '/' });
+      cookies.set('aNouveauN', data.a_nouveau_n, { path: '/' });
 
       window.location.href = "http://localhost:3000/stepthree";
     } catch (error) {
@@ -471,7 +473,7 @@ function Steptwo() {
         <div style={{fontWeight: "500"}}>Débit</div>
         <select style={{width:"90%",height:"40px",borderRadius:"20px",backgroundColor:"#EDEEFB",color:"#1054FB",border:"none",paddingLeft:"20px",marginTop:"2%",marginLeft:"-5%"}} name="debit_n_minus_1" id="debit_n_minus_1" value={mapping['debit_n_minus_1'] || ''} onChange={handleSelectChange}>
             <option value=""></option>
-          {selectOptionsN.map((option, index) => (
+          {selectOptionsNMinus1.map((option, index) => (
             <option key={index} value={option}>{option}</option>
           ))}
         </select>
@@ -481,7 +483,7 @@ function Steptwo() {
         <div style={{fontWeight: "500"}}>Crédit</div>
         <select style={{width:"90%",height:"40px",borderRadius:"20px",backgroundColor:"#EDEEFB",color:"#1054FB",border:"none",paddingLeft:"20px",marginTop:"2%",marginLeft:"-5%"}} name="credit_n_minus_1" id="credit_n_minus_1" value={mapping['credit_n_minus_1'] || ''} onChange={handleSelectChange}>
             <option value=""></option>
-          {selectOptionsN.map((option, index) => (
+          {selectOptionsNMinus1.map((option, index) => (
             <option key={index} value={option}>{option}</option>
           ))}
         </select>
@@ -497,7 +499,7 @@ function Steptwo() {
         <div style={{fontWeight: "500"}}>Solde</div>
         <select style={{width:"90%",height:"40px",borderRadius:"20px",backgroundColor:"#EDEEFB",color:"#1054FB",border:"none",paddingLeft:"20px",marginTop:"2%",marginLeft:"-5%"}} name="solde_n_minus_1" id="solde_n_minus_1" value={mapping['solde_n_minus_1'] || ''} onChange={handleSelectChange}>
             <option value=""></option>
-          {selectOptionsN.map((option, index) => (
+          {selectOptionsNMinus1.map((option, index) => (
             <option key={index} value={option}>{option}</option>
           ))}
         </select>
@@ -513,7 +515,7 @@ function Steptwo() {
         <div style={{fontWeight: "500"}}>Montant</div>
         <select style={{width:"90%",height:"40px",borderRadius:"20px",backgroundColor:"#EDEEFB",color:"#1054FB",border:"none",paddingLeft:"20px",marginTop:"2%",marginLeft:"-5%"}} name="montant_n_minus_1" id="montant_n_minus_1" value={mapping['montant_n_minus_1'] || ''} onChange={handleSelectChange}>
             <option value=""></option>
-          {selectOptionsN.map((option, index) => (
+          {selectOptionsNMinus1.map((option, index) => (
             <option key={index} value={option}>{option}</option>
           ))}
         </select>
