@@ -26,9 +26,6 @@ function TableOne() {
   const [showSecondPopup, setShowSecondPopup] = useState(false);
   const [checking, setchecking] = useState(true);
 
-  let arrayo=[]
-  let arrayu=[]
-
   // Handler to save input values to cookies and proceed to the next step
   const handleSaveAndNext = () => {
     // Access the input values
@@ -110,6 +107,7 @@ function TableOne() {
 
   useEffect(() => {
     if (originalItems.length === 0) return;
+    const arrayu = []; // Move arrayo inside useEffect
     const fetchUsers = async () => {
       try {
         const creatorids = [];
@@ -128,10 +126,11 @@ function TableOne() {
     };
 
     fetchUsers();
-  }, [arrayu, originalItems]);
+  }, [originalItems]);
 
   useEffect(() => {
     if (originalItems.length === 0) return;
+    const arrayo = []; // Move arrayo inside useEffect
     const fetchUser = async () => {
       try {
         const creatorid = [];
@@ -153,7 +152,7 @@ function TableOne() {
     };
     setuser(arrayo)
     fetchUser();
-  }, [arrayo, originalItems]);
+  }, [originalItems]);
 
   return (
     <>
@@ -295,7 +294,8 @@ function TableOne() {
 
                     </div>
                 )}
-                   </Popup></div>
+                   </Popup>
+            </div>
             <Popup
                 trigger={<div><img className="trashimage" src={trash} alt="trash" /></div>}
                 modal
