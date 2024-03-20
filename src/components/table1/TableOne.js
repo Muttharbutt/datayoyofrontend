@@ -23,9 +23,11 @@ function TableOne() {
   const [searchQuery, setSearchQuery] = useState('');
   const [items, setItems] = useState([]); // Your data array
   const [originalItems, setOriginalItems] = useState([]); // Backup of the original data
-
+  const [activeReportId, setActiveReportId] = useState(null);
   const [creater, setcreater] = useState([]);
   const [user, setuser] = useState([]);
+  const [userEmails, setUserEmails] = useState([]);
+
   const userId = cookies.get('id');
   const [showSecondPopup, setShowSecondPopup] = useState(false);
   const [checking, setchecking] = useState(true);
@@ -74,13 +76,9 @@ const setlastpage = () => {
     window.location.href = "http://localhost:3000/stepone";
   };
 
-  const changechecking = () => {
-    setchecking(false);
-  };
-
-  // const csrftoken = getCookie('csrftoken');
-  const falsechangechecking = () => {
-    setchecking(true);
+  const handleUserDeletion = (emailIndex, reportId) => {
+    // Logic to delete the email from the specific report's array
+    // This might involve setting a new state without the deleted email
   };
 
   const closeSecondPopup = () => {
@@ -104,6 +102,12 @@ const setlastpage = () => {
       console.error('Error:', error);
       // Handle error, perhaps show a user-friendly error message
     }
+  };
+
+  const startEdit = (reportId) => {
+    console.log("Editing report ID:", reportId); // Debugging line
+    setActiveReportId(reportId);
+    // Additional logic to open the modal if it's not part of the trigger mechanism
   };
 
   useEffect(() => {
@@ -151,7 +155,7 @@ const setlastpage = () => {
     };
 
     fetchUsers();
-  }, [originalItems]);
+  }, [originalItems, userId]);
 
   useEffect(() => {
     if (originalItems.length === 0) return;
@@ -172,7 +176,7 @@ const setlastpage = () => {
               arrayo.push( userDataResponse.first_name + " " + userDataResponse.last_name)
             }
             else{
-              arrayo[i] = arrayo[i] + "," + userDataResponse.first_name + " " + userDataResponse.last_name
+              arrayo[i] = arrayo[i] + ", " + userDataResponse.first_name + " " + userDataResponse.last_name
             }
           }
         }
@@ -182,40 +186,77 @@ const setlastpage = () => {
     };
     setuser(arrayo)
     fetchUser();
-  }, [originalItems]);
-
-  // Function to fetch statuses for all items
-  const fetchStatuses = async () => {
-    const statusPromises = items.map(async (item) => {
-      if (item.task_id) {
-        try {
-          const response = await fetch(`http://localhost:8000/reports/task-status/${item.task_id}/`);
-          if (response.ok) {
-            const statusData = await response.json();
-            setStatuses((prevStatuses) => ({
-              ...prevStatuses,
-              [item.id]: statusData.status // Assuming the API response contains a "status" field
-            }));
-          } else {
-            throw new Error('Failed to fetch status');
-          }
-        } catch (error) {
-          console.error('Error fetching status:', error);
-          setStatuses((prevStatuses) => ({
-            ...prevStatuses,
-            [item.id]: 'Error' // Set status as error if there's an issue fetching
-          }));
-        }
-      }
-    });
-    await Promise.all(statusPromises);
-  };
+  }, [originalItems, userId]);
 
   useEffect(() => {
+    if (originalItems.length === 0) return;
+    const arrayo = []; // Move arrayo inside useEffect
+    const fetchUserEmails = async () => {
+      try {
+        for (let i = 0; i < originalItems.length; i++) {
+          if (originalItems[i].shared_with_users.length === 0)
+          {
+            arrayo.push([])
+          }
+          else
+          {
+            for (let j = 0; j < originalItems[i].shared_with_users.length; j++) {
+              const response = await fetch(`http://localhost:8000/accounts/users/${originalItems[i].shared_with_users[j]}/?user_id=${userId}`);
+              const userDataResponse = await response.json();
+              console.log(userDataResponse)
+              if(j === 0) {
+                arrayo.push([userDataResponse.email])
+              }
+              else{
+                arrayo[i].push(userDataResponse.email)
+              }
+            }
+          }
+        }
+      } catch (error) {
+        console.error("Failed to fetch user data:", error);
+      }
+    };
+    console.log(arrayo)
+    setUserEmails(arrayo)
+    fetchUserEmails();
+  }, [originalItems, userId]);
+
+  useEffect(() => {
+    console.log("Updated userEmails:", userEmails);
+  }, [userEmails]);
+
+  useEffect(() => {
+    const fetchStatuses = async () => {
+      const statusPromises = items.map(async (item) => {
+        if (item.task_id) {
+          try {
+            const response = await fetch(`http://localhost:8000/reports/task-status/${item.task_id}/`);
+            if (response.ok) {
+              const statusData = await response.json();
+              setStatuses((prevStatuses) => ({
+                ...prevStatuses,
+                [item.id]: statusData.status // Assuming the API response contains a "status" field
+              }));
+            } else {
+              throw new Error('Failed to fetch status');
+            }
+          } catch (error) {
+            console.error('Error fetching status:', error);
+            setStatuses((prevStatuses) => ({
+              ...prevStatuses,
+              [item.id]: 'Error' // Set status as error if there's an issue fetching
+            }));
+          }
+        }
+      });
+      await Promise.all(statusPromises);
+    };
+
     if (originalItems.length > 0) {
       fetchStatuses();
     }
-  }, [originalItems]);
+  }, [originalItems, items]);
 
   const getStatusDisplay = (status) => {
     switch (status) {
@@ -328,40 +369,58 @@ const setlastpage = () => {
     <div>Suppression du dossier</div>
   </div>
   {items.slice(currentPage, currentPage + 9).map((item, index) => (
-    
+
             <div className="tablecontent">
             <div>{items[index].account_legal_name}</div>
             <div>{creater[index]}</div>
             <div>
             <div>{user[index]} </div>
             <Popup
-                trigger={< div className="flexdiv" style={{color:"blue",fontSize:"13px",cursor:"pointer"}}><img style={{width:"20px",marginRight:"10px"}} src={edit} alt="trash" /><div>Ajouter ou supprimer un collaborateur</div></div>}
+                trigger={<div className="flexdiv" style={{color:"blue", fontSize:"13px", cursor:"pointer"}} onClick={() => startEdit(items[index].id)}>
+                <img style={{width:"20px", marginRight:"10px"}} src={edit} alt="edit" />
+                <div>Ajouter ou supprimer un collaborateur</div>
+              </div>}
                 modal
                 nested
-
             >
                 {onopen => (
                     <div className="modal-overlay" onClick={onopen}>
 
                           {checking ? (
                       <div className="modal" onClick={e => {e.stopPropagation(); }}>
-                     <><div className="modal-content"><span className="givingsize">
-                      <h3 style={{fontWeight:"500"}}>Modification de l’équpe <img style={{width:"30px"}} src={handshake} alt="trash" /></h3>
-                     <p> <img style={{width:"20px",marginRight:"12px"}} src={add} alt="trash" />Ajouter un utilisateur <img style={{width:"20px",marginRight:"12px"}} src={alert} alt="trash" /><span style={{color:"red",fontSize:""}}>Ce compte Datayoyo n’existe pas</span></p>
-                   <div><input style={{border:"1px solid lightgrey",height:"40px",borderRadius:"10px",width:"40%",paddingLeft:"20px",color:"black"}} placeholder="Email du compte Datayoyo"/>
-                   <button style={{marginLeft:"2%",paddingLeft:"30px",paddingRight:"30px"}} className="button2">Valider</button>
-                   </div>
-                   <p> <img style={{width:"20px",marginRight:"12px"}} src={cross} alt="trash" />Supprimer un utilisateur</p>
-                   <div className="flexdiv" style={{border:"1px solid lightgrey",height:"140px",borderRadius:"10px",width:"80%",padding:"10px"}}>
-                   <div className="flexdiv" style={{border:"1px solid lightgrey",height:"30px",borderRadius:"10px",width:"30%",fontSize:"14px",paddingTop:"10px",paddingBottom:"-10px",paddingLeft:"10px",paddingRight:"-10px"}}>
-         <div> victor.laschon@datayoyo.fr</div>
-          <img style={{width:"25px",height:"25px"}} src={trash} alt="trash" /></div>
-                   </div>
-                   </span>
-                   <div style={{marginTop:"3%", marginBottom:"-3%", marginLeft:"27%"}}>
-                   <button className="button1" style={{marginRight:"4%"}} onClick={() => {onopen(); falsechangechecking();}}>Annuler</button>
-                                    <button className="button2" onClick={changechecking}>Enregistrer et passer à l’étape suivante</button>
-                                  </div></div></> </div>
+                      <>
+
+                      <div className="modal-content">
+                        <h3 style={{fontWeight:"500"}}>Modification de l’équpe <img style={{width:"30px"}} src={handshake} alt="handshake" /></h3>
+                        <p> <img style={{width:"20px",marginRight:"12px"}} src={add} alt="add" />Ajouter un utilisateur <img style={{width:"20px",marginRight:"12px"}} src={alert} alt="alert" /><span style={{color:"red",fontSize:""}}>Ce compte Datayoyo n’existe pas</span></p>
+                        <div>
+                          <input style={{border:"1px solid lightgrey",height:"40px",borderRadius:"10px",width:"40%",paddingLeft:"20px",color:"black"}} placeholder="Email du compte Datayoyo"/>
+                          <button style={{marginLeft:"2%",paddingLeft:"30px",paddingRight:"30px"}} className="button2">Valider</button>
+                        </div>
+                        <p> <img style={{width:"20px",marginRight:"12px"}} src={cross} alt="cross" />Supprimer un utilisateur</p>
+                        <div className="flexdiv" style={{border:"1px solid lightgrey",height:"auto",borderRadius:"10px",width:"80%",padding:"10px", overflowY: "auto"}}>
+                          {/* {userEmails[activeReportId] && userEmails[activeReportId].map((userEmail, index) => (
+                            <div key={index} className="flexdiv" style={{border:"1px solid lightgrey",height:"30px",borderRadius:"10px",width:"100%",fontSize:"14px",marginTop:"10px", justifyContent: "space-between", padding: "5px"}}>
+                              <div>{userEmail}</div>
+                              <img style={{width:"25px",height:"25px", cursor: "pointer"}} src={trash} alt="trash" onClick={() => handleUserDeletion(index, activeReportId)} />
+                            </div>
+                          ))} */}
+                          {userEmails[activeReportId] ? (
+  userEmails[activeReportId].map((userEmail, index) => (
+    <div key={index} className="flexdiv" style={{border:"1px solid lightgrey",height:"30px",borderRadius:"10px",width:"100%",fontSize:"14px",marginTop:"10px", justifyContent: "space-between", padding: "5px"}}>
+    <div>{userEmail}</div>
+    <img style={{width:"25px",height:"25px", cursor: "pointer"}} src={trash} alt="trash" onClick={() => handleUserDeletion(index, activeReportId)} />
+  </div>
+))
+) : (
+  <div>Loading emails or no emails found...</div>
+)}
+                        </div>
+                      </div>
+
+
+                      </>
+                      </div>
                       ):(<>
                        <div className="modal1"style={{padding:"40px"}} onClick={e => {e.stopPropagation(); }}>
                       <img style={{width:"50px",marginLeft:"45%"}} src={hand} alt="trash" />
