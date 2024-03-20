@@ -12,6 +12,10 @@ import cross from "../../assets/cross.png"
 import trash from '../../assets/trash.png'
 import hand from "../../assets/hand.png"
 import alert from "../../assets/alert.png"
+import g0 from "../../assets/g0.png"
+import g1 from "../../assets/g1.png"
+import g2 from "../../assets/g2.png"
+import g3 from "../../assets/g3.png"
 
 const cookies = new Cookies();
 
@@ -25,9 +29,27 @@ function TableOne() {
   const userId = cookies.get('id');
   const [showSecondPopup, setShowSecondPopup] = useState(false);
   const [checking, setchecking] = useState(true);
-
+  const [number, setnumber] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
   const [statuses, setStatuses] = useState({}); // State to store statuses fetched from API
+  const nextPage = () => {
+    setCurrentPage(currentPage + 9);
+    setnumber(number + 1);
+};
 
+const prevPage = () => {
+    setCurrentPage(currentPage - 9);
+    setnumber(number - 1);
+};
+const setfirstpage = () => {
+  setnumber(0);
+  setCurrentPage(0)
+};
+const setlastpage = () => {
+ let num= Math.round(items.length / 9)
+ setnumber(num);
+ setCurrentPage(num *9)
+};
   // Handler to save input values to cookies and proceed to the next step
   const handleSaveAndNext = () => {
     // Access the input values
@@ -305,9 +327,10 @@ function TableOne() {
     <div>Statut du livrable</div>
     <div>Suppression du dossier</div>
   </div>
-  {items.map((item, index) => (
+  {items.slice(currentPage, currentPage + 9).map((item, index) => (
+    
             <div className="tablecontent">
-            <div>{item.account_legal_name}</div>
+            <div>{items[index].account_legal_name}</div>
             <div>{creater[index]}</div>
             <div>
             <div>{user[index]} </div>
@@ -404,16 +427,16 @@ function TableOne() {
           </div>
           ))
   }
-  <div className="flexdiv settingsetter">
-  <div style={{fontSize:"14px"}}>&lt;&lt; </div>
-    <div  style={{fontSize:"14px"}}>&lt;</div>
-    <div className="bluebutton">1</div>
-    <div> &gt;</div>
-    <div>&gt;&gt;</div>
+    <div style={{marginTop:"10px",marginLeft:"90%"}} className="flexdiv ">
+  <div onClick={setfirstpage} ><img style={{width:"13px",marginTop:"7px",marginRight:"10px"}} src={g0} alt="<<"/> </div>
+    <div onClick={prevPage} ><img style={{width:"9px",marginTop:"7px",marginRight:"7px"}} src={g1} alt="<<"/></div>
+    <div style={{width:"10px"}} className="bluebutton">{number+1}</div>
+    <div onClick={nextPage}><img style={{width:"9px",marginTop:"7px",marginLeft:"10px"}} src={g2} alt="<<"/></div>
+    <div onClick={setlastpage}><img style={{width:"13px",marginTop:"7px",marginLeft:"10px"}} src={g3} alt="<<"/></div>
+  </div>
   </div>
   </div>
 
-      </div>
     </>
   );
 }

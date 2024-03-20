@@ -8,14 +8,20 @@ function Stepone() {
 
   const [fileN, setFileN] = useState(null); // Use this state to store the file object for N
   const [fileSelectedN, setFileSelectedN] = useState(false);
+  const [check, setcheck] = useState(false);
   const [selectedFileNameN, setSelectedFileNameN] = useState('');
 
   const [fileNMinus1, setFileNMinus1] = useState(null); // Use this state to store the file object for N-1
   const [fileSelectedNMinus1, setFileSelectedNMinus1] = useState(false);
+  const [check1, setcheck1] = useState(false);
   const [selectedFileNameNMinus1, setSelectedFileNameNMinus1] = useState('');
 
   const handleFileChangeN = (event) => {
+    let selectedFile = event.target.files[0];
     if (event.target.files[0]) {
+      let fileNameParts = selectedFile.name.split('.');
+      let fileExtension = fileNameParts[fileNameParts.length - 1].toLowerCase();
+        if (fileExtension === 'csv' || fileExtension === 'txt') {setcheck(true)}
       setFileN(event.target.files[0]); // Store the file object directly
       setFileSelectedN(true);
       setSelectedFileNameN(event.target.files[0].name); // If you still need to store the file name
@@ -26,7 +32,11 @@ function Stepone() {
   };
 
   const handleFileChangeNMinus1 = (event) => {
+    let selectedFile = event.target.files[0];
     if (event.target.files[0]) {
+      let fileNameParts = selectedFile.name.split('.');
+      let fileExtension = fileNameParts[fileNameParts.length - 1].toLowerCase();
+      if (fileExtension === 'csv' || fileExtension === 'txt') {setcheck1(true)}
       setFileNMinus1(event.target.files[0]); // Store the file object directly
       setFileSelectedNMinus1(true);
       setSelectedFileNameNMinus1(event.target.files[0].name); // If you still need to store the file name
@@ -103,12 +113,29 @@ function Stepone() {
 
           <div className='divinsidestepone'>
             <h3>Exercice N</h3>
-           <div className='greybox'> Glisser ici le FEC ou le grand-livre de l’<b>année N</b> ou <label htmlFor="fileInputN" className="custom-file-input">
-            Importer un fichier
-      </label>
-      <input type="file" id='fileInputN' onChange={handleFileChangeN}  className="hidden" /></div>
+            <div className='greybox'>
+            {selectedFileNameN ? (
+                <> {selectedFileNameN}</>
+            ):(<>Glisser ici le FEC ou le grand-livre de l’<b>année N</b> ou{' '}</>)}
+            
+            <label htmlFor="fileInputN" className="custom-file-input">
+                Importer un fichier
+            </label>
+            <input
+                type="file"
+                id='fileInputN'
+                onChange={handleFileChangeN}
+                className="hidden"
+            />
+           {check && (
+                <p> hi</p>
+            )}
+        </div>
       <h3 className='topmargin'>Exercice N-1</h3>
-           <div className='greybox'> Glisser ici le FEC ou le grand-livre de l’<b>année N-1</b> ou <label htmlFor="fileInputNMinus1" className="custom-file-input">
+           <div className='greybox'> {selectedFileNameNMinus1 ? (
+                <> {selectedFileNameNMinus1}</>
+            ):(<>Glisser ici le FEC ou le grand-livre de l’<b>année N</b> ou{' '}</>)}
+            <label htmlFor="fileInputNMinus1" className="custom-file-input">
             Importer un fichier
       </label>
       <input type="file" id='fileInputNMinus1' onChange={handleFileChangeNMinus1} className="hidden" /></div>
