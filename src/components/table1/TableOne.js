@@ -344,6 +344,7 @@ function TableOne() {
    </div>
 <div className="redbox">
 <select id="firstMonthFiscal" className="selectstyle">
+  <option value="" disabled>Premier mois de l'exercise fiscal</option>
   <option value="1">Janvier</option>
   <option value="2">Février</option>
   <option value="3">Mars</option>
