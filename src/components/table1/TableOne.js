@@ -24,9 +24,7 @@ function TableOne() {
   const [items, setItems] = useState([]); // Your data array
   const [originalItems, setOriginalItems] = useState([]); // Backup of the original data
   const [activeReportId, setActiveReportId] = useState(null);
-  const [creater, setcreater] = useState([]);
-  const [user, setuser] = useState([]);
-  const [userEmails, setUserEmails] = useState([]);
+  const [userDetails, setUserDetails] = useState({}); // Cache for user details
 
   const userId = cookies.get('id');
   const [showSecondPopup, setShowSecondPopup] = useState(false);
@@ -34,24 +32,55 @@ function TableOne() {
   const [number, setnumber] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
   const [statuses, setStatuses] = useState({}); // State to store statuses fetched from API
+
   const nextPage = () => {
     setCurrentPage(currentPage + 9);
     setnumber(number + 1);
-};
+  };
 
-const prevPage = () => {
+  const prevPage = () => {
     setCurrentPage(currentPage - 9);
     setnumber(number - 1);
-};
-const setfirstpage = () => {
-  setnumber(0);
-  setCurrentPage(0)
-};
-const setlastpage = () => {
- let num= Math.round(items.length / 9)
- setnumber(num);
- setCurrentPage(num *9)
-};
+  };
+
+  const setfirstpage = () => {
+    setnumber(0);
+    setCurrentPage(0)
+  };
+  const setlastpage = () => {
+    let num= Math.round(items.length / 9)
+    setnumber(num);
+    setCurrentPage(num *9)
+  };
+
+  useEffect(() => {
+    const fetchUserDetails = async (userIds) => {
+      const uniqueUserIds = [...new Set(userIds)]; // Remove duplicates
+      const fetchPromises = uniqueUserIds.map(async (userId) => {
+        if (!userDetails[userId]) { // Check cache first
+          try {
+            const response = await fetch(`http://localhost:8000/accounts/users/${userId}/?user_id=${userId}`);
+            if (!response.ok) throw new Error('Failed to fetch user data');
+            const userData = await response.json();
+            setUserDetails((prevDetails) => ({ ...prevDetails, [userId]: userData }));
+          } catch (error) {
+            console.error("Failed to fetch user data:", error);
+          }
+        }
+      });
+      await Promise.all(fetchPromises);
+    };
+    // Assuming originalItems is already populated with report data
+    if (originalItems.length > 0) {
+      const allUserIds = originalItems.reduce((acc, item) => {
+        // Add creator and shared_with_users ids to the accumulator
+        return acc.concat(item.creator, item.shared_with_users);
+      }, []);
+      fetchUserDetails(allUserIds);
+    }
+    console.log(userDetails)
+  }, [originalItems, userDetails]);
+
   // Handler to save input values to cookies and proceed to the next step
   const handleSaveAndNext = () => {
     // Access the input values
@@ -76,9 +105,43 @@ const setlastpage = () => {
     window.location.href = "http://localhost:3000/stepone";
   };
 
-  const handleUserDeletion = (emailIndex, reportId) => {
-    // Logic to delete the email from the specific report's array
-    // This might involve setting a new state without the deleted email
+  const handleUserDeletion = (email, reportId) => {
+    console.log(`Delete user ${email} from ${reportId}`)
+
+    const userIdToDelete = Object.keys(userDetails).find(userId => userDetails[userId].email === email);
+    if (!userIdToDelete) {
+      console.error("User ID not found for the email:", email);
+      return;
+    }
+
+    const report = originalItems[reportId];
+    const updatedSharedWithUsers = report.shared_with_users.filter(userId => userId.toString() !== userIdToDelete.toString());
+
+    try {
+      const cookies = new Cookies();
+      const csrftoken = cookies.get('csrftoken');
+      const response = fetch(`http://localhost:8000/reports/reports/${originalItems[reportId].id}/share/?user_id=${userId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': csrftoken,
+        },
+        credentials: 'include',
+        body: JSON.stringify({ shared_with_users: updatedSharedWithUsers, shared_with_groups: originalItems[reportId].shared_with_groups }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = response.json();
+      console.log("Successfully updated report sharing:", data);
+
+      // TODO : refresh the screen
+
+    } catch (error) {
+      console.error("Failed to update report sharing:", error);
+    }
   };
 
   const closeSecondPopup = () => {
@@ -106,8 +169,7 @@ const setlastpage = () => {
 
   const startEdit = (reportId) => {
     console.log("Editing report ID:", reportId); // Debugging line
-    setActiveReportId(reportId);
-    // Additional logic to open the modal if it's not part of the trigger mechanism
+    setActiveReportId(reportId - 1);
   };
 
   useEffect(() => {
@@ -132,99 +194,6 @@ const setlastpage = () => {
     .then(jsonData => {setOriginalItems(jsonData);console.log(jsonData)})
     .catch(error => console.error("Failed to fetch reports:", error));
   }, [userId]);
-
-  useEffect(() => {
-    if (originalItems.length === 0) return;
-    const arrayu = []; // Move arrayo inside useEffect
-    const fetchUsers = async () => {
-      try {
-        const creatorids = [];
-        for (let i = 0; i < originalItems.length; i++) {
-          creatorids.push(originalItems[i].creator);
-        }
-        for (let i = 0; i < creatorids.length; i++) {
-          const response = await fetch(`http://localhost:8000/accounts/users/${creatorids[i]}/?user_id=${userId}`);
-          let userDataResponse=await response.json()
-          console.log(userDataResponse)
-          arrayu.push( userDataResponse.first_name + " " + userDataResponse.last_name)
-        }
-        setcreater(arrayu)
-      } catch (error) {
-        console.error("Failed to fetch user data:", error);
-      }
-    };
-
-    fetchUsers();
-  }, [originalItems, userId]);
-
-  useEffect(() => {
-    if (originalItems.length === 0) return;
-    const arrayo = []; // Move arrayo inside useEffect
-    const fetchUser = async () => {
-      try {
-        const creatorid = [];
-        for (let i = 0; i < originalItems.length; i++) {
-          creatorid.push(originalItems[i].shared_with_users);
-        }
-        for (let i = 0; i < creatorid.length; i++) {
-          let arrays = creatorid[i];
-          for (let j = 0; j < arrays.length; j++) {
-            const response = await fetch(`http://localhost:8000/accounts/users/${arrays[j]}/?user_id=${userId}`);
-            const userDataResponse = await response.json();
-            console.log(userDataResponse)
-            if(j === 0) {
-              arrayo.push( userDataResponse.first_name + " " + userDataResponse.last_name)
-            }
-            else{
-              arrayo[i] = arrayo[i] + ", " + userDataResponse.first_name + " " + userDataResponse.last_name
-            }
-          }
-        }
-      } catch (error) {
-        console.error("Failed to fetch user data:", error);
-      }
-    };
-    setuser(arrayo)
-    fetchUser();
-  }, [originalItems, userId]);
-
-  useEffect(() => {
-    if (originalItems.length === 0) return;
-    const arrayo = []; // Move arrayo inside useEffect
-    const fetchUserEmails = async () => {
-      try {
-        for (let i = 0; i < originalItems.length; i++) {
-          if (originalItems[i].shared_with_users.length === 0)
-          {
-            arrayo.push([])
-          }
-          else
-          {
-            for (let j = 0; j < originalItems[i].shared_with_users.length; j++) {
-              const response = await fetch(`http://localhost:8000/accounts/users/${originalItems[i].shared_with_users[j]}/?user_id=${userId}`);
-              const userDataResponse = await response.json();
-              console.log(userDataResponse)
-              if(j === 0) {
-                arrayo.push([userDataResponse.email])
-              }
-              else{
-                arrayo[i].push(userDataResponse.email)
-              }
-            }
-          }
-        }
-      } catch (error) {
-        console.error("Failed to fetch user data:", error);
-      }
-    };
-    console.log(arrayo)
-    setUserEmails(arrayo)
-    fetchUserEmails();
-  }, [originalItems, userId]);
-
-  useEffect(() => {
-    console.log("Updated userEmails:", userEmails);
-  }, [userEmails]);
 
   useEffect(() => {
     const fetchStatuses = async () => {
@@ -257,6 +226,23 @@ const setlastpage = () => {
       fetchStatuses();
     }
   }, [originalItems, items]);
+
+  const getUserNames = (sharedWithUserIds) => {
+    return sharedWithUserIds.map(userId => {
+      const user = userDetails[userId];
+      return user ? `${user.first_name} ${user.last_name}` : "Unknown";
+    }).join(", "); // Join names with comma
+  };
+
+  const getUserEmails = (sharedWithUserIds) => {
+    return sharedWithUserIds.reduce((acc, userId) => {
+      const user = userDetails[userId];
+      if (user && user.email) {
+        acc.push(user.email); // Add email to accumulator
+      }
+      return acc;
+    }, []);
+  };
 
   const getStatusDisplay = (status) => {
     switch (status) {
@@ -372,13 +358,13 @@ const setlastpage = () => {
 
             <div className="tablecontent">
             <div>{items[index].account_legal_name}</div>
-            <div>{creater[index]}</div>
+            <div>{userDetails[item.creator]?.first_name} {userDetails[item.creator]?.last_name}</div>
             <div>
-            <div>{user[index]} </div>
+            <div>{getUserNames(item.shared_with_users)}</div>
             <Popup
-                trigger={<div className="flexdiv" style={{color:"blue", fontSize:"13px", cursor:"pointer"}} onClick={() => startEdit(items[index].id)}>
+                trigger={<div className="flexdiv" style={{color:"blue", fontSize:"13px", cursor:"pointer"}} >
                 <img style={{width:"20px", marginRight:"10px"}} src={edit} alt="edit" />
-                <div>Ajouter ou supprimer un collaborateur</div>
+                <div onClick={() => startEdit(items[index].id)}>Ajouter ou supprimer un collaborateur</div>
               </div>}
                 modal
                 nested
@@ -399,22 +385,12 @@ const setlastpage = () => {
                         </div>
                         <p> <img style={{width:"20px",marginRight:"12px"}} src={cross} alt="cross" />Supprimer un utilisateur</p>
                         <div className="flexdiv" style={{border:"1px solid lightgrey",height:"auto",borderRadius:"10px",width:"80%",padding:"10px", overflowY: "auto"}}>
-                          {/* {userEmails[activeReportId] && userEmails[activeReportId].map((userEmail, index) => (
-                            <div key={index} className="flexdiv" style={{border:"1px solid lightgrey",height:"30px",borderRadius:"10px",width:"100%",fontSize:"14px",marginTop:"10px", justifyContent: "space-between", padding: "5px"}}>
+                          {getUserEmails(item.shared_with_users).map((userEmail, emailIndex) => (
+                            <div key={emailIndex} className="flexdiv" style={{border:"1px solid lightgrey",height:"30px",borderRadius:"10px",width:"100%",fontSize:"14px",marginTop:"10px", justifyContent: "space-between", padding: "5px"}}>
                               <div>{userEmail}</div>
-                              <img style={{width:"25px",height:"25px", cursor: "pointer"}} src={trash} alt="trash" onClick={() => handleUserDeletion(index, activeReportId)} />
+                              <img style={{width:"25px",height:"25px", cursor: "pointer"}} src={trash} alt="trash" onClick={() => handleUserDeletion(userEmail, activeReportId)} />
                             </div>
-                          ))} */}
-                          {userEmails[activeReportId] ? (
-  userEmails[activeReportId].map((userEmail, index) => (
-    <div key={index} className="flexdiv" style={{border:"1px solid lightgrey",height:"30px",borderRadius:"10px",width:"100%",fontSize:"14px",marginTop:"10px", justifyContent: "space-between", padding: "5px"}}>
-    <div>{userEmail}</div>
-    <img style={{width:"25px",height:"25px", cursor: "pointer"}} src={trash} alt="trash" onClick={() => handleUserDeletion(index, activeReportId)} />
-  </div>
-))
-) : (
-  <div>Loading emails or no emails found...</div>
-)}
+                          ))}
                         </div>
                       </div>
 
