@@ -26,6 +26,8 @@ function TableOne() {
   const [activeReportId, setActiveReportId] = useState(null);
   const [userDetails, setUserDetails] = useState({}); // Cache for user details
 
+  const [creater, setcreater] = useState([]);
+  const [user, setuser] = useState([]);
   const userId = cookies.get('id');
   const [showSecondPopup, setShowSecondPopup] = useState(false);
   const [checking, setchecking] = useState(true);
@@ -171,7 +173,87 @@ function TableOne() {
     console.log("Editing report ID:", reportId); // Debugging line
     setActiveReportId(reportId - 1);
   };
+  useEffect(() => {
+    if (originalItems.length === 0) return;
+    const arrayu = []; // Move arrayo inside useEffect
+    const fetchUsers = async () => {
+      try {
+        const creatorids = [];
+        for (let i = 0; i < originalItems.length; i++) {
+          creatorids.push(originalItems[i].creator);
+        }
+        for (let i = 0; i < creatorids.length; i++) {
+          const response = await fetch(`http://localhost:8000/accounts/users/${creatorids[i]}/?user_id=${userId}`);
+          let userDataResponse=await response.json()
+          console.log(userDataResponse)
+          arrayu.push( userDataResponse.first_name + " " + userDataResponse.last_name)
+        }
+        setcreater(arrayu)
+      } catch (error) {
+        console.error("Failed to fetch user data:", error);
+      }
+    };
 
+    fetchUsers();
+  }, [originalItems]);
+
+  useEffect(() => {
+    if (originalItems.length === 0) return;
+    const arrayo = []; // Move arrayo inside useEffect
+    const fetchUser = async () => {
+      try {
+        const creatorid = [];
+        for (let i = 0; i < originalItems.length; i++) {
+          creatorid.push(originalItems[i].shared_with_users);
+        }
+        for (let i = 0; i < creatorid.length; i++) {
+          let arrays = creatorid[i];
+          for (let j = 0; j < arrays.length; j++) {
+            const response = await fetch(`http://localhost:8000/accounts/users/${arrays[j]}/?user_id=${userId}`);
+            const userDataResponse = await response.json();
+            console.log(userDataResponse)
+            if(j === 0) {
+              arrayo.push( userDataResponse.first_name + " " + userDataResponse.last_name)
+            }
+            else{
+              arrayo[i] = arrayo[i] + "," + userDataResponse.first_name + " " + userDataResponse.last_name
+            }
+          }
+        }
+      } catch (error) {
+        console.error("Failed to fetch user data:", error);
+      }
+    };
+    setuser(arrayo)
+    fetchUser();
+  }, [originalItems]);
+
+  // Function to fetch statuses for all items
+  const fetchStatuses = async () => {
+    const statusPromises = items.map(async (item) => {
+      if (item.task_id) {
+        try {
+          const response = await fetch(`http://localhost:8000/reports/task-status/${item.task_id}/`);
+          if (response.ok) {
+            const statusData = await response.json();
+            setStatuses((prevStatuses) => ({
+              ...prevStatuses,
+              [item.id]: statusData.status // Assuming the API response contains a "status" field
+            }));
+          } else {
+            throw new Error('Failed to fetch status');
+          }
+        } catch (error) {
+          console.error('Error fetching status:', error);
+          setStatuses((prevStatuses) => ({
+            ...prevStatuses,
+            [item.id]: 'Error' // Set status as error if there's an issue fetching
+          }));
+        }
+      }
+    });
+    await Promise.all(statusPromises);
+  };
   useEffect(() => {
     if (!searchQuery) {
       setItems(originalItems); // If searchQuery is empty, reset to original list
@@ -357,10 +439,10 @@ function TableOne() {
   {items.slice(currentPage, currentPage + 9).map((item, index) => (
 
             <div className="tablecontent">
-            <div>{items[index].account_legal_name}</div>
-            <div>{userDetails[item.creator]?.first_name} {userDetails[item.creator]?.last_name}</div>
+           <div>{items[index+currentPage].account_legal_name}</div>
+            <div>{creater[index+currentPage]}</div>
             <div>
-            <div>{getUserNames(item.shared_with_users)}</div>
+            <div>{user[index+currentPage]} </div>
             <Popup
                 trigger={<div className="flexdiv" style={{color:"blue", fontSize:"13px", cursor:"pointer"}} >
                 <img style={{width:"20px", marginRight:"10px"}} src={edit} alt="edit" />

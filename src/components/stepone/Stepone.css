@@ -7,7 +7,7 @@
   margin-left: 7%;
   width: 40%;
   margin-top: 2%;
-  height: 450px;
+  height: 500px;
 }
 .settingsetponeheader{
   margin-top: 1%;
@@ -84,4 +84,55 @@ padding: 2%;
 
 .topmargin1{
   margin-top: 15%;
+}
+
+.progress-bar-container {
+  width: 50%;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  overflow: hidden;
+  height: 20px; /* Adjust height as needed */
+}
+
+.progress-bar {
+  height: 100%;
+  text-align: center;
+  line-height: 20px; /* Adjust line height to vertically center text */
+  color: black;
+  transition: width 0.3s ease; /* Add transition effect for smooth width change */
+}
+
+.progress-bar.loading {
+  background-color: #FFB800;
+}
+
+.progress-bar.complete {
+  background-color: #5DA83C;
+}
+
+.progress1-bar-container {
+  width: 50%;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  overflow: hidden;
+  height: 20px; /* Adjust height as needed */
+}
+
+.progress1-bar {
+  height: 100%;
+  text-align: center;
+  line-height: 20px; /* Adjust line height to vertically center text */
+  color: black;
+  transition: width 0.3s ease; /* Add transition effect for smooth width change */
+}
+
+.progress1-bar.loading {
+  background-color: #FFB800;
+}
+
+.progress1-bar.complete {
+  background-color: #5DA83C;
+}
+.hidden {
+  display: none;
 }
