@@ -33,6 +33,9 @@ function TableOne() {
   const [currentPage, setCurrentPage] = useState(0);
   const [statuses, setStatuses] = useState({}); // State to store statuses fetched from API
 
+  const [emailInput, setEmailInput] = useState('');
+  const [emailValid, setEmailValid] = useState(true);
+
   const nextPage = () => {
     setCurrentPage(currentPage + 9);
     setnumber(number + 1);
@@ -54,32 +57,28 @@ function TableOne() {
   };
 
   useEffect(() => {
-    const fetchUserDetails = async (userIds) => {
-      const uniqueUserIds = [...new Set(userIds)]; // Remove duplicates
-      const fetchPromises = uniqueUserIds.map(async (userId) => {
-        if (!userDetails[userId]) { // Check cache first
-          try {
-            const response = await fetch(`http://localhost:8000/accounts/users/${userId}/?user_id=${userId}`);
-            if (!response.ok) throw new Error('Failed to fetch user data');
-            const userData = await response.json();
-            setUserDetails((prevDetails) => ({ ...prevDetails, [userId]: userData }));
-          } catch (error) {
-            console.error("Failed to fetch user data:", error);
-          }
-        }
-      });
-      await Promise.all(fetchPromises);
+    const fetchAllUsers = async () => {
+      try {
+        // Perform a GET request to fetch all users
+        const response = await fetch(`http://localhost:8000/accounts/users/?user_id=${userId}`);
+        if (!response.ok) throw new Error('Failed to fetch user data');
+        const users = await response.json();
+
+        // Update userDetails state with fetched user data
+        // Assuming users is an array of user objects and each user object has an id
+        const newDetails = users.reduce((details, user) => {
+          details[user.id] = user; // Use user ID as key
+          return details;
+        }, {});
+
+        setUserDetails(newDetails);
+      } catch (error) {
+        console.error("Failed to fetch all users:", error);
+      }
     };
-    // Assuming originalItems is already populated with report data
-    if (originalItems.length > 0) {
-      const allUserIds = originalItems.reduce((acc, item) => {
-        // Add creator and shared_with_users ids to the accumulator
-        return acc.concat(item.creator, item.shared_with_users);
-      }, []);
-      fetchUserDetails(allUserIds);
-    }
-    console.log(userDetails)
-  }, [originalItems, userDetails]);
+
+    fetchAllUsers();
+  }, [originalItems, userId]);
 
   // Handler to save input values to cookies and proceed to the next step
   const handleSaveAndNext = () => {
@@ -141,6 +140,47 @@ function TableOne() {
 
     } catch (error) {
       console.error("Failed to update report sharing:", error);
+    }
+  };
+
+  const handleUserAddition = (reportId) => {
+    const userToAdd = Object.entries(userDetails).find(([_, userDetails]) => userDetails.email === emailInput);
+
+    if (userToAdd) {
+      const [userIdToAdd] = userToAdd; // Destructure to get the user ID
+      setEmailValid(true);
+
+      const report = originalItems[reportId];
+      if (!report.shared_with_users.includes(userIdToAdd)) {
+        const updatedSharedWithUsers = [...report.shared_with_users, userIdToAdd];
+
+        try {
+          const cookies = new Cookies();
+          const csrftoken = cookies.get('csrftoken');
+          const response = fetch(`http://localhost:8000/reports/reports/${originalItems[reportId].id}/share/?user_id=${userId}`, {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': csrftoken,
+            },
+            credentials: 'include',
+            body: JSON.stringify({ shared_with_users: updatedSharedWithUsers, shared_with_groups: originalItems[reportId].shared_with_groups }),
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          const data = response.json();
+          console.log("Successfully updated report sharing:", data);
+
+          // TODO : refresh the screen
+        } catch (error) {
+          console.error("Failed to update report sharing:", error);
+        }
+      }
+    } else {
+      setEmailValid(false);
     }
   };
 
@@ -378,11 +418,25 @@ function TableOne() {
 
                       <div className="modal-content">
                         <h3 style={{fontWeight:"500"}}>Modification de l’équpe <img style={{width:"30px"}} src={handshake} alt="handshake" /></h3>
-                        <p> <img style={{width:"20px",marginRight:"12px"}} src={add} alt="add" />Ajouter un utilisateur <img style={{width:"20px",marginRight:"12px"}} src={alert} alt="alert" /><span style={{color:"red",fontSize:""}}>Ce compte Datayoyo n’existe pas</span></p>
+
+                        <p> <img style={{width:"20px",marginRight:"12px"}} src={add} alt="add" />Ajouter un utilisateur
+                        {!emailValid && ( // Only display the warning if the email is not valid
+                          <>
+                          <img style={{width:"20px", marginRight:"12px"}} src={alert} alt="alert" />
+                          <span style={{color:"red"}}>Ce compte Datayoyo n'existe pas</span>
+                          </>
+                        )}
+                        </p>
                         <div>
-                          <input style={{border:"1px solid lightgrey",height:"40px",borderRadius:"10px",width:"40%",paddingLeft:"20px",color:"black"}} placeholder="Email du compte Datayoyo"/>
-                          <button style={{marginLeft:"2%",paddingLeft:"30px",paddingRight:"30px"}} className="button2">Valider</button>
+                          <input
+                            style={{border:"1px solid lightgrey",height:"40px",borderRadius:"10px",width:"40%",paddingLeft:"20px",color:"black"}}
+                            placeholder="Email du compte Datayoyo"
+                            value={emailInput}
+                            onChange={(e) => setEmailInput(e.target.value)}
+                          />
+                          <button style={{marginLeft:"2%",paddingLeft:"30px",paddingRight:"30px"}} className="button2" onClick={() => handleUserAddition(activeReportId)}>Valider</button>
                         </div>
+
                         <p> <img style={{width:"20px",marginRight:"12px"}} src={cross} alt="cross" />Supprimer un utilisateur</p>
                         <div className="flexdiv" style={{border:"1px solid lightgrey",height:"auto",borderRadius:"10px",width:"80%",padding:"10px", overflowY: "auto"}}>
                           {getUserEmails(item.shared_with_users).map((userEmail, emailIndex) => (
