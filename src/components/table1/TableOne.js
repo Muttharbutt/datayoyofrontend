@@ -35,6 +35,7 @@ function TableOne() {
 
   const [emailInput, setEmailInput] = useState('');
   const [emailValid, setEmailValid] = useState(true);
+  const [isCreatorWarning, setIsCreatorWarning] = useState(false);
 
   const nextPage = () => {
     setCurrentPage(currentPage + 9);
@@ -149,9 +150,9 @@ function TableOne() {
     if (userToAdd) {
       const [userIdToAdd] = userToAdd; // Destructure to get the user ID
       setEmailValid(true);
-
       const report = originalItems[reportId];
-      if (!report.shared_with_users.includes(userIdToAdd)) {
+
+      if (!report.shared_with_users.includes(userIdToAdd) && report.creator.toString() !== userIdToAdd.toString()) {
         const updatedSharedWithUsers = [...report.shared_with_users, userIdToAdd];
 
         try {
@@ -178,6 +179,11 @@ function TableOne() {
         } catch (error) {
           console.error("Failed to update report sharing:", error);
         }
+      } else if (report.creator.toString() === userIdToAdd.toString()) {
+        setIsCreatorWarning(true); // Show warning if user is the creator
+        setEmailValid(true); // Assuming the email is valid if it belongs to the creator
+      } else {
+        setIsCreatorWarning(false); // Ensure the warning is not shown if these conditions aren't met
       }
     } else {
       setEmailValid(false);
@@ -422,8 +428,15 @@ function TableOne() {
                         <p> <img style={{width:"20px",marginRight:"12px"}} src={add} alt="add" />Ajouter un utilisateur
                         {!emailValid && ( // Only display the warning if the email is not valid
                           <>
-                          <img style={{width:"20px", marginRight:"12px"}} src={alert} alt="alert" />
-                          <span style={{color:"red"}}>Ce compte Datayoyo n'existe pas</span>
+                            <img style={{width:"20px", marginRight:"12px"}} src={alert} alt="alert" />
+                            <span style={{color:"red"}}>Ce compte Datayoyo n'existe pas</span>
+                          </>
+                        )}
+                        {isCreatorWarning && (
+                          <>
+                            {/* TODO orange alert */}
+                            <img style={{width:"20px", marginRight:"12px"}} src={alert} alt="alert" />
+                            <span style={{color:"orange"}}>L'utilisateur est le créateur du rapport</span>
                           </>
                         )}
                         </p>
