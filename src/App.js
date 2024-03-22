@@ -14,10 +14,7 @@ import Cookies from 'universal-cookie';
 
 function App() {
   const cookies = new Cookies();
-  // const [loggedIn, setLoggedIn] = useState(false);
-  // useEffect(() => {
-  //   console.log(cookies.get("id"))
-  // },[])
+  const hasIdCookie = cookies.get("id");
   return (
     <BrowserRouter>
       <Routes>
@@ -27,14 +24,11 @@ function App() {
                 <Route  path="passwordconfirm" element={<PasswordConfirm />} />
                 <Route  path="table" element={<Table />} />
                 <Route  path="Home" element={<Logout />} />
-                <Route  path="tableone" element={<TableOne />} />
-                <Route  path="stepone" element={<Stepone />} />
-                <Route  path="steptwo" element={<Steptwo />} />
-                <Route  path="stepthree" element={<Stepthree />} />
-          {/* {loggedIn ?(
-                <> 
-                </>
-            ):(  <> <Route  path="" element={<Logout />} /></>)} */}
+                <Route path="/" element={hasIdCookie ? <Navigate to="/table" /> : <Navigate to="/Home" />} />
+                <Route path="/tableone" element={hasIdCookie ? <TableOne /> : <Navigate to="/Home" />} />
+      <Route path="/stepone" element={hasIdCookie ? <Stepone /> : <Navigate to="/Home" />} />
+      <Route path="/steptwo" element={hasIdCookie ? <Steptwo /> : <Navigate to="/Home" />} />
+      <Route path="/stepthree" element={hasIdCookie ? <Stepthree /> : <Navigate to="/Home" />} />
          
       </Routes>
     </BrowserRouter>

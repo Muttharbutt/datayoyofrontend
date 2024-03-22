@@ -2,11 +2,16 @@ import "./Header.css";
 import mainlogo from "../../../assets/logo.png";
 import Popup from "reactjs-popup";
 import Cookies from 'universal-cookie';
+
+
 function Header() {
   const cookies = new Cookies();
  let  email=cookies.get("email")
  let  name=cookies.get("first_name") + " " + cookies.get("last_name")
  let  id=cookies.get("id")
+
+// Remove all cookies
+
   return (
     <>
       <div className="headerbarbox ">
@@ -24,7 +29,8 @@ function Header() {
                   <div className="acoountlogo logostyling">{id}</div>
                   <p className="titleoflogout1">{name}</p>
                   <p className="titleoflogout2">{email}</p>
-                <button style={{margin:"0%",marginBottom:"5%",marginTop:"5%"}} className="button3">Se déconnecter</button>
+                  <button onClick={() => {cookies.remove(); window.location.href = "http://localhost:3000/"}} style={{ margin: "0%", marginBottom: "5%", marginTop: "5%" }} className="button3">Se déconnecter</button>
+
                   </div>
 
             </Popup>

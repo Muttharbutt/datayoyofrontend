@@ -6,6 +6,7 @@ import Cookies from 'universal-cookie';
 import ok from "../../assets/ok.png"
 import outline from "../../assets/Outline.png"
 import trash from "../../assets/delete.png"
+import Checktype from '../checktype/checktype';
 
 function Stepone() {
 
@@ -13,7 +14,8 @@ function Stepone() {
   const [fileSelectedN, setFileSelectedN] = useState(false);
   const [check, setcheck] = useState(false);
   const [selectedFileNameN, setSelectedFileNameN] = useState('');
-
+  const [change, setchange] = useState(false);
+  const [formData, setFormData] = useState(new FormData());
   const [fileNMinus1, setFileNMinus1] = useState(null); // Use this state to store the file object for N-1
   const [fileSelectedNMinus1, setFileSelectedNMinus1] = useState(false);
   const [check1, setcheck1] = useState(false);
@@ -46,141 +48,107 @@ function Stepone() {
   }
   const handleFileChangeN = (event) => {
     let selectedFile = event.target.files[0];
-    if (event.target.files[0]) {
+    if (selectedFile) {
       let fileNameParts = selectedFile.name.split('.');
       let fileExtension = fileNameParts[fileNameParts.length - 1].toLowerCase();
-        if (fileExtension === 'csv' || fileExtension === 'txt') {setcheck(true)}
-      setFileN(event.target.files[0]); // Store the file object directly
+      if (fileExtension === 'csv' || fileExtension === 'txt') {
+        setcheck(true);
+      }
+      setFileN(selectedFile);
       setFileSelectedN(true);
-      setSelectedFileNameN(event.target.files[0].name); // If you still need to store the file name
+      setSelectedFileNameN(selectedFile.name);
+      const file1 = event.target.files[0];
+      fileSizeRef1.current = file1.size;
+      startTimeRef1.current = Date.now();
+      const xhr1 = new XMLHttpRequest();
+      xhr1.upload.addEventListener("progress", (event) => {
+        if (event.lengthComputable) {
+          const elapsedTime1 = (Date.now() - startTimeRef1.current) / 1000; 
+          const uploadedBytes1 = event.loaded;
+          const uploadSpeed1 = Math.round((uploadedBytes1 / elapsedTime1) / 1024);
+          setUploadSpeed1(uploadSpeed1);
+          const percentage1 = Math.round((event.loaded / event.total) * 100);
+          setProgress1(percentage1);
+        }
+      });
+      xhr1.addEventListener("load", () => {
+        setIsLoading1(false);
+        setIsComplete1(true);
+        document.querySelector('.progress1-bar').classList.remove('loading');
+        document.querySelector('.progress1-bar').classList.add('complete');
+      });
+      setIsLoading1(true);
+      xhr1.open("POST", "your_upload_endpoint");
+      xhr1.send(file1);
+      document.querySelector('.progress1-bar').classList.add('loading');
     } else {
       setFileSelectedN(false);
       setSelectedFileNameN('');
     }
-    const file1 = event.target.files[0];
-        fileSizeRef1.current = file1.size;
-        startTimeRef1.current = Date.now();
-
-        const xhr1 = new XMLHttpRequest();
-        
-        xhr1.upload.addEventListener("progress", (event) => {
-            if (event.lengthComputable) {
-                const elapsedTime1 = (Date.now() - startTimeRef1.current) / 1000; // Time in seconds
-                const uploadedBytes1 = event.loaded;
-                const uploadSpeed1 = Math.round((uploadedBytes1 / elapsedTime1) / 1024); // Bytes per second
-                setUploadSpeed1(uploadSpeed1);
-                
-                const percentage1 = Math.round((event.loaded / event.total) * 100);
-                setProgress1(percentage1);
-            }
-        });
-        
-        xhr1.addEventListener("load", () => {
-          setIsLoading1(false);
-          setIsComplete1(true);
-            document.querySelector('.progress1-bar').classList.remove('loading');
-            document.querySelector('.progress1-bar').classList.add('complete');
-        });
-        setIsLoading1(true);
-        xhr1.open("POST", "your_upload_endpoint");
-        xhr1.send(file1);
-        
-        document.querySelector('.progress1-bar').classList.add('loading');
   };
-
-
-
+  
   const handleFileChangeNMinus1 = (event) => {
     let selectedFile = event.target.files[0];
-    if (event.target.files[0]) {
+    if (selectedFile) {
       let fileNameParts = selectedFile.name.split('.');
       let fileExtension = fileNameParts[fileNameParts.length - 1].toLowerCase();
-      if (fileExtension === 'csv' || fileExtension === 'txt') {setcheck1(true)}
-      setFileNMinus1(event.target.files[0]); // Store the file object directly
+      if (fileExtension === 'csv' || fileExtension === 'txt') {
+        setcheck1(true);
+      }
+      setFileNMinus1(selectedFile);
       setFileSelectedNMinus1(true);
-      setSelectedFileNameNMinus1(event.target.files[0].name); // If you still need to store the file name
+      setSelectedFileNameNMinus1(selectedFile.name);
+      const file = event.target.files[0];
+      fileSizeRef.current = file.size;
+      startTimeRef.current = Date.now();
+      const xhr = new XMLHttpRequest();
+      xhr.upload.addEventListener("progress", (event) => {
+        if (event.lengthComputable) {
+          const elapsedTime = (Date.now() - startTimeRef.current) / 1000; 
+          const uploadedBytes = event.loaded;
+          const uploadSpeed = Math.round((uploadedBytes / elapsedTime) / 1024);
+          setUploadSpeed(uploadSpeed);
+          const percentage = Math.round((event.loaded / event.total) * 100);
+          setProgress(percentage);
+        }
+      });
+      xhr.addEventListener("load", () => {
+        setIsLoading(false);
+        setIsComplete(true);
+        document.querySelector('.progress-bar').classList.remove('loading');
+        document.querySelector('.progress-bar').classList.add('complete');
+      });
+      setIsLoading(true);
+      xhr.open("POST", "your_upload_endpoint");
+      xhr.send(file);
+      document.querySelector('.progress-bar').classList.add('loading');
     } else {
       setFileSelectedNMinus1(false);
       setSelectedFileNameNMinus1('');
     }
-    const file = event.target.files[0];
-        fileSizeRef.current = file.size;
-        startTimeRef.current = Date.now();
-
-        const xhr = new XMLHttpRequest();
-        
-        xhr.upload.addEventListener("progress", (event) => {
-            if (event.lengthComputable) {
-                const elapsedTime = (Date.now() - startTimeRef.current) / 1000; // Time in seconds
-                const uploadedBytes = event.loaded;
-                const uploadSpeed = Math.round((uploadedBytes / elapsedTime) / 1024); // Bytes per second
-                setUploadSpeed(uploadSpeed);
-                
-                const percentage = Math.round((event.loaded / event.total) * 100);
-                setProgress(percentage);
-            }
-        });
-        
-        xhr.addEventListener("load", () => {
-          setIsLoading(false);
-          setIsComplete(true);
-            document.querySelector('.progress-bar').classList.remove('loading');
-            document.querySelector('.progress-bar').classList.add('complete');
-        });
-        setIsLoading(true);
-        xhr.open("POST", "your_upload_endpoint");
-        xhr.send(file);
-        
-        document.querySelector('.progress-bar').classList.add('loading');
   };
-
+  
   const handleSaveAndNextClick = async () => {
-    console.log("save and next")
     if (!fileSelectedN || !fileSelectedNMinus1) {
       alert("Please select both files before proceeding.");
       return;
     }
-
-    const formData = new FormData();
-    formData.append("file_n", fileN);
-    formData.append("file_n_minus_1", fileNMinus1);
-
     const cookies = new Cookies();
-    formData.append("creator", cookies.get('id'));
-    formData.append("account_legal_name", cookies.get("clientName"));
-    formData.append("start_date_n_minus_1", cookies.get("dateOpenNMinus1"));
-    formData.append("end_date_n_minus_1", cookies.get("dateCloseNMinus1"));
-    formData.append("start_date_n", cookies.get("dateOpenN"));
-    formData.append("end_date_n", cookies.get("dateCloseN"));
-
-    try {
-      const response = await fetch("http://localhost:8000/reports/reports/", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Success:", data);
-        cookies.set('reportId', data.id, { path: '/' });
-
-        cookies.set('headersNMinus1', data.headers_n_minus_1, { path: '/' });
-        cookies.set('headersN', data.headers_n, { path: '/' });
-
-        window.location.href = "http://localhost:3000/steptwo";
-      } else {
-        console.error("Upload failed:", response.statusText);
-        // Handle failure
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
+    cookies.set('check', check, { path: '/' });
+    cookies.set('check1', check1, { path: '/' });
+    setchange(true);
   };
+  
 
   return (
 
 <>
 <Header />
+      {change ? (
+  <Checktype fileN={fileN} fileNMinus1={fileNMinus1} />
+) : (
+ <>
+
       <div className="settingbackground">
         <div className="loginheader">Bienvenue chez Datayoyo</div>
         <div className="settingside">Étape 1 : Importation des bases</div>
@@ -304,7 +272,11 @@ function Stepone() {
         <button style={{marginTop:"10%",marginLeft:"43%",background:"white",border:"1px solid #1054FB",borderRadius:"10px",padding:"10px",paddingLeft:"20px",paddingRight:"20px",color:"#1054FB"}} >Annuler </button>
         <button style={{marginTop:"10%",marginLeft:"2%",background:"#1054FB",border:"1px solid #1054FB",borderRadius:"10px",padding:"10px",paddingLeft:"20px",paddingRight:"20px",color:"white"}} onClick={handleSaveAndNextClick}>Enregistrer et passer à l’étape suivante</button>
       </div>
+ </>
+)}
+
 </>
+
   );
 }
 
