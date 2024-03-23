@@ -109,10 +109,10 @@ function Checktype({ fileN, fileNMinus1 }) {
 
           <div className='divinsidestepone'>
           <div className={`settingsetponeheader parent ${check ? '' : 'customColor'}`}><span className='textspan1'>Sélectionnez le délimiteur utilisé dans votre fichier
-          <img style={{width:"40px"}} src={question}/>  </span>
+          <img style={{width:"40px"}} src={question} alt=""/>  </span>
 
     <div className="logoutdiv1">
-      <div className='textsetting'>   <img style={{width:"40px"}} src={question}/>  Informations importante : importation des données comptables.</div>
+      <div className='textsetting'>   <img style={{width:"40px"}} src={question} alt=""/>  Informations importante : importation des données comptables.</div>
  <ul className='textsetting1'>
   <li className='paddingboot'>Un délimiteur est un caractère utilisé pour séparer les différentes données dans un fichier texte, notamment dans les fichiers CSV ou TXT. Le choix du bon délimiteur est essentiel pour permettre une lecture correcte et une séparation adéquate des informations lors de l'importation de votre fichier..</li>
   <li>Les délimiteurs les plus fréquemment utilisés dans les Fichiers des Écritures Comptables (FEC) et d'autres types de fichiers de données incluent la virgule (,), le point-virgule (;), la tabulation (Tab) et le pipe (|). La sélection du délimiteur dépend de la manière dont votre fichier a été structuré à l'origine.</li>
@@ -132,10 +132,10 @@ function Checktype({ fileN, fileNMinus1 }) {
              </select>
 
              <div  className={`settingsetponeheader parent ${check ? '' : 'customColor'}`}><span className='textspan1'>Sélectionnez l'encodage de votre fichier
-          <img style={{width:"40px"}} src={question}/>  </span>
+          <img style={{width:"40px"}} src={question} alt=""/>  </span>
 
     <div className="logoutdiv1">
-      <div className='textsetting'>   <img style={{width:"40px"}} src={question}/>  Informations importante : importation des données comptables.</div>
+      <div className='textsetting'>   <img style={{width:"40px"}} src={question} alt=""/>  Informations importante : importation des données comptables.</div>
  <ul className='textsetting1'>
   <li className='paddingboot'>L'encodage est un standard qui permet de représenter les caractères textuels sous forme de données numériques que l'ordinateur peut lire et manipuler. Choisir le bon encodage pour votre fichier est essentiel pour assurer que tous les caractères, y compris les accents et les symboles spéciaux, s'affichent correctement.</li>
   <li>Dans le cas du Fichier des Écritures Comptables (FEC) :</li>
@@ -165,10 +165,10 @@ function Checktype({ fileN, fileNMinus1 }) {
     </div>
     <div className='divinsidestepone'>
           <div  className={`settingsetponeheader parent ${check1 ? '' : 'customColor'}`}><span className='textspan1'>Sélectionnez le délimiteur utilisé dans votre fichier
-          <img style={{width:"40px"}} src={question}/>  </span>
+          <img style={{width:"40px"}} src={question} alt=""/>  </span>
 
     <div className="logoutdiv1">
-      <div className='textsetting'>   <img style={{width:"40px"}} src={question}/>  Informations importante : importation des données comptables.</div>
+      <div className='textsetting'>   <img style={{width:"40px"}} src={question} alt=""/>  Informations importante : importation des données comptables.</div>
  <ul className='textsetting1'>
   <li className='paddingboot'>Un délimiteur est un caractère utilisé pour séparer les différentes données dans un fichier texte, notamment dans les fichiers CSV ou TXT. Le choix du bon délimiteur est essentiel pour permettre une lecture correcte et une séparation adéquate des informations lors de l'importation de votre fichier..</li>
   <li>Les délimiteurs les plus fréquemment utilisés dans les Fichiers des Écritures Comptables (FEC) et d'autres types de fichiers de données incluent la virgule (,), le point-virgule (;), la tabulation (Tab) et le pipe (|). La sélection du délimiteur dépend de la manière dont votre fichier a été structuré à l'origine.</li>
@@ -188,10 +188,10 @@ function Checktype({ fileN, fileNMinus1 }) {
              </select>
 
              <div  className={`settingsetponeheader parent ${check1 ? '' : 'customColor'}`}><span className='textspan1'>Sélectionnez l'encodage de votre fichier
-          <img style={{width:"40px"}} src={question}/>  </span>
+          <img style={{width:"40px"}} src={question} alt=""/>  </span>
 
     <div className="logoutdiv1">
-      <div className='textsetting'>   <img style={{width:"40px"}} src={question}/>  Informations importante : importation des données comptables.</div>
+      <div className='textsetting'>   <img style={{width:"40px"}} src={question} alt=""/>  Informations importante : importation des données comptables.</div>
  <ul className='textsetting1'>
   <li className='paddingboot'>L'encodage est un standard qui permet de représenter les caractères textuels sous forme de données numériques que l'ordinateur peut lire et manipuler. Choisir le bon encodage pour votre fichier est essentiel pour assurer que tous les caractères, y compris les accents et les symboles spéciaux, s'affichent correctement.</li>
   <li>Dans le cas du Fichier des Écritures Comptables (FEC) :</li>

@@ -162,7 +162,7 @@ function Steptwo() {
         <div className="settingside">Étape 2 : Rapprochement des champs</div>
         <div className="flexdiv" >
         <div className='boxone' >
-        <div className="settingsetponeheader parent" style={{marginBottom:"3%"}}><span className='textspan'> <img style={{width:"40px"}} src={chain}/> Rapprochement des champs de la base de données N
+        <div className="settingsetponeheader parent" style={{marginBottom:"3%"}}><span className='textspan'> <img style={{width:"40px"}} src={chain} alt=""/> Rapprochement des champs de la base de données N
           </span> </div>
           <div className='whiteboxone'><h4 style={{marginBottom:"3%",marginTop:"-1%"}}>Champs obligatoires</h4>
           <div className='flexdiv'>
@@ -672,7 +672,6 @@ function Steptwo() {
 </select>
           </div>
           </div>
-          <h4 style={{marginBottom:"5%"}}></h4>
           <div className='flexdiv'>
           <div style={{width:"33%"}}>
           <div style={{fontWeight:"500"}}>Date lettrage</div>
@@ -835,7 +834,7 @@ function Steptwo() {
           </div>
         </div>
         <div className='boxone'>
-        <div className="settingsetponeheader parent" style={{marginBottom:"3%"}}><span className='textspan'> <img style={{width:"40px"}} src={chain}/> Rapprochement des champs de la base de données N-1
+        <div className="settingsetponeheader parent" style={{marginBottom:"3%"}}><span className='textspan'> <img style={{width:"40px"}} src={chain} alt=""/> Rapprochement des champs de la base de données N-1
           </span> </div>
           <div className='whiteboxone'><h4 style={{marginBottom:"3%",marginTop:"-1%"}}>Champs obligatoires</h4>
           <div className='flexdiv'>
@@ -1345,7 +1344,6 @@ function Steptwo() {
 </select>
           </div>
           </div>
-          <h4 style={{marginBottom:"5%"}}></h4>
           <div className='flexdiv'>
           <div style={{width:"33%"}}>
           <div style={{fontWeight:"500"}}>Date lettrage</div>

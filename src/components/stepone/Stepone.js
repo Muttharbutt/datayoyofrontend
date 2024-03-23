@@ -162,10 +162,10 @@ function Stepone() {
         <div className="flexdiv">
           <div className="box1">
           <div className="settingsetponeheader parent"><span className='textspan'>1.Importation des données comptables
-          <img style={{width:"40px"}} src={question}/>  </span>
+          <img style={{width:"40px"}} src={question} alt=""/>  </span>
 
     <div className="logoutdiv1">
-      <div className='textsetting'>   <img style={{width:"40px"}} src={question}/>  Informations importante : importation des données comptables.</div>
+      <div className='textsetting'>   <img style={{width:"40px"}} src={question} alt=""/>  Informations importante : importation des données comptables.</div>
  <ul className='textsetting1'>
   <li className='paddingboot'>Les formats de fichiers acceptés sont les suivants : .csv, .txt, .xlsx.</li>
   <li>Par convention de nommage, “N” concerne l’exercice audité en cours et “N-1” l’exercice précédent</li>
@@ -242,9 +242,9 @@ function Stepone() {
           </div>
           </div>
           <div className="box1">
-          <div className="settingsetponeheader parent"><span className='textspan'>2.Importation des reports à nouveaux <img style={{width:"40px"}} src={question}/> </span>
+          <div className="settingsetponeheader parent"><span className='textspan'>2.Importation des reports à nouveaux <img style={{width:"40px"}} src={question} alt=""/> </span>
           <div className="logoutdiv1">
-      <div className='textsetting'>   <img style={{width:"40px"}} src={question}/>  Informations importante : importation des données comptables.</div>
+      <div className='textsetting'>   <img style={{width:"40px"}} src={question} alt=""/>  Informations importante : importation des données comptables.</div>
  <ul className='textsetting1'>
   <li className='paddingboot'>Les reports à nouveaux sont obligatoires dans les extractions des FEC au sens de l’administration fiscale. Cependant, il est encore parfois difficile de les obtenir auprès des clients. C’est la raison pour laquelle il est possible d’intégrer les balances générales des exercices précédents : CAC BI réintégrera alors automatiquement les reports à nouveaux dans le GL N à partir de la BG N-1 ainsi que les reports à nouveaux dans le GL N-1 à partir de la BG N-2.</li>
  </ul>
