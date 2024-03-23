@@ -32,7 +32,7 @@ function Steptwo() {
       body['scenario_n_minus_1'] = scenarioNMinus1
       const csrftoken = cookies.get('csrftoken');
 
-      const response = await fetch('http://localhost:8000/reports/mapping/', {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/reports/mapping/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

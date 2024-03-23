@@ -44,7 +44,7 @@ const handleSelectChange3 = (event) => {
     formData.append("end_date_n", cookies.get("dateCloseN"));
 
     try {
-      const response = await fetch("http://localhost:8000/reports/reports/", {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/reports/reports/`, {
         method: "POST",
         body: formData,
       });

@@ -47,7 +47,7 @@ function Login() {
   const handleLoginSubmit = async (e) => {
     setLoading(true);
     e.preventDefault();
-    const response = await fetch('http://localhost:8000/accounts/login/', {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/accounts/login/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -76,7 +76,7 @@ function Login() {
     e.preventDefault();
     try
     {
-      const response = await fetch('http://localhost:8000/accounts/signup/', {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/accounts/signup/`, {
         method: 'POST',
         body: JSON.stringify(signupFormData),
         headers: {

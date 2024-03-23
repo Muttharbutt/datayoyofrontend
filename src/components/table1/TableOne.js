@@ -93,7 +93,7 @@ function TableOne() {
     const fetchAllUsers = async () => {
       try {
         // Perform a GET request to fetch all users
-        const response = await fetch(`http://localhost:8000/accounts/users/?user_id=${userId}`);
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/accounts/users/?user_id=${userId}`);
         if (!response.ok) throw new Error('Failed to fetch user data');
         const users = await response.json();
 
@@ -148,7 +148,7 @@ function TableOne() {
     try {
       const cookies = new Cookies();
       const csrftoken = cookies.get('csrftoken');
-      const response = await fetch(`http://localhost:8000/reports/reports/${report.id}/share/?user_id=${userId}`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/reports/reports/${report.id}/share/?user_id=${userId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -184,7 +184,7 @@ function TableOne() {
         try {
           const cookies = new Cookies();
           const csrftoken = cookies.get('csrftoken');
-          const response = await fetch(`http://localhost:8000/reports/reports/${report.id}/share/?user_id=${userId}`, {
+          const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/reports/reports/${report.id}/share/?user_id=${userId}`, {
             method: 'PATCH',
             headers: {
               'Content-Type': 'application/json',
@@ -222,7 +222,7 @@ function TableOne() {
 
   const handleDeleteReport = async (reportId) => {
     try {
-      const response = await fetch(`http://localhost:8000/reports/reports/${reportId}/?user_id=${userId}`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/reports/reports/${reportId}/?user_id=${userId}`, {
         method: 'DELETE',
       });
 
@@ -249,7 +249,7 @@ function TableOne() {
     const statusPromises = items.map(async (item) => {
       if (item.task_id) {
         try {
-          const response = await fetch(`http://localhost:8000/reports/task-status/${item.task_id}/`);
+          const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/reports/task-status/${item.task_id}/`);
           if (response.ok) {
             const statusData = await response.json();
             setStatuses((prevStatuses) => ({
@@ -282,7 +282,7 @@ function TableOne() {
   }, [searchQuery, originalItems]);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/reports/reports/?user_id=${userId}`)
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/reports/reports/?user_id=${userId}`)
     .then(response => {
       if (!response.ok) {
         throw new Error('Network response was not ok.');
@@ -298,7 +298,7 @@ function TableOne() {
       const statusPromises = items.map(async (item) => {
         if (item.task_id) {
           try {
-            const response = await fetch(`http://localhost:8000/reports/task-status/${item.task_id}/`);
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/reports/task-status/${item.task_id}/`);
             if (response.ok) {
               const statusData = await response.json();
               setStatuses((prevStatuses) => ({

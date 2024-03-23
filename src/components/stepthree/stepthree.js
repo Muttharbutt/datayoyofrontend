@@ -51,7 +51,7 @@ function Stepthree() {
       body['a_nouveau_n_minus_1'] = true
       body['code_journal_a_nouveau_n_minus_1'] = ANouveauNMinus1
 
-      const response = await fetch(`http://localhost:8000/reports/mapping/${mappingId}/`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/reports/mapping/${mappingId}/`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
