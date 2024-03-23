@@ -1,5 +1,4 @@
 import "./App.css";
-import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route,Navigate  } from "react-router-dom";
 import Login from "./components/login/Login";
 import EmailConfirm from "./components/emailconfirm/EmailConfirm";
@@ -29,7 +28,7 @@ function App() {
       <Route path="/stepone" element={hasIdCookie ? <Stepone /> : <Navigate to="/Home" />} />
       <Route path="/steptwo" element={hasIdCookie ? <Steptwo /> : <Navigate to="/Home" />} />
       <Route path="/stepthree" element={hasIdCookie ? <Stepthree /> : <Navigate to="/Home" />} />
-         
+
       </Routes>
     </BrowserRouter>
   );

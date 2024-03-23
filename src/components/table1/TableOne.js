@@ -17,9 +17,11 @@ import g1 from "../../assets/g1.png"
 import g2 from "../../assets/g2.png"
 import g3 from "../../assets/g3.png"
 import unnion from "../../assets/Union.png"
+
 const cookies = new Cookies();
 
 function TableOne() {
+
   const [searchQuery, setSearchQuery] = useState('');
   const [items, setItems] = useState([]); // Your data array
   const [originalItems, setOriginalItems] = useState([]); // Backup of the original data
@@ -28,7 +30,7 @@ function TableOne() {
 
   const userId = cookies.get('id');
   const [showSecondPopup, setShowSecondPopup] = useState(false);
-  const [checking, setchecking] = useState(true);
+  const checking = true;
   const [number, setnumber] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
   const [statuses, setStatuses] = useState({}); // State to store statuses fetched from API
@@ -81,6 +83,7 @@ function TableOne() {
     setnumber(0);
     setCurrentPage(0)
   };
+
   const setlastpage = () => {
     console.log(items.length / 9)
     let num= Math.ceil(items.length / 9) - 1
@@ -133,21 +136,11 @@ function TableOne() {
     window.location.href = "http://localhost:3000/stepone";
   };
 
-  const handleUserDeletion = async (email, reportId) => {
-    console.log(`Delete user ${email} from ${reportId}`)
-
-    const userIdToDelete = Object.keys(userDetails).find(userId => userDetails[userId].email === email);
-    if (!userIdToDelete) {
-      console.error("User ID not found for the email:", email);
-      return;
-    }
-
-    const report = originalItems.find(item => item.id.toString() === reportId.toString());
-    const updatedSharedWithUsers = report.shared_with_users.filter(userId => userId.toString() !== userIdToDelete.toString());
-
+  const updateReportSharing = async (reportId, updatedSharedWithUsers) => {
     try {
       const cookies = new Cookies();
       const csrftoken = cookies.get('csrftoken');
+      const report = originalItems.find(item => item.id.toString() === reportId.toString());
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/reports/reports/${report.id}/share/?user_id=${userId}`, {
         method: 'PATCH',
         headers: {
@@ -162,14 +155,26 @@ function TableOne() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const data = response.json();
+      const data = await response.json();
       console.log("Successfully updated report sharing:", data);
-
-      // TODO : refresh the screen
-
+      // TODO: refresh the screen or update state accordingly
     } catch (error) {
       console.error("Failed to update report sharing:", error);
     }
+  };
+
+  const handleUserDeletion = async (email, reportId) => {
+    console.log(`Delete user ${email} from ${reportId}`)
+
+    const userIdToDelete = Object.keys(userDetails).find(userId => userDetails[userId].email === email);
+    if (!userIdToDelete) {
+      console.error("User ID not found for the email:", email);
+      return;
+    }
+
+    const report = originalItems.find(item => item.id.toString() === reportId.toString());
+    const updatedSharedWithUsers = report.shared_with_users.filter(userId => userId.toString() !== userIdToDelete.toString());
+    await updateReportSharing(reportId, updatedSharedWithUsers);
   };
 
   const handleUserAddition = async (reportId) => {
@@ -180,36 +185,12 @@ function TableOne() {
       const report = originalItems.find(item => item.id.toString() === reportId.toString());
       if (!report.shared_with_users.includes(userIdToAdd) && report.creator.toString() !== userIdToAdd.toString()) {
         const updatedSharedWithUsers = [...report.shared_with_users, userIdToAdd];
-
-        try {
-          const cookies = new Cookies();
-          const csrftoken = cookies.get('csrftoken');
-          const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/reports/reports/${report.id}/share/?user_id=${userId}`, {
-            method: 'PATCH',
-            headers: {
-              'Content-Type': 'application/json',
-              'X-CSRFToken': csrftoken,
-            },
-            credentials: 'include',
-            body: JSON.stringify({ shared_with_users: updatedSharedWithUsers, shared_with_groups: report.shared_with_groups }),
-          });
-
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-
-          const data = response.json();
-          console.log("Successfully updated report sharing:", data);
-
-          // TODO : refresh the screen
-        } catch (error) {
-          console.error("Failed to update report sharing:", error);
-        }
+        await updateReportSharing(reportId, updatedSharedWithUsers);
       } else if (report.creator.toString() === userIdToAdd.toString()) {
         setIsCreatorWarning(true); // Show warning if user is the creator
-        setEmailValid(true); // Assuming the email is valid if it belongs to the creator
+        setEmailValid(true);
       } else {
-        setIsCreatorWarning(false); // Ensure the warning is not shown if these conditions aren't met
+        setIsCreatorWarning(false);
       }
     } else {
       setEmailValid(false);
@@ -244,32 +225,6 @@ function TableOne() {
     setActiveReportId(reportId);
   };
 
-  // Function to fetch statuses for all items
-  const fetchStatuses = async () => {
-    const statusPromises = items.map(async (item) => {
-      if (item.task_id) {
-        try {
-          const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/reports/task-status/${item.task_id}/`);
-          if (response.ok) {
-            const statusData = await response.json();
-            setStatuses((prevStatuses) => ({
-              ...prevStatuses,
-              [item.id]: statusData.status // Assuming the API response contains a "status" field
-            }));
-          } else {
-            throw new Error('Failed to fetch status');
-          }
-        } catch (error) {
-          console.error('Error fetching status:', error);
-          setStatuses((prevStatuses) => ({
-            ...prevStatuses,
-            [item.id]: 'Error' // Set status as error if there's an issue fetching
-          }));
-        }
-      }
-    });
-    await Promise.all(statusPromises);
-  };
   useEffect(() => {
     if (!searchQuery) {
       setItems(originalItems); // If searchQuery is empty, reset to original list

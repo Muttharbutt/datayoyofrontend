@@ -1,5 +1,4 @@
 import "./Logout.css";
-import Header from "../shared/header/Header";
 import moc1 from '../../assets/moc1.png'
 import moc2 from '../../assets/moc2.png'
 import moc3 from '../../assets/moc3.png'
