@@ -23,6 +23,70 @@ function Steptwo() {
 
   const handleSaveAndContinue = async () => {
     setLoading(true);
+
+    let requiredFields = [
+      'compte_n_minus_1', 'compte_n',
+      'compte_lib_n_minus_1', 'compte_lib_n',
+      'ecriture_numero_n_minus_1', 'ecriture_numero_n',
+      'ecriture_lib_n_minus_1', 'ecriture_lib_n',
+      'code_journal_n_minus_1', 'code_journal_n',
+      'date_comptable_n_minus_1', 'date_comptable_n'
+    ];
+
+    if (scenarioN === 'DC') {
+      requiredFields = [...requiredFields, 'debit_n', 'credit_n'];
+    }
+    if (scenarioN === 'Solde') {
+      requiredFields = [...requiredFields, 'solde_n'];
+    }
+    if (scenarioN === 'MontantSens') {
+      requiredFields = [...requiredFields, 'montant_n', 'sens_n'];
+    }
+    if (scenarioNMinus1 === 'DC') {
+      requiredFields = [...requiredFields, 'debit_n_minus_1', 'credit_n_minus_1'];
+    }
+    if (scenarioNMinus1 === 'Solde') {
+      requiredFields = [...requiredFields, 'solde_n_minus_1'];
+    }
+    if (scenarioNMinus1 === 'MontantSens') {
+      requiredFields = [...requiredFields, 'montant_n_minus_1', 'sens_n_minus_1'];
+    }
+
+    // Check if all required fields are present and non-empty
+    const missingOrEmptyFields = requiredFields.filter(field =>
+      !mapping[field] || mapping[field].trim() === ''
+    );
+
+    if (missingOrEmptyFields.length > 0) {
+      setError(`The following fields are missing or empty: ${missingOrEmptyFields.join(', ')}`);
+      setLoading(false);
+      setTimeout(() => setError(null), 5000);
+      return; // Stop execution if any required field is missing or empty
+    }
+
+    // Extract keys that end with '_n_minus_1'
+    const nMinus1Keys = Object.keys(mapping).filter(key => key.endsWith('_n_minus_1'));
+
+    // Find two keys with the same value
+    let duplicateKeys = null;
+    for (let i = 0; i < nMinus1Keys.length; i++) {
+      for (let j = i + 1; j < nMinus1Keys.length; j++) {
+        if (mapping[nMinus1Keys[i]] === mapping[nMinus1Keys[j]]) {
+          duplicateKeys = [nMinus1Keys[i], nMinus1Keys[j]];
+          break;
+        }
+      }
+      if (duplicateKeys) break;
+    }
+
+    if (duplicateKeys) {
+      // If duplicates are found, show an error message with the keys
+      setError(`Fields ${duplicateKeys[0]} and ${duplicateKeys[1]} have the same value. Mapping values must be unique.`);
+      setLoading(false);
+      setTimeout(() => setError(null), 5000);
+      return; // Stop execution
+    }
+
     try {
       const cookies = new Cookies();
 
@@ -1445,7 +1509,8 @@ function Steptwo() {
           </div>
         </div>
         </div>
-        <button style={{marginLeft:"43%",marginTop:"2%"}} className='button2' onClick={handleSaveAndContinue}>Enregistrer et passer à l’étape suivante</button>
+        <button style={{marginTop:"2%",marginLeft:"43%",background:"white",border:"1px solid #1054FB",borderRadius:"10px",padding:"10px",paddingLeft:"20px",paddingRight:"20px",color:"#1054FB"}} >Annuler </button>
+        <button style={{marginTop:"2%",marginLeft:"2%",background:"#1054FB",border:"1px solid #1054FB",borderRadius:"10px",padding:"10px",paddingLeft:"20px",paddingRight:"20px",color:"white"}} onClick={handleSaveAndContinue}>Enregistrer et passer à l’étape suivante</button>
       </div>
 </>
   );

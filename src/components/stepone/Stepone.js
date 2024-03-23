@@ -7,6 +7,7 @@ import ok from "../../assets/ok.png"
 import outline from "../../assets/Outline.png"
 import trash from "../../assets/delete.png"
 import Checktype from '../checktype/checktype';
+import { useNavigate } from 'react-router-dom';
 
 function Stepone() {
 
@@ -31,6 +32,13 @@ function Stepone() {
   const [uploadSpeed, setUploadSpeed] = useState(0);
   const startTimeRef = useRef(null);
   const fileSizeRef = useRef(0);
+
+  const navigate = useNavigate();
+
+  const handleCancel = () => {
+    navigate('/tableone'); // Navigates back to /tableone
+  };
+
   const delete1 = (event) => {
     setFileN(null);
     setFileSelectedN('')
@@ -268,7 +276,7 @@ function Stepone() {
           </div>
 
         </div>
-        <button style={{marginTop:"10%",marginLeft:"43%",background:"white",border:"1px solid #1054FB",borderRadius:"10px",padding:"10px",paddingLeft:"20px",paddingRight:"20px",color:"#1054FB"}} >Annuler </button>
+        <button style={{marginTop:"10%",marginLeft:"43%",background:"white",border:"1px solid #1054FB",borderRadius:"10px",padding:"10px",paddingLeft:"20px",paddingRight:"20px",color:"#1054FB"}} onClick={handleCancel}>Annuler </button>
         <button style={{marginTop:"10%",marginLeft:"2%",background:"#1054FB",border:"1px solid #1054FB",borderRadius:"10px",padding:"10px",paddingLeft:"20px",paddingRight:"20px",color:"white"}} onClick={handleSaveAndNextClick}>Enregistrer et passer à l’étape suivante</button>
       </div>
  </>

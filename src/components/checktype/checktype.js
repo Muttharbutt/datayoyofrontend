@@ -3,29 +3,41 @@ import './checktype.css';
 import question from "../../assets/question.png"
 import Cookies from 'universal-cookie';
 import Loading from 'react-loading';
-function Checktype({ fileN, fileNMinus1 }){
-  const cookies = new Cookies();
-const check=cookies.get('check')
-const check1=cookies.get('check1')
-const [selectedValue, setSelectedValue] = useState('');
-const [selectedValue1, setSelectedValue1] = useState('');
-const [selectedValue2, setSelectedValue2] = useState('');
-const [selectedValue3, setSelectedValue3] = useState('');
-const [loading, setLoading] = useState(false);
-const [error, setError] = useState(null);
-const handleSelectChange = (event) => {
-  setSelectedValue(event.target.value);
-};
-const handleSelectChange1 = (event) => {
-  setSelectedValue1(event.target.value);
-};
+import { useNavigate } from 'react-router-dom';
 
-const handleSelectChange2 = (event) => {
-  setSelectedValue2(event.target.value);
-};
-const handleSelectChange3 = (event) => {
-  setSelectedValue3(event.target.value);
-};
+function Checktype({ fileN, fileNMinus1 }) {
+  const cookies = new Cookies();
+  const check=cookies.get('check')
+  const check1=cookies.get('check1')
+  const navigate = useNavigate();
+
+  const handleCancel = () => {
+    navigate('/tableone'); // Navigates back to /tableone
+  };
+
+  const [selectedValue, setSelectedValue] = useState('');
+  const [selectedValue1, setSelectedValue1] = useState('');
+  const [selectedValue2, setSelectedValue2] = useState('');
+  const [selectedValue3, setSelectedValue3] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const handleSelectChange = (event) => {
+    setSelectedValue(event.target.value);
+  };
+
+  const handleSelectChange1 = (event) => {
+    setSelectedValue1(event.target.value);
+  };
+
+  const handleSelectChange2 = (event) => {
+    setSelectedValue2(event.target.value);
+  };
+
+  const handleSelectChange3 = (event) => {
+    setSelectedValue3(event.target.value);
+  };
+
   const handleSaveAndNextClick = async () => {
     setLoading(true);
 
@@ -89,7 +101,7 @@ const handleSelectChange3 = (event) => {
       <div className="settingbackground">
         <div className="loginheader">Bienvenue chez Datayoyo</div>
         <div className="settingside">Étape 1 : Importation des bases</div>
-        <div className="settingside1">C'est un fichier texte !<b>Quelques réglages ensemble et tout sera prêt pour l’importation.</b> </div>
+        <div className="settingside1">C'est un fichier texte!<b> Quelques réglages ensemble et tout sera prêt pour l’importation.</b> </div>
         <div className="flexdiv">
           <div className="box2">
           <div className="settingsetponeheader textspan">1.Exercice N-1
@@ -207,7 +219,7 @@ const handleSelectChange3 = (event) => {
 
         </div>
         <div style={{marginTop:"10%",paddingLeft:"42%"}}>
-        <button style={{background:"white",border:"1px solid #1054FB",borderRadius:"10px",padding:"10px",paddingLeft:"20px",paddingRight:"20px",color:"#1054FB"}} >Annuler </button>
+        <button style={{background:"white",border:"1px solid #1054FB",borderRadius:"10px",padding:"10px",paddingLeft:"20px",paddingRight:"20px",color:"#1054FB"}} onClick={handleCancel}>Annuler</button>
         <button style={{background:"#1054FB",marginLeft:"5%",border:"1px solid #1054FB",borderRadius:"10px",padding:"10px",paddingLeft:"20px",paddingRight:"20px",color:"white"}} onClick={handleSaveAndNextClick}>Enregistrer et passer à l’étape suivante</button>
 
         </div>
