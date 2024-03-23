@@ -61,7 +61,9 @@ const handleSelectChange3 = (event) => {
         window.location.href = "http://localhost:3000/steptwo";
       } else {
         setLoading(false);
-        setError('An error occurred');
+        const errorData = await response.json();
+        const errorMessage = errorData.error || 'An unspecified error occurred'; // Fallback error message
+        setError(errorMessage);
         setTimeout(() => setError(null), 5000);
       }
     } catch (error) {

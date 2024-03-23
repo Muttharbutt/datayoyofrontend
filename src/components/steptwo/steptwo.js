@@ -44,16 +44,22 @@ function Steptwo() {
 
       if (response.ok) {
         setLoading(false);
+        const data = await response.json();
+        console.log("Success:", data);
+        cookies.set('mappingId', data.id, { path: '/' });
+
+        cookies.set('aNouveauNMinus1', data.a_nouveau_n_minus_1, { path: '/' });
+        cookies.set('aNouveauN', data.a_nouveau_n, { path: '/' });
+
+        window.location.href = "http://localhost:3000/stepthree";
       }
-
-      const data = await response.json();
-      console.log("Success:", data);
-      cookies.set('mappingId', data.id, { path: '/' });
-
-      cookies.set('aNouveauNMinus1', data.a_nouveau_n_minus_1, { path: '/' });
-      cookies.set('aNouveauN', data.a_nouveau_n, { path: '/' });
-
-      window.location.href = "http://localhost:3000/stepthree";
+      else
+      {
+        const errorData = await response.json();
+        const errorMessage = errorData.error || 'An unspecified error occurred'; // Fallback error message
+        setError(errorMessage);
+        setTimeout(() => setError(null), 5000);
+      }
     } catch (error) {
       setLoading(false);
       setError('An error occurred',error);

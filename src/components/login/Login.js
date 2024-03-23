@@ -57,7 +57,7 @@ function Login() {
     const data = await response.json();
 
     if (response.ok) {
-      setLoading(false); 
+      setLoading(false);
         cookies.set('id', data.user_id, { path: '/' });
         cookies.set('first_name', data.first_name, { path: '/' });
         cookies.set('last_name', data.last_name, { path: '/' });
@@ -65,9 +65,9 @@ function Login() {
         history('/tableone');
         // Do something with the user ID, like redirecting to a new page or storing it in state
     } else {
-        // Authentication failed
         setLoading(false);
-        setError('An error occurred',data.error);
+        const errorMessage = data.error || 'An unspecified error occurred'; // Fallback error message
+        setError(errorMessage);
         setTimeout(() => setError(null), 5000);
     }
   }
@@ -84,9 +84,17 @@ function Login() {
         }
       });
       if (response.ok) {
-        setLoading(false); 
-        window.location.reload();}
-      
+        setLoading(false);
+        window.location.reload();
+      }
+      else
+      {
+        setLoading(false);
+        const errorData = await response.json();
+        const errorMessage = errorData.error || 'An unspecified error occurred'; // Fallback error message
+        setError(errorMessage);
+        setTimeout(() => setError(null), 5000);
+      }
     } catch (error) {
       setLoading(false);
       setError('An error occurred',error);

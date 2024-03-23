@@ -15,12 +15,11 @@ function Stepone() {
   const [check, setcheck] = useState(false);
   const [selectedFileNameN, setSelectedFileNameN] = useState('');
   const [change, setchange] = useState(false);
-  const [formData, setFormData] = useState(new FormData());
   const [fileNMinus1, setFileNMinus1] = useState(null); // Use this state to store the file object for N-1
   const [fileSelectedNMinus1, setFileSelectedNMinus1] = useState(false);
   const [check1, setcheck1] = useState(false);
   const [selectedFileNameNMinus1, setSelectedFileNameNMinus1] = useState('');
-  const [progress1, setProgress1] = useState(0);                            
+  const [progress1, setProgress1] = useState(0);
   const [uploadSpeed1, setUploadSpeed1] = useState(0);
   const startTimeRef1 = useRef(null);
   const fileSizeRef1 = useRef(0);
@@ -63,7 +62,7 @@ function Stepone() {
       const xhr1 = new XMLHttpRequest();
       xhr1.upload.addEventListener("progress", (event) => {
         if (event.lengthComputable) {
-          const elapsedTime1 = (Date.now() - startTimeRef1.current) / 1000; 
+          const elapsedTime1 = (Date.now() - startTimeRef1.current) / 1000;
           const uploadedBytes1 = event.loaded;
           const uploadSpeed1 = Math.round((uploadedBytes1 / elapsedTime1) / 1024);
           setUploadSpeed1(uploadSpeed1);
@@ -86,7 +85,7 @@ function Stepone() {
       setSelectedFileNameN('');
     }
   };
-  
+
   const handleFileChangeNMinus1 = (event) => {
     let selectedFile = event.target.files[0];
     if (selectedFile) {
@@ -104,7 +103,7 @@ function Stepone() {
       const xhr = new XMLHttpRequest();
       xhr.upload.addEventListener("progress", (event) => {
         if (event.lengthComputable) {
-          const elapsedTime = (Date.now() - startTimeRef.current) / 1000; 
+          const elapsedTime = (Date.now() - startTimeRef.current) / 1000;
           const uploadedBytes = event.loaded;
           const uploadSpeed = Math.round((uploadedBytes / elapsedTime) / 1024);
           setUploadSpeed(uploadSpeed);
@@ -127,7 +126,7 @@ function Stepone() {
       setSelectedFileNameNMinus1('');
     }
   };
-  
+
   const handleSaveAndNextClick = async () => {
     if (!fileSelectedN || !fileSelectedNMinus1) {
       alert("Please select both files before proceeding.");
@@ -138,7 +137,7 @@ function Stepone() {
     cookies.set('check1', check1, { path: '/' });
     setchange(true);
   };
-  
+
 
   return (
 
@@ -172,7 +171,7 @@ function Stepone() {
             {!isLoading1 && !isComplete1 && (
             <div className='greybox'>
            Glisser ici le FEC ou le grand-livre de l’<b>année N</b> ou{' '}
-            
+
             <label htmlFor="fileInputN" className="custom-file-input">
                 Importer un fichier
             </label>
@@ -182,8 +181,8 @@ function Stepone() {
                 onChange={handleFileChangeN}
                 className="hidden"
             />
-            
-          
+
+
         </div>)}
         {isLoading1 &&(<div style={{border:"1px solid  #FFB800",color:" #FFB800"}} className='greybox flexdiv'>
           <div>Importation en cours</div>
@@ -195,14 +194,14 @@ function Stepone() {
           <img onClick={delete1} style={{width:"20px",marginLeft:"20px"}} src={trash} alt='pic'/>
         </div>)}
         <div className={isLoading1 || isComplete1 ? '' : 'hidden'}>
-        <div className='flexdiv' style={{fontSize:"14px",marginTop:"20px"}}><div style={{marginRight:"15px"}}>{selectedFileNameN}</div> <div>{Math.round(fileSizeRef1.current/1048576)} MB</div></div> 
+        <div className='flexdiv' style={{fontSize:"14px",marginTop:"20px"}}><div style={{marginRight:"15px"}}>{selectedFileNameN}</div> <div>{Math.round(fileSizeRef1.current/1048576)} MB</div></div>
             <div className={ !isComplete1 ? 'flexdiv' : 'hidden flexdiv'}> <div style={{marginRight:"100px",marginLeft:"50px"}}>{progress1}%</div> <div>{uploadSpeed1.toFixed(2)} KB-Sec</div></div>
       <div style={{marginTop:"10px"}} className="progress1-bar-container">
                 <div className="progress1-bar" style={{ width: `${progress1}%` }}></div>
             </div></div>
             {!isLoading1 && !isComplete1 && (
            <div style={{color:"white",marginTop:"150px"}}>
-            dont remove this 
+            dont remove this
       </div>)}
       <h3 >Exercice N-1</h3>
       {!isLoading && !isComplete && (
@@ -211,8 +210,8 @@ function Stepone() {
             Importer un fichier
       </label>
       <input type="file" id='fileInputNMinus1' onChange={handleFileChangeNMinus1} className="hidden" />
- 
-            
+
+
       </div>)}
       {isLoading &&(<div style={{border:"1px solid  #FFB800",color:" #FFB800"}} className='greybox flexdiv'>
           <div>Importation en cours</div>
@@ -224,14 +223,14 @@ function Stepone() {
           <img onClick={delete2} style={{width:"20px",marginLeft:"20px"}} src={trash} alt='pic'/>
         </div>)}
         <div className={isLoading || isComplete ? '' : 'hidden'}>
-        <div className='flexdiv' style={{fontSize:"14px",marginTop:"20px"}}><div style={{marginRight:"15px"}}>{selectedFileNameNMinus1}</div> <div>{Math.round(fileSizeRef.current/1048576)} MB</div></div> 
+        <div className='flexdiv' style={{fontSize:"14px",marginTop:"20px"}}><div style={{marginRight:"15px"}}>{selectedFileNameNMinus1}</div> <div>{Math.round(fileSizeRef.current/1048576)} MB</div></div>
             <div> {progress}% {uploadSpeed.toFixed(2)} KB-Sec</div>
       <div className="progress-bar-container">
                 <div className="progress-bar" style={{ width: `${progress}%` }}></div>
             </div>
         </div>
-    
-           
+
+
           </div>
           </div>
           <div className="box1">
