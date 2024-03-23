@@ -107,7 +107,7 @@ function Login() {
             className="logininputstyle givinginputmargin1"
             name="last_name"
             value={signupFormData.last_name}
-            onChange={handleLoginChange}
+            onChange={handleSignupChange}
           />
           <img src={profileicon} alt="profile" className="imagestyleforlogin" />
         </div>
