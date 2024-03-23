@@ -27,11 +27,7 @@ const handleSelectChange3 = (event) => {
   setSelectedValue3(event.target.value);
 };
   const handleSaveAndNextClick = async () => {
-<<<<<<< HEAD
     setLoading(true);
-=======
-
->>>>>>> a5ddad496c1b1b9410bffcd6b571d280ad49bd21
 
     const formData = new FormData();
     formData.append("file_n", fileN);

@@ -39,6 +39,29 @@ function TableOne() {
   const [emailValid, setEmailValid] = useState(true);
   const [isCreatorWarning, setIsCreatorWarning] = useState(false);
 
+  const [dateOpenN, setDateOpenN] = useState('');
+  const [dateCloseN, setDateCloseN] = useState('');
+  const [dateOpenNMinus1, setDateOpenNMinus1] = useState('');
+  const [dateCloseNMinus1, setDateCloseNMinus1] = useState('');
+
+  const handleDateOpenNChange = (event) => {
+    const newDateOpenN = event.target.value;
+    setDateOpenN(newDateOpenN);
+
+    const datePlusOneYearMinusOneDay = new Date(newDateOpenN);
+    datePlusOneYearMinusOneDay.setFullYear(datePlusOneYearMinusOneDay.getFullYear() + 1); // Add one year
+    datePlusOneYearMinusOneDay.setDate(datePlusOneYearMinusOneDay.getDate() - 1); // Subtract one day
+    setDateCloseN(datePlusOneYearMinusOneDay.toISOString().split('T')[0]);
+
+    const dateMinusOneYear = new Date(newDateOpenN);
+    dateMinusOneYear.setFullYear(dateMinusOneYear.getFullYear() - 1);
+    setDateOpenNMinus1(dateMinusOneYear.toISOString().split('T')[0]);
+
+    const dateMinusOneDay = new Date(newDateOpenN);
+    dateMinusOneDay.setDate(dateMinusOneDay.getDate() - 1); // Subtract one day
+    setDateCloseNMinus1(dateMinusOneDay.toISOString().split('T')[0]);
+  };
+
   const nextPage = () => {
     setCurrentPage(currentPage + 9);
     setnumber(number + 1);
@@ -88,10 +111,6 @@ function TableOne() {
     // Access the input values
     const clientName = document.getElementById('clientName').value;
     const firstMonthFiscal = document.getElementById('firstMonthFiscal').value;
-    const dateOpenN = document.getElementById('dateOpenN').value;
-    const dateCloseN = document.getElementById('dateCloseN').value;
-    const dateOpenNMinus1 = document.getElementById('dateOpenNMinus1').value;
-    const dateCloseNMinus1 = document.getElementById('dateCloseNMinus1').value;
 
     // Create a cookies instance
     const cookies = new Cookies();
@@ -148,12 +167,10 @@ function TableOne() {
 
   const handleUserAddition = (reportId) => {
     const userToAdd = Object.entries(userDetails).find(([_, userDetails]) => userDetails.email === emailInput);
-
     if (userToAdd) {
       const [userIdToAdd] = userToAdd; // Destructure to get the user ID
       setEmailValid(true);
       const report = originalItems[reportId];
-
       if (!report.shared_with_users.includes(userIdToAdd) && report.creator.toString() !== userIdToAdd.toString()) {
         const updatedSharedWithUsers = [...report.shared_with_users, userIdToAdd];
 
@@ -420,9 +437,9 @@ function TableOne() {
             </div>
             <div className="settingexcesise">Exercice <b>N</b></div>
             <div className="settingdate1"><b>Date d’ouverture</b></div>
-            <input id="dateOpenN" className="settingdate1 styledate" type="date" />
+            <input id="dateOpenN" value={dateOpenN} className="settingdate1 styledate" type="date" onChange={handleDateOpenNChange} />
             <div className="settingdate1"><b>Date de clôture+</b></div>
-            <input id="dateCloseN" className="settingdate1 styledate" type="date" />
+            <input id="dateCloseN" value={dateCloseN} className="settingdate1 styledate" type="date" />
    </div>
 <div className="redbox">
 <select id="firstMonthFiscal" className="selectstyle">
@@ -442,9 +459,9 @@ function TableOne() {
 </select>
 <div className="settingexcesise">Exercice <b>N-1</b></div>
             <div className="settingdate1"><b>Date d’ouverture</b></div>
-            <input id="dateOpenNMinus1" className="settingdate1 styledate" type="date" />
+            <input id="dateOpenNMinus1" value={dateOpenNMinus1} className="settingdate1 styledate" type="date" />
             <div className="settingdate1"><b>Date de clôture+</b></div>
-            <input id="dateCloseNMinus1" className="settingdate1 styledate" type="date" />
+            <input id="dateCloseNMinus1" value={dateCloseNMinus1} className="settingdate1 styledate" type="date" />
 </div>
              </div>
 

@@ -483,9 +483,9 @@ function Steptwo() {
                 marginTop: "2%",
                 marginLeft: "-5%"
               }}
-              name="utilisateur_n"
-              id="utilisateur_n"
-              value={mapping['utilisateur_n'] || ''}
+              name="libelle_journal_n"
+              id="libelle_journal_n"
+              value={mapping['libelle_journal_n'] || ''}
               onChange={handleSelectChange}
               required
           >
@@ -509,9 +509,9 @@ function Steptwo() {
                 marginTop: "2%",
                 marginLeft: "-5%"
               }}
-              name="utilisateur_n"
-              id="utilisateur_n"
-              value={mapping['utilisateur_n'] || ''}
+              name="date_validation_n"
+              id="date_validation_n"
+              value={mapping['date_validation_n'] || ''}
               onChange={handleSelectChange}
               required
           >
