@@ -3,13 +3,13 @@ import './steptwo.css';
 import Header from "../shared/header/Header";
 import chain from "../../assets/chain.png"
 import Cookies from 'universal-cookie';
-
+import Loading from 'react-loading';
 function Steptwo() {
   const [selectOptionsN, setSelectOptionsN] = useState([]);
   const [selectOptionsNMinus1, setSelectOptionsNMinus1] = useState([]);
-
+  const [loading, setLoading] = useState(false);
   const [mapping, setMapping] = useState({});
-
+  const [error, setError] = useState(null);
   const [scenarioN, setScenarioN] = useState("DC");
   const [scenarioNMinus1, setScenarioNMinus1] = useState("DC");
 
@@ -22,6 +22,7 @@ function Steptwo() {
   };
 
   const handleSaveAndContinue = async () => {
+    setLoading(true);
     try {
       const cookies = new Cookies();
 
@@ -29,7 +30,6 @@ function Steptwo() {
       body['report'] = cookies.get('reportId')
       body['scenario_n'] = scenarioN
       body['scenario_n_minus_1'] = scenarioNMinus1
-      console.log(body)
       const csrftoken = cookies.get('csrftoken');
 
       const response = await fetch('http://localhost:8000/reports/mapping/', {
@@ -42,8 +42,8 @@ function Steptwo() {
         credentials: 'include',
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      if (response.ok) {
+        setLoading(false);
       }
 
       const data = await response.json();
@@ -55,8 +55,9 @@ function Steptwo() {
 
       window.location.href = "http://localhost:3000/stepthree";
     } catch (error) {
-      console.error('Error:', error);
-      // Handle error (e.g., show error message)
+      setLoading(false);
+      setError('An error occurred',error);
+      setTimeout(() => setError(null), 5000);
     }
   };
 
@@ -76,6 +77,16 @@ function Steptwo() {
 
 <>
 <Header />
+{loading && <>
+        <div className={`loading-modal ${loading ? 'visible' : 'hidden'}`}>
+      <div className="loading-content">
+        <Loading type="balls" color="#007bff" height={50} width={50} />
+      </div>
+    </div>
+      </>}
+      {error && (
+        <div className="error-message">{error}</div>
+      )}
       <div className="settingbackground" style={{height: "1280px"}}>
       <div className="loginheader">Nouveau rapport CAC BI</div>
         <div className="settingside">Étape 2 : Rapprochement des champs</div>

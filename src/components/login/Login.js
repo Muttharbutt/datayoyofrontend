@@ -8,7 +8,7 @@ import React, { useState } from 'react';
 import { useNavigate  } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import Logoheader from "../shared/Loginheader/Loginheader";
-
+import Loading from 'react-loading';
 function Login() {
 
   const [signupFormData, setSignupFormData] = useState({
@@ -25,8 +25,9 @@ function Login() {
     username: '',
     password: '',
   });
+  const [error, setError] = useState(null);
   const history = useNavigate();
-
+  const [loading, setLoading] = useState(false);
   const handleSignupChange = (e) => {
     const { name, value, type, checked } = e.target;
     setSignupFormData(prevData => ({
@@ -44,6 +45,7 @@ function Login() {
   };
 
   const handleLoginSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
     const response = await fetch('http://localhost:8000/accounts/login/', {
       method: 'POST',
@@ -55,6 +57,7 @@ function Login() {
     const data = await response.json();
 
     if (response.ok) {
+      setLoading(false); 
         cookies.set('id', data.user_id, { path: '/' });
         cookies.set('first_name', data.first_name, { path: '/' });
         cookies.set('last_name', data.last_name, { path: '/' });
@@ -63,10 +66,13 @@ function Login() {
         // Do something with the user ID, like redirecting to a new page or storing it in state
     } else {
         // Authentication failed
-        console.log('User ID:', data.error);
+        setLoading(false);
+        setError('An error occurred',data.error);
+        setTimeout(() => setError(null), 5000);
     }
   }
   const handleSignupSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
     try
     {
@@ -77,15 +83,29 @@ function Login() {
           'Content-Type': 'application/json',
         }
       });
-      console.log(response); // Handle response from backend
-      window.location.reload();
+      if (response.ok) {
+        setLoading(false); 
+        window.location.reload();}
+      
     } catch (error) {
-      console.error('Error submitting form:', error);
+      setLoading(false);
+      setError('An error occurred',error);
+      setTimeout(() => setError(null), 5000);
     }
   };
   return (
     <>
       <Logoheader />
+      {loading && <>
+        <div className={`loading-modal ${loading ? 'visible' : 'hidden'}`}>
+      <div className="loading-content">
+        <Loading type="balls" color="#007bff" height={50} width={50} />
+      </div>
+    </div>
+      </>}
+      {error && (
+        <div className="error-message">{error}</div>
+      )}
       <div className="settingbackground">
         <div className="loginheader">Bienvenue chez Datayoyo</div>
         <div className="flexdiv">

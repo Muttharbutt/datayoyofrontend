@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './checktype.css';
 import question from "../../assets/question.png"
 import Cookies from 'universal-cookie';
-
+import Loading from 'react-loading';
 function Checktype({ fileN, fileNMinus1 }){
   const cookies = new Cookies();
 const check=cookies.get('check')
@@ -11,7 +11,8 @@ const [selectedValue, setSelectedValue] = useState('');
 const [selectedValue1, setSelectedValue1] = useState('');
 const [selectedValue2, setSelectedValue2] = useState('');
 const [selectedValue3, setSelectedValue3] = useState('');
-
+const [loading, setLoading] = useState(false);
+const [error, setError] = useState(null);
 const handleSelectChange = (event) => {
   setSelectedValue(event.target.value);
 };
@@ -26,7 +27,7 @@ const handleSelectChange3 = (event) => {
   setSelectedValue3(event.target.value);
 };
   const handleSaveAndNextClick = async () => {
-   
+    setLoading(true);
 
     const formData = new FormData();
     formData.append("file_n", fileN);
@@ -49,6 +50,7 @@ const handleSelectChange3 = (event) => {
       });
 
       if (response.ok) {
+        setLoading(false);
         const data = await response.json();
         console.log("Success:", data);
         cookies.set('reportId', data.id, { path: '/' });
@@ -58,20 +60,34 @@ const handleSelectChange3 = (event) => {
 
         window.location.href = "http://localhost:3000/steptwo";
       } else {
-        console.error("Upload failed:", response.statusText);
-        // Handle failure
+        setLoading(false);
+        setError('An error occurred');
+        setTimeout(() => setError(null), 5000);
       }
     } catch (error) {
-      console.error("Error:", error);
+      setLoading(false);
+      setError('An error occurred',error);
+      setTimeout(() => setError(null), 5000);
     }
   };
 
   return (
 
 <>
+{loading && <>
+        <div className={`loading-modal ${loading ? 'visible' : 'hidden'}`}>
+      <div className="loading-content">
+        <Loading type="balls" color="#007bff" height={50} width={50} />
+      </div>
+    </div>
+      </>}
+      {error && (
+        <div className="error-message">{error}</div>
+      )}
       <div className="settingbackground">
         <div className="loginheader">Bienvenue chez Datayoyo</div>
         <div className="settingside">Étape 1 : Importation des bases</div>
+        <div className="settingside1">C'est un fichier texte !<b>Quelques réglages ensemble et tout sera prêt pour l’importation.</b> </div>
         <div className="flexdiv">
           <div className="box2">
           <div className="settingsetponeheader textspan">1.Exercice N-1

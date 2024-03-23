@@ -57,6 +57,7 @@ padding: 2%;
   padding: 10px 20px;
   cursor: pointer;
   font-family: Arial, sans-serif;
+  display: inline-block;
 }
 
 .custom-file-input:hover {

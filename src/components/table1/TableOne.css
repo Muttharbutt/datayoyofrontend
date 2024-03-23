@@ -2,10 +2,13 @@
     border-radius: 5px;
     background-color: #1054FB;
     color:white;
-    width: 300px;
+    width: 100%;
     border: none;
+    padding-left: 0px;
     height: 30px;
-    margin-left: 30%;
+    margin-left: 45%;
+    padding-left: 20px;
+    padding-right: 50px;
 }
 
 .container1 {

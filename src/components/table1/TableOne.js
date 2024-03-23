@@ -16,7 +16,7 @@ import g0 from "../../assets/g0.png"
 import g1 from "../../assets/g1.png"
 import g2 from "../../assets/g2.png"
 import g3 from "../../assets/g3.png"
-
+import unnion from "../../assets/Union.png"
 const cookies = new Cookies();
 
 function TableOne() {
@@ -398,7 +398,7 @@ function TableOne() {
         <div className="">
 
               <Popup
-        trigger={ <button className="button4">+Générer un livrable</button>}
+        trigger={ <button className="button4"><img style={{width:"13px",paddingRight:"10px"}} src={unnion} alt="+"/>Générer un livrable</button>}
         modal
         nested
     >
