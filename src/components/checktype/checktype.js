@@ -27,7 +27,11 @@ const handleSelectChange3 = (event) => {
   setSelectedValue3(event.target.value);
 };
   const handleSaveAndNextClick = async () => {
+<<<<<<< HEAD
     setLoading(true);
+=======
+
+>>>>>>> a5ddad496c1b1b9410bffcd6b571d280ad49bd21
 
     const formData = new FormData();
     formData.append("file_n", fileN);
@@ -94,7 +98,7 @@ const handleSelectChange3 = (event) => {
              </div>
 
           <div className='divinsidestepone'>
-          <div className={`settingsetponeheader parent ${check ? '' : 'customColor'}`}><span className='textspan1'>Sélectionnez le délimiteur utilisé dans votre fichier 
+          <div className={`settingsetponeheader parent ${check ? '' : 'customColor'}`}><span className='textspan1'>Sélectionnez le délimiteur utilisé dans votre fichier
           <img style={{width:"40px"}} src={question}/>  </span>
 
     <div className="logoutdiv1">
@@ -109,15 +113,15 @@ const handleSelectChange3 = (event) => {
 
              </div>
              <select value={selectedValue} onChange={handleSelectChange} className={`selectstyle1  ${check ? '' : 'customColor1'}`} disabled={!check}>
-             <option default value="">select</option>
-             <option value="UTF-8">UTF-8</option>
-  <option value="ISO-8859-1">ISO-8859-1</option>
-  <option value="UTF-16">UTF-16</option>
-  <option value="ANSI">ANSI</option>
-  <option value="WINDOWS-1252">WINDOWS-1252</option>
-</select>
-     
-             <div  className={`settingsetponeheader parent ${check ? '' : 'customColor'}`}><span className='textspan1'>Sélectionnez l'encodage de votre fichier  
+               <option default value="" disabled>select</option>
+               <option value="utf-8">utf-8</option>
+               <option value="iso-8859-1">iso-8859-1</option>
+               <option value="utf-16">utf-16</option>
+               <option value="ansi">ansi</option>
+               <option value="cp1252">windows-1252</option>
+             </select>
+
+             <div  className={`settingsetponeheader parent ${check ? '' : 'customColor'}`}><span className='textspan1'>Sélectionnez l'encodage de votre fichier
           <img style={{width:"40px"}} src={question}/>  </span>
 
     <div className="logoutdiv1">
@@ -134,23 +138,23 @@ const handleSelectChange3 = (event) => {
 </div>
 
              </div>
-     
+
              <select value={selectedValue1} onChange={handleSelectChange1} className={`selectstyle1  ${check ? '' : 'customColor1'}`} disabled={!check}>
-             <option default value="">select</option>
-             <option value="tab">tab</option>
-  <option value="|">|</option>
-  <option value=",">,</option>
-  <option value=";">;</option>
-</select>
-    
-           
+              <option default value="" disabled>select</option>
+              <option value="tab">tab</option>
+              <option value="|">|</option>
+              <option value=",">,</option>
+              <option value=";">;</option>
+            </select>
+
+
           </div>
           </div>
           <div className="box2">
-          <div className="textspan ">2.Exercice N-1 
+          <div className="textspan ">2.Exercice N-1
     </div>
     <div className='divinsidestepone'>
-          <div  className={`settingsetponeheader parent ${check1 ? '' : 'customColor'}`}><span className='textspan1'>Sélectionnez le délimiteur utilisé dans votre fichier 
+          <div  className={`settingsetponeheader parent ${check1 ? '' : 'customColor'}`}><span className='textspan1'>Sélectionnez le délimiteur utilisé dans votre fichier
           <img style={{width:"40px"}} src={question}/>  </span>
 
     <div className="logoutdiv1">
@@ -165,15 +169,15 @@ const handleSelectChange3 = (event) => {
 
              </div>
              <select value={selectedValue2} onChange={handleSelectChange2} className={`selectstyle1  ${check1 ? '' : 'customColor1'}`} disabled={!check1}>
-             <option default value="">select</option>
-  <option value="UTF-8">UTF-8</option>
-  <option value="ISO-8859-1">ISO-8859-1</option>
-  <option value="UTF-16">UTF-16</option>
-  <option value="ANSI">ANSI</option>
-  <option value="WINDOWS-1252">WINDOWS-1252</option>
-</select>
-     
-             <div  className={`settingsetponeheader parent ${check1 ? '' : 'customColor'}`}><span className='textspan1'>Sélectionnez l'encodage de votre fichier  
+               <option default value="" disabled>select</option>
+               <option value="utf-8">utf-8</option>
+               <option value="iso-8859-1">iso-8859-1</option>
+               <option value="utf-16">utf-16</option>
+               <option value="ansi">ansi</option>
+               <option value="cp1252">windows-1252</option>
+             </select>
+
+             <div  className={`settingsetponeheader parent ${check1 ? '' : 'customColor'}`}><span className='textspan1'>Sélectionnez l'encodage de votre fichier
           <img style={{width:"40px"}} src={question}/>  </span>
 
     <div className="logoutdiv1">
@@ -190,16 +194,16 @@ const handleSelectChange3 = (event) => {
 </div>
 
              </div>
-     
+
              <select value={selectedValue3} onChange={handleSelectChange3} className={`selectstyle1  ${check1 ? '' : 'customColor1'}`} disabled={!check1}>
-             <option default value="">select</option>
-             <option value="tab">tab</option>
-  <option value="|">|</option>
-  <option value=",">,</option>
-  <option value=";">;</option>
-</select>
-    
-           
+               <option default value="" disabled>select</option>
+               <option value="tab">tab</option>
+               <option value="|">|</option>
+               <option value=",">,</option>
+               <option value=";">;</option>
+             </select>
+
+
           </div>
           </div>
 
@@ -209,7 +213,7 @@ const handleSelectChange3 = (event) => {
         <button style={{background:"#1054FB",marginLeft:"5%",border:"1px solid #1054FB",borderRadius:"10px",padding:"10px",paddingLeft:"20px",paddingRight:"20px",color:"white"}} onClick={handleSaveAndNextClick}>Enregistrer et passer à l’étape suivante</button>
 
         </div>
-      
+
       </div>
 </>
   );
