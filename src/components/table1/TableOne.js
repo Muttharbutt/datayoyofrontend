@@ -26,8 +26,6 @@ function TableOne() {
   const [activeReportId, setActiveReportId] = useState(null);
   const [userDetails, setUserDetails] = useState({}); // Cache for user details
 
-  const [creater, setcreater] = useState([]);
-  const [user, setuser] = useState([]);
   const userId = cookies.get('id');
   const [showSecondPopup, setShowSecondPopup] = useState(false);
   const [checking, setchecking] = useState(true);
@@ -63,13 +61,19 @@ function TableOne() {
   };
 
   const nextPage = () => {
-    setCurrentPage(currentPage + 9);
-    setnumber(number + 1);
+    if (items.length > 9)
+    {
+      setCurrentPage(currentPage + 9);
+      setnumber(number + 1);
+    }
   };
 
   const prevPage = () => {
-    setCurrentPage(currentPage - 9);
-    setnumber(number - 1);
+    if(number > 0)
+    {
+      setCurrentPage(currentPage - 9);
+      setnumber(number - 1);
+    }
   };
 
   const setfirstpage = () => {
@@ -77,7 +81,7 @@ function TableOne() {
     setCurrentPage(0)
   };
   const setlastpage = () => {
-    let num= Math.round(items.length / 9)
+    let num= Math.round(items.length / 9) - 1
     setnumber(num);
     setCurrentPage(num *9)
   };
@@ -236,60 +240,6 @@ function TableOne() {
     console.log("Editing report ID:", reportId); // Debugging line
     setActiveReportId(reportId - 1);
   };
-  useEffect(() => {
-    if (originalItems.length === 0) return;
-    const arrayu = []; // Move arrayo inside useEffect
-    const fetchUsers = async () => {
-      try {
-        const creatorids = [];
-        for (let i = 0; i < originalItems.length; i++) {
-          creatorids.push(originalItems[i].creator);
-        }
-        for (let i = 0; i < creatorids.length; i++) {
-          const response = await fetch(`http://localhost:8000/accounts/users/${creatorids[i]}/?user_id=${userId}`);
-          let userDataResponse=await response.json()
-          console.log(userDataResponse)
-          arrayu.push( userDataResponse.first_name + " " + userDataResponse.last_name)
-        }
-        setcreater(arrayu)
-      } catch (error) {
-        console.error("Failed to fetch user data:", error);
-      }
-    };
-
-    fetchUsers();
-  }, [originalItems]);
-
-  useEffect(() => {
-    if (originalItems.length === 0) return;
-    const arrayo = []; // Move arrayo inside useEffect
-    const fetchUser = async () => {
-      try {
-        const creatorid = [];
-        for (let i = 0; i < originalItems.length; i++) {
-          creatorid.push(originalItems[i].shared_with_users);
-        }
-        for (let i = 0; i < creatorid.length; i++) {
-          let arrays = creatorid[i];
-          for (let j = 0; j < arrays.length; j++) {
-            const response = await fetch(`http://localhost:8000/accounts/users/${arrays[j]}/?user_id=${userId}`);
-            const userDataResponse = await response.json();
-            console.log(userDataResponse)
-            if(j === 0) {
-              arrayo.push( userDataResponse.first_name + " " + userDataResponse.last_name)
-            }
-            else{
-              arrayo[i] = arrayo[i] + "," + userDataResponse.first_name + " " + userDataResponse.last_name
-            }
-          }
-        }
-      } catch (error) {
-        console.error("Failed to fetch user data:", error);
-      }
-    };
-    setuser(arrayo)
-    fetchUser();
-  }, [originalItems]);
 
   // Function to fetch statuses for all items
   const fetchStatuses = async () => {
@@ -319,6 +269,7 @@ function TableOne() {
   };
   useEffect(() => {
     if (!searchQuery) {
+      console.log(originalItems)
       setItems(originalItems); // If searchQuery is empty, reset to original list
     } else {
       const filteredItems = originalItems.filter((item) =>
@@ -336,7 +287,7 @@ function TableOne() {
       }
       return response.json();
     })
-    .then(jsonData => {setOriginalItems(jsonData);console.log(jsonData)})
+    .then(jsonData => {setOriginalItems(jsonData);})
     .catch(error => console.error("Failed to fetch reports:", error));
   }, [userId]);
 
@@ -504,9 +455,9 @@ function TableOne() {
 
             <div className="tablecontent">
            <div>{items[index+currentPage].account_legal_name}</div>
-            <div>{creater[index+currentPage]}</div>
-            <div>
-            <div>{user[index+currentPage]} </div>
+           <div>{userDetails[items[index+currentPage].creator]?.first_name} {userDetails[items[index+currentPage].creator]?.last_name}</div>
+           <div>
+           <div>{getUserNames(items[index+currentPage].shared_with_users)}</div>
             <Popup
                 trigger={<div className="flexdiv" style={{color:"blue", fontSize:"13px", cursor:"pointer"}} >
                 <img style={{width:"20px", marginRight:"10px"}} src={edit} alt="edit" />
