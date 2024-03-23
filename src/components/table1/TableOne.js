@@ -61,7 +61,8 @@ function TableOne() {
   };
 
   const nextPage = () => {
-    if (items.length > 9)
+    let maxnum = Math.ceil(items.length / 9) - 1
+    if (number < maxnum)
     {
       setCurrentPage(currentPage + 9);
       setnumber(number + 1);
@@ -81,7 +82,9 @@ function TableOne() {
     setCurrentPage(0)
   };
   const setlastpage = () => {
-    let num= Math.round(items.length / 9) - 1
+    console.log(items.length / 9)
+    let num= Math.ceil(items.length / 9) - 1
+    console.log(num)
     setnumber(num);
     setCurrentPage(num *9)
   };
@@ -130,7 +133,7 @@ function TableOne() {
     window.location.href = "http://localhost:3000/stepone";
   };
 
-  const handleUserDeletion = (email, reportId) => {
+  const handleUserDeletion = async (email, reportId) => {
     console.log(`Delete user ${email} from ${reportId}`)
 
     const userIdToDelete = Object.keys(userDetails).find(userId => userDetails[userId].email === email);
@@ -139,20 +142,20 @@ function TableOne() {
       return;
     }
 
-    const report = originalItems[reportId];
+    const report = originalItems.find(item => item.id.toString() === reportId.toString());
     const updatedSharedWithUsers = report.shared_with_users.filter(userId => userId.toString() !== userIdToDelete.toString());
 
     try {
       const cookies = new Cookies();
       const csrftoken = cookies.get('csrftoken');
-      const response = fetch(`http://localhost:8000/reports/reports/${originalItems[reportId].id}/share/?user_id=${userId}`, {
+      const response = await fetch(`http://localhost:8000/reports/reports/${report.id}/share/?user_id=${userId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           'X-CSRFToken': csrftoken,
         },
         credentials: 'include',
-        body: JSON.stringify({ shared_with_users: updatedSharedWithUsers, shared_with_groups: originalItems[reportId].shared_with_groups }),
+        body: JSON.stringify({ shared_with_users: updatedSharedWithUsers, shared_with_groups: report.shared_with_groups }),
       });
 
       if (!response.ok) {
@@ -169,26 +172,26 @@ function TableOne() {
     }
   };
 
-  const handleUserAddition = (reportId) => {
+  const handleUserAddition = async (reportId) => {
     const userToAdd = Object.entries(userDetails).find(([_, userDetails]) => userDetails.email === emailInput);
     if (userToAdd) {
       const [userIdToAdd] = userToAdd; // Destructure to get the user ID
       setEmailValid(true);
-      const report = originalItems[reportId];
+      const report = originalItems.find(item => item.id.toString() === reportId.toString());
       if (!report.shared_with_users.includes(userIdToAdd) && report.creator.toString() !== userIdToAdd.toString()) {
         const updatedSharedWithUsers = [...report.shared_with_users, userIdToAdd];
 
         try {
           const cookies = new Cookies();
           const csrftoken = cookies.get('csrftoken');
-          const response = fetch(`http://localhost:8000/reports/reports/${originalItems[reportId].id}/share/?user_id=${userId}`, {
+          const response = await fetch(`http://localhost:8000/reports/reports/${report.id}/share/?user_id=${userId}`, {
             method: 'PATCH',
             headers: {
               'Content-Type': 'application/json',
               'X-CSRFToken': csrftoken,
             },
             credentials: 'include',
-            body: JSON.stringify({ shared_with_users: updatedSharedWithUsers, shared_with_groups: originalItems[reportId].shared_with_groups }),
+            body: JSON.stringify({ shared_with_users: updatedSharedWithUsers, shared_with_groups: report.shared_with_groups }),
           });
 
           if (!response.ok) {
@@ -238,7 +241,7 @@ function TableOne() {
 
   const startEdit = (reportId) => {
     console.log("Editing report ID:", reportId); // Debugging line
-    setActiveReportId(reportId - 1);
+    setActiveReportId(reportId);
   };
 
   // Function to fetch statuses for all items
@@ -269,7 +272,6 @@ function TableOne() {
   };
   useEffect(() => {
     if (!searchQuery) {
-      console.log(originalItems)
       setItems(originalItems); // If searchQuery is empty, reset to original list
     } else {
       const filteredItems = originalItems.filter((item) =>
