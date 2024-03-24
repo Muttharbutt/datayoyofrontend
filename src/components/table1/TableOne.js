@@ -17,6 +17,7 @@ import g1 from "../../assets/g1.png"
 import g2 from "../../assets/g2.png"
 import g3 from "../../assets/g3.png"
 import unnion from "../../assets/Union.png"
+import { useNavigate } from 'react-router-dom';
 
 const cookies = new Cookies();
 
@@ -43,6 +44,12 @@ function TableOne() {
   const [dateCloseN, setDateCloseN] = useState('');
   const [dateOpenNMinus1, setDateOpenNMinus1] = useState('');
   const [dateCloseNMinus1, setDateCloseNMinus1] = useState('');
+
+  const navigate = useNavigate();
+
+  const navigateToStepOne = () => {
+    navigate('/stepone');
+  };
 
   const handleDateOpenNChange = (event) => {
     const newDateOpenN = event.target.value;
@@ -133,7 +140,7 @@ function TableOne() {
     cookies.set('dateOpenNMinus1', dateOpenNMinus1, { path: '/' });
     cookies.set('dateCloseNMinus1', dateCloseNMinus1, { path: '/' });
 
-    window.location.href = "http://localhost:3000/stepone";
+    navigateToStepOne();
   };
 
   const updateReportSharing = async (reportId, updatedSharedWithUsers) => {

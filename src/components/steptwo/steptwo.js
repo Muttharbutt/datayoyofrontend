@@ -4,6 +4,8 @@ import Header from "../shared/header/Header";
 import chain from "../../assets/chain.png"
 import Cookies from 'universal-cookie';
 import Loading from 'react-loading';
+import { useNavigate } from 'react-router-dom';
+
 function Steptwo() {
   const [selectOptionsN, setSelectOptionsN] = useState([]);
   const [selectOptionsNMinus1, setSelectOptionsNMinus1] = useState([]);
@@ -19,6 +21,12 @@ function Steptwo() {
       ...prevValues,
       [name]: value,
     }));
+  };
+
+  const navigate = useNavigate();
+
+  const navigateToStepThree = () => {
+    navigate('/stepthree');
   };
 
   const handleSaveAndContinue = async () => {
@@ -115,7 +123,7 @@ function Steptwo() {
         cookies.set('aNouveauNMinus1', data.a_nouveau_n_minus_1, { path: '/' });
         cookies.set('aNouveauN', data.a_nouveau_n, { path: '/' });
 
-        window.location.href = "http://localhost:3000/stepthree";
+        navigateToStepThree();
       }
       else
       {
@@ -334,7 +342,7 @@ function Steptwo() {
                 name="scenario_n"
                 value="DC"
                 checked={scenarioN === "DC"}
-                onChange={() => {setScenarioN("DC"); mapping['solde_n'] = ''; mapping['montant_n'] = ''; mapping['sens_n'] = '';}}
+                onChange={() => {setScenarioN("DC"); delete mapping['solde_n']; delete mapping['montant_n']; delete mapping['sens_n'];}}
               />
               <label style={{marginLeft:"10px", fontWeight:"500"}}> Débit et crédit</label><br/><br/>
               <input
@@ -343,7 +351,7 @@ function Steptwo() {
                 name="scenario_n"
                 value="Solde"
                 checked={scenarioN === "Solde"}
-                onChange={() => {setScenarioN("Solde"); mapping['debit_n'] = ''; mapping['credit_n'] = ''; mapping['montant_n'] = ''; mapping['sens_n'] = '';}}
+                onChange={() => {setScenarioN("Solde"); delete mapping['debit_n']; delete mapping['credit_n']; delete mapping['montant_n']; delete mapping['sens_n'];}}
               />
               <label style={{marginLeft:"10px", fontWeight:"500"}}> Solde en valeur relative</label><br/><br/>
               <input
@@ -352,7 +360,7 @@ function Steptwo() {
                 name="scenario_n"
                 value="MontantSens"
                 checked={scenarioN === "MontantSens"}
-                onChange={() => {setScenarioN("MontantSens"); mapping['solde_n'] = ''; mapping['debit_n'] = ''; mapping['credit_n'] = '';}}
+                onChange={() => {setScenarioN("MontantSens"); delete mapping['solde_n']; delete mapping['debit_n']; delete mapping['credit_n'];}}
               />
               <label style={{marginLeft:"10px", fontWeight:"500"}}> Solde en valeur absolue</label><br/>
             </div>
@@ -1006,7 +1014,7 @@ function Steptwo() {
                 name="scenario_n_minus_1"
                 value="DC"
                 checked={scenarioNMinus1 === "DC"}
-                onChange={() => {setScenarioNMinus1("DC"); mapping['solde_n_minus_1'] = ''; mapping['montant_n_minus_1'] = ''; mapping['sens_n_minus_1'] = '';}}
+                onChange={() => {setScenarioNMinus1("DC"); delete mapping['solde_n_minus_1']; delete mapping['montant_n_minus_1']; delete mapping['sens_n_minus_1'];}}
               />
               <label style={{marginLeft:"10px", fontWeight:"500"}}> Débit et crédit</label><br/><br/>
               <input
@@ -1015,7 +1023,7 @@ function Steptwo() {
                 name="scenario_n_minus_1"
                 value="Solde"
                 checked={scenarioNMinus1 === "Solde"}
-                onChange={() => {setScenarioNMinus1("Solde"); mapping['debit_n_minus_1'] = ''; mapping['credit_n_minus_1'] = ''; mapping['montant_n_minus_1'] = ''; mapping['sens_n_minus_1'] = '';}}
+                onChange={() => {setScenarioNMinus1("Solde"); delete mapping['debit_n_minus_1']; delete mapping['credit_n_minus_1']; delete mapping['montant_n_minus_1']; delete mapping['sens_n_minus_1'];}}
               />
               <label style={{marginLeft:"10px", fontWeight:"500"}}> Solde en valeur relative</label><br/><br/>
               <input
@@ -1024,7 +1032,7 @@ function Steptwo() {
                 name="scenario_n_minus_1"
                 value="MontantSens"
                 checked={scenarioNMinus1 === "MontantSens"}
-                onChange={() => {setScenarioNMinus1("MontantSens"); mapping['solde_n_minus_1'] = ''; mapping['debit_n_minus_1'] = ''; mapping['credit_n_minus_1'] = '';}}
+                onChange={() => {setScenarioNMinus1("MontantSens"); delete mapping['solde_n_minus_1']; delete mapping['debit_n_minus_1']; delete mapping['credit_n_minus_1'];}}
               />
               <label style={{marginLeft:"10px", fontWeight:"500"}}> Solde en valeur absolue</label><br/>
             </div>
