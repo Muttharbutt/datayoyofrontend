@@ -1,73 +1,84 @@
 .tableheader {
-    font-size: 40px;
-    font-weight: 950;
-    margin-left: 37%;
-    padding-top: 1.5%;
-  }
-  .tableheader1{
-    margin-left: 43%;
-    font-weight: 600;
-    font-size: 22px;
-  }
-  .tableinputstyle1 {
-    margin-left: 76%;
-    border: none;
-    width: 15% ;
-    color: #1054FB;
-    height: 35px;
-    border-radius: 10px;
-  }
-  .imagestyleforlogin1 {
-    margin-left: 76%;
-    position: absolute;
-    bottom: 12px;
-    left: 10px;
-    width: 15px;
-    height: 15px;
-  }
-  .givinginputmargin2 {
-    margin-top: 2%;
-    border: #1054FB solid 1px !important;
-    padding-left: 5%;
-  }
-  .tableheaderstyle {
-    background-color: white;
-    color: #1054FB;
-    border: 1px solid blue;
-    border-top-left-radius: 10px;
-    margin-top: 2%;
-    border-top-right-radius: 10px;
-    display: flex;
-    justify-content: center;
+  font-size: 40px;
+  font-weight: 950;
+  margin-left: 37%;
+  padding-top: 1.5%;
 }
-.tablecontent{
+
+.tableheader1 {
+  margin-left: 43%;
+  font-weight: 600;
+  font-size: 22px;
+}
+
+.tableinputstyle1 {
+  margin-left: 76%;
+  border: none;
+  width: 15% ;
+  color: #1054FB;
+  height: 35px;
+  border-radius: 10px;
+}
+
+.imagestyleforlogin1 {
+  margin-left: 76%;
+  position: absolute;
+  bottom: 12px;
+  left: 10px;
+  width: 15px;
+  height: 15px;
+}
+
+.givinginputmargin2 {
+  margin-top: 2%;
+  border: #1054FB solid 1px !important;
+  padding-left: 5%;
+}
+
+.tableheaderstyle {
+  background-color: white;
+  color: #1054FB;
+  border: 1px solid blue;
+  border-top-left-radius: 10px;
+  margin-top: 2%;
+  border-top-right-radius: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.tablecontent {
  display: flex;
  border-bottom: 1px solid blue;
  justify-content: center;
 }
-.tablecontent  div{
+
+.tablecontent  div {
     flex: 1;
     padding-top: 1%;
     padding-bottom: .5%;
 }
-.tableheaderstyle div{
+
+.tableheaderstyle div {
  flex: 1;
 padding-top: 1%;
 padding-bottom: 1%;
 }
+
 .tablewidth {
-    width: 92%;
-    margin-left: 5%;
-    border-collapse: collapse;
+  width: 92%;
+  margin-left: 5%;
+  border-collapse: collapse;
 }
-.trashimage{
+
+.trashimage {
     /* margin-left: -299%; */
-    width: 35px;
+  width: 35px;
   height: 35px;
 }
-.settingsetter{
-    margin-left: 94%;
-    margin-top: 26%;
+
+.settingsetter {
+  margin-left: 94%;
+  margin-top: 26%;
 }
 
 .modal-overlay {
@@ -81,15 +92,18 @@ padding-bottom: 1%;
   justify-content: center;
   align-items: center;
 }
-.textaligning{
- margin-left: 34%;
- padding-bottom: 3%;
+
+.textaligning {
+  margin-left: 34%;
+  padding-bottom: 3%;
 }
-.givingsize{
-font-size: 18px;
-font-weight: 400;
-width: 1000px;
+
+.givingsize {
+  font-size: 18px;
+  font-weight: 400;
+  width: 1000px;
 }
+
 .modal {
   background-color: white;
   border-radius: 15px;
@@ -100,6 +114,7 @@ width: 1000px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
   width: 50%;
 }
+
 .modal1 {
   background-color: white;
   border-radius: 15px;
@@ -110,6 +125,7 @@ width: 1000px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
   width: 33%;
 }
+
 .modal-content {
   margin-bottom: 20px;
 }
@@ -121,19 +137,20 @@ width: 1000px;
 
 .modal-buttons button {
   margin-left: 10px;
- 
 }
-.button1{
-border-radius: 30px;
-background-color: white;
-border-color: #1054FB;
-color: #1054FB;
-padding-top: 10px;
-padding-bottom: 10px;
-padding-left: 25px;
-padding-right: 25px;
+
+.button1 {
+  border-radius: 30px;
+  background-color: white;
+  border-color: #1054FB;
+  color: #1054FB;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 25px;
+  padding-right: 25px;
 }
-.button2{
+
+.button2 {
   border-radius: 30px;
   background-color: #1054FB;
   color: white;
@@ -142,4 +159,4 @@ padding-right: 25px;
   padding-bottom: 10px;
   padding-left: 25px;
   padding-right: 25px;
-  }
+}

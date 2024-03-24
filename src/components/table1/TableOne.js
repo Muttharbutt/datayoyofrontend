@@ -44,6 +44,7 @@ function TableOne() {
   const [dateCloseN, setDateCloseN] = useState('');
   const [dateOpenNMinus1, setDateOpenNMinus1] = useState('');
   const [dateCloseNMinus1, setDateCloseNMinus1] = useState('');
+  const [selectedMonth, setSelectedMonth] = useState('');
 
   const navigate = useNavigate();
 
@@ -53,7 +54,16 @@ function TableOne() {
 
   const handleDateOpenNChange = (event) => {
     const newDateOpenN = event.target.value;
+    const date = new Date(newDateOpenN);
+    if (isNaN(date)) {
+      console.error('Invalid date');
+      return;
+    }
+
     setDateOpenN(newDateOpenN);
+
+    const month = date.getMonth() + 1;
+    setSelectedMonth(month.toString());
 
     const datePlusOneYearMinusOneDay = new Date(newDateOpenN);
     datePlusOneYearMinusOneDay.setFullYear(datePlusOneYearMinusOneDay.getFullYear() + 1); // Add one year
@@ -359,8 +369,8 @@ function TableOne() {
             <input id="dateCloseN" value={dateCloseN} className="settingdate1 styledate" type="date" />
    </div>
 <div className="redbox">
-<select id="firstMonthFiscal" className="selectstyle">
-  <option value="" disabled>Premier mois de l'exercise fiscal</option>
+<select id="firstMonthFiscal" value={selectedMonth} className="selectstyle" onChange={(e) => setSelectedMonth(e.target.value)}>
+  <option value="" selected disabled>Premier mois de l'exercise fiscal</option>
   <option value="1">Janvier</option>
   <option value="2">Février</option>
   <option value="3">Mars</option>
