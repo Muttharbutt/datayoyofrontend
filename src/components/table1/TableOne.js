@@ -294,6 +294,8 @@ function TableOne() {
     }).join(", "); // Join names with comma
   };
 
+  const generatePowerBiUrl = (account_number) => `http://powerbi.datayoyo.com/report/${account_number}`;
+
   const getUserEmails = (sharedWithUserIds) => {
     return sharedWithUserIds.reduce((acc, userId) => {
       const user = userDetails[userId];
@@ -416,9 +418,17 @@ function TableOne() {
     <div>Suppression du dossier</div>
   </div>
   {items.slice(currentPage, currentPage + 9).map((item, index) => (
-
             <div className="tablecontent">
-           <div>{items[index+currentPage].account_legal_name}</div>
+              <div
+                onClick={() => {
+                  if (items[index+currentPage].account_number) {
+                    window.open(generatePowerBiUrl(items[index+currentPage].account_number), '_blank', 'noopener,noreferrer');
+                  }
+                }}
+              style={{cursor: items[index+currentPage].account_number ? 'pointer' : 'default', color: items[index + currentPage].account_number ? '#007bff' : '#000000',}}
+            >{items[index+currentPage].account_legal_name}
+            </div>
+            {/* <div onClick={() => {window.open(generatePowerBiUrl(items[index+currentPage].account_number), '_blank', 'noopener,noreferrer');}}>{items[index+currentPage].account_legal_name}</div> */}
            <div>{userDetails[items[index+currentPage].creator]?.first_name} {userDetails[items[index+currentPage].creator]?.last_name}</div>
            <div>
            <div>{getUserNames(items[index+currentPage].shared_with_users)}</div>
