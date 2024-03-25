@@ -10,7 +10,6 @@ function Header() {
  let  name=cookies.get("first_name") + " " + cookies.get("last_name")
  let  id=cookies.get("id")
 
-// Remove all cookies
 
   return (
     <>
@@ -29,7 +28,7 @@ function Header() {
                   <div className="acoountlogo logostyling">{id}</div>
                   <p className="titleoflogout1">{name}</p>
                   <p className="titleoflogout2">{email}</p>
-                  <button onClick={() => {cookies.remove(); window.location.href = "http://localhost:3000/"}} style={{ margin: "0%", marginBottom: "5%", marginTop: "5%" }} className="button3">Se déconnecter</button>
+                  <button onClick={() => {cookies.remove("id"); window.location.href = "http://localhost:3000/"}} style={{ margin: "0%", marginBottom: "5%", marginTop: "5%" }} className="button3">Se déconnecter</button>
 
                   </div>
 

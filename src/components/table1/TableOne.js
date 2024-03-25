@@ -17,7 +17,7 @@ import g1 from "../../assets/g1.png"
 import g2 from "../../assets/g2.png"
 import g3 from "../../assets/g3.png"
 import unnion from "../../assets/Union.png"
-
+import axios from "axios";
 const cookies = new Cookies();
 
 function TableOne() {
@@ -237,12 +237,22 @@ function TableOne() {
   }, [searchQuery, originalItems]);
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/reports/reports/?user_id=${userId}`)
+    let  cookies = new Cookies();
+    let access_token=cookies.get('access_token');
+   
+        let axiosConfig = {
+          method: 'GET',
+          url: `${process.env.REACT_APP_BACKEND_URL}/reports/reports/?user_id=${userId}`,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        };
+    axios(axiosConfig)
     .then(response => {
-      if (!response.ok) {
+      if (response.statusText!="OK") {
         throw new Error('Network response was not ok.');
       }
-      return response.json();
+      return response.data;
     })
     .then(jsonData => {setOriginalItems(jsonData);})
     .catch(error => console.error("Failed to fetch reports:", error));

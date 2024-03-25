@@ -9,6 +9,8 @@ import { useNavigate  } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import Logoheader from "../shared/Loginheader/Loginheader";
 import Loading from 'react-loading';
+import axios from "axios";
+
 function Login() {
 
   const [signupFormData, setSignupFormData] = useState({
@@ -47,22 +49,30 @@ function Login() {
   const handleLoginSubmit = async (e) => {
     setLoading(true);
     e.preventDefault();
-    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/accounts/login/`, {
+   
+    const axiosConfig = {
+      url: `${process.env.REACT_APP_BACKEND_URL}/accounts/login/`,
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(loginFormData),
-    });
-    const data = await response.json();
-
-    if (response.ok) {
+      data: loginFormData,
+    };
+    const response = await  axios.request(axiosConfig);
+    const data = await response.data;
+    if (response.statusText=="OK") {
       setLoading(false);
         cookies.set('id', data.user_id, { path: '/' });
         cookies.set('first_name', data.first_name, { path: '/' });
         cookies.set('last_name', data.last_name, { path: '/' });
         cookies.set('email', data.email, { path: '/' });
-        history('/tableone');
+        cookies.set('access_token', data.access_token, { path: '/' });
+        cookies.set('refresh_token', data.refresh_token, { path: '/' });
+        axios.defaults.headers.common['Authorization'] = 
+        `Bearer ${data.access_token}`;
+        window.location.href = "http://localhost:3000/tableone";
+     
+        
         // Do something with the user ID, like redirecting to a new page or storing it in state
     } else {
         setLoading(false);
