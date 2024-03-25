@@ -18,6 +18,8 @@ import g2 from "../../assets/g2.png"
 import g3 from "../../assets/g3.png"
 import unnion from "../../assets/Union.png"
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+
 const cookies = new Cookies();
 
 function TableOne() {
@@ -43,10 +45,26 @@ function TableOne() {
   const [dateCloseN, setDateCloseN] = useState('');
   const [dateOpenNMinus1, setDateOpenNMinus1] = useState('');
   const [dateCloseNMinus1, setDateCloseNMinus1] = useState('');
+  const [selectedMonth, setSelectedMonth] = useState('');
+
+  const navigate = useNavigate();
+
+  const navigateToStepOne = () => {
+    navigate('/stepone');
+  };
 
   const handleDateOpenNChange = (event) => {
     const newDateOpenN = event.target.value;
+    const date = new Date(newDateOpenN);
+    if (isNaN(date)) {
+      console.error('Invalid date');
+      return;
+    }
+
     setDateOpenN(newDateOpenN);
+
+    const month = date.getMonth() + 1;
+    setSelectedMonth(month.toString());
 
     const datePlusOneYearMinusOneDay = new Date(newDateOpenN);
     datePlusOneYearMinusOneDay.setFullYear(datePlusOneYearMinusOneDay.getFullYear() + 1); // Add one year
@@ -133,7 +151,7 @@ function TableOne() {
     cookies.set('dateOpenNMinus1', dateOpenNMinus1, { path: '/' });
     cookies.set('dateCloseNMinus1', dateCloseNMinus1, { path: '/' });
 
-    window.location.href = "http://localhost:3000/stepone";
+    navigateToStepOne();
   };
 
   const updateReportSharing = async (reportId, updatedSharedWithUsers) => {
@@ -297,6 +315,8 @@ function TableOne() {
     }).join(", "); // Join names with comma
   };
 
+  const generatePowerBiUrl = (account_number) => `http://powerbi.datayoyo.com/report/${account_number}`;
+
   const getUserEmails = (sharedWithUserIds) => {
     return sharedWithUserIds.reduce((acc, userId) => {
       const user = userDetails[userId];
@@ -360,8 +380,8 @@ function TableOne() {
             <input id="dateCloseN" value={dateCloseN} className="settingdate1 styledate" type="date" />
    </div>
 <div className="redbox">
-<select id="firstMonthFiscal" className="selectstyle">
-  <option value="" disabled>Premier mois de l'exercise fiscal</option>
+<select id="firstMonthFiscal" value={selectedMonth} className="selectstyle" onChange={(e) => setSelectedMonth(e.target.value)}>
+  <option value="" selected disabled>Premier mois de l'exercise fiscal</option>
   <option value="1">Janvier</option>
   <option value="2">Février</option>
   <option value="3">Mars</option>
@@ -419,9 +439,17 @@ function TableOne() {
     <div>Suppression du dossier</div>
   </div>
   {items.slice(currentPage, currentPage + 9).map((item, index) => (
-
             <div className="tablecontent">
-           <div>{items[index+currentPage].account_legal_name}</div>
+              <div
+                onClick={() => {
+                  if (items[index+currentPage].account_number) {
+                    window.open(generatePowerBiUrl(items[index+currentPage].account_number), '_blank', 'noopener,noreferrer');
+                  }
+                }}
+              style={{cursor: items[index+currentPage].account_number ? 'pointer' : 'default', color: items[index + currentPage].account_number ? '#007bff' : '#000000',}}
+            >{items[index+currentPage].account_legal_name}
+            </div>
+            {/* <div onClick={() => {window.open(generatePowerBiUrl(items[index+currentPage].account_number), '_blank', 'noopener,noreferrer');}}>{items[index+currentPage].account_legal_name}</div> */}
            <div>{userDetails[items[index+currentPage].creator]?.first_name} {userDetails[items[index+currentPage].creator]?.last_name}</div>
            <div>
            <div>{getUserNames(items[index+currentPage].shared_with_users)}</div>

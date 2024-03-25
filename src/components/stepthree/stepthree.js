@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './stepthree.css';
 import Header from "../shared/header/Header";
 import Cookies from 'universal-cookie';
+import { useNavigate } from 'react-router-dom';
 
 function Stepthree() {
   const [selectOptionsN, setSelectOptionsN] = useState([]);
@@ -15,6 +16,12 @@ function Stepthree() {
   };
   const handleSelectChangeNMinus1 = (e) => {
     setANouveauNMinus1(e.target.value);
+  };
+
+  const navigate = useNavigate();
+
+  const navigateToTableOne = () => {
+    navigate('/tableone');
   };
 
   useEffect(() => {
@@ -68,7 +75,7 @@ function Stepthree() {
       const data = await response.json();
       console.log('Success:', data);
 
-      window.location.href = "http://localhost:3000/tableone";
+      navigateToTableOne();
     } catch (error) {
       console.error('Error:', error);
       // Handle error (show error message)

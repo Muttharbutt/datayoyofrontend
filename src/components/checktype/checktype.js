@@ -15,6 +15,10 @@ function Checktype({ fileN, fileNMinus1 }) {
     navigate('/tableone'); // Navigates back to /tableone
   };
 
+  const navigateToStepTwo = () => {
+    navigate('/steptwo');
+  };
+
   const [selectedValue, setSelectedValue] = useState('');
   const [selectedValue1, setSelectedValue1] = useState('');
   const [selectedValue2, setSelectedValue2] = useState('');
@@ -70,7 +74,7 @@ function Checktype({ fileN, fileNMinus1 }) {
         cookies.set('headersNMinus1', data.headers_n_minus_1, { path: '/' });
         cookies.set('headersN', data.headers_n, { path: '/' });
 
-        window.location.href = "http://localhost:3000/steptwo";
+        navigateToStepTwo();
       } else {
         setLoading(false);
         const errorData = await response.json();
