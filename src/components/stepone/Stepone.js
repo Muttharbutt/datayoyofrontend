@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 function Stepone() {
 
   const [fileN, setFileN] = useState(null); // Use this state to store the file object for N
+  const [show1, setshow1] = useState(false);
   const [fileSelectedN, setFileSelectedN] = useState(false);
   const [check, setcheck] = useState(false);
   const [selectedFileNameN, setSelectedFileNameN] = useState('');
@@ -157,23 +158,23 @@ function Stepone() {
  <>
 
       <div className="settingbackground">
-        <div className="loginheader">Bienvenue chez Datayoyo</div>
+        <div className="loginheader">Nouveau rapport CAC BI</div>
         <div className="settingside">Étape 1 : Importation des bases</div>
         <div className="flexdiv">
           <div className="box1">
           <div className="settingsetponeheader parent"><span className='textspan'>1.Importation des données comptables
-          <img style={{width:"40px"}} src={question} alt=""/>  </span>
+          <img style={{width:"50px",paddingTop:"10px"}}  onClick={() => setshow1(!show1)} src={question} alt=""/>  </span>
 
-    <div className="logoutdiv1">
+  
+
+             </div>
+{show1 && (<>  <div className="logoutdiv1">
       <div className='textsetting'>   <img style={{width:"40px"}} src={question} alt=""/>  Informations importante : importation des données comptables.</div>
  <ul className='textsetting1'>
   <li className='paddingboot'>Les formats de fichiers acceptés sont les suivants : .csv, .txt, .xlsx.</li>
   <li>Par convention de nommage, “N” concerne l’exercice audité en cours et “N-1” l’exercice précédent</li>
  </ul>
-</div>
-
-             </div>
-
+</div></>)}
           <div className='divinsidestepone'>
             <h3>Exercice N</h3>
             {!isLoading1 && !isComplete1 && (

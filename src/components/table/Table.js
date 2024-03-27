@@ -37,9 +37,9 @@ function Table() {
   </div>
 
   <div className="tablecontent">
-    <div>datayoyo</div>
-    <div>John DOE</div>
-    <div>Victor LASCHON, John HILL, Hajar RAISS</div>
+    <div style={{width:"20%"}}>datayoyo</div>
+    <div  style={{width:"20%"}}>John DOE</div>
+    <div  style={{width:"30%"}}>Victor LASCHON, John HILL, Hajar RAISS</div>
     <Popup
         trigger={<div><img className="trashimage" src={trash} alt="trash" /></div>}
         modal

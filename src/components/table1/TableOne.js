@@ -347,10 +347,17 @@ function TableOne() {
     <>
       <Header />
       <div className="settingbackground">
+      <div style={{marginTop:"10px",marginLeft:"90%",position:"absolute",marginTop:"48.5%"}} className="flexdiv ">
+  <div onClick={setfirstpage} ><img style={{width:"13px",marginTop:"7px",marginRight:"10px"}} src={g0} alt="<<"/> </div>
+    <div onClick={prevPage} ><img style={{width:"9px",marginTop:"7px",marginRight:"7px"}} src={g1} alt="<<"/></div>
+    <div style={{width:"10px"}} className="bluebutton">{number+1}</div>
+    <div onClick={nextPage}><img style={{width:"9px",marginTop:"7px",marginLeft:"10px"}} src={g2} alt="<<"/></div>
+    <div onClick={setlastpage}><img style={{width:"13px",marginTop:"7px",marginLeft:"10px"}} src={g3} alt="<<"/></div>
+  </div>
         <div className="tableheader">Mes rapports CAC BI</div>
         <div className="tableheader1">Tableau de bord</div>
         <div className="flexdiv">
-        <div className="">
+        <div  style={{width:"12%",marginLeft:"5%"}}>
 
               <Popup
         trigger={ <button className="button4"><img style={{width:"13px",paddingRight:"10px"}} src={unnion} alt="+"/>Générer un livrable</button>}
@@ -417,7 +424,8 @@ function TableOne() {
     </Popup>
 
             </div>
-            <div className="container1">
+            <div  style={{width:"65%"}}></div>
+            <div   style={{width:"9%"}}>
              <input
       type="text"
       placeholder="Rechercher un dossier"
@@ -575,13 +583,7 @@ function TableOne() {
           </div>
           ))
   }
-    <div style={{marginTop:"10px",marginLeft:"90%"}} className="flexdiv ">
-  <div onClick={setfirstpage} ><img style={{width:"13px",marginTop:"7px",marginRight:"10px"}} src={g0} alt="<<"/> </div>
-    <div onClick={prevPage} ><img style={{width:"9px",marginTop:"7px",marginRight:"7px"}} src={g1} alt="<<"/></div>
-    <div style={{width:"10px"}} className="bluebutton">{number+1}</div>
-    <div onClick={nextPage}><img style={{width:"9px",marginTop:"7px",marginLeft:"10px"}} src={g2} alt="<<"/></div>
-    <div onClick={setlastpage}><img style={{width:"13px",marginTop:"7px",marginLeft:"10px"}} src={g3} alt="<<"/></div>
-  </div>
+  
   </div>
   </div>
 

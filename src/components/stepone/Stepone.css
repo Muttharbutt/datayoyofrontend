@@ -2,6 +2,7 @@
   margin-left: 40%;
   font-size: 20px;
   font-weight: 700;
+  margin-bottom: 3%;
 }
 .box1{
   margin-left: 7%;
@@ -9,10 +10,7 @@
   margin-top: 2%;
   height: 500px;
 }
-.settingsetponeheader{
-  margin-top: 1%;
- 
-}
+
 .divinsidestepone{
   padding: 50px;
   margin-top: 3%;
@@ -46,10 +44,7 @@ padding: 2%;
   font-weight: 700;
   margin-left: 10%;
 }
-.parent:hover .logoutdiv1 {
-  display: block; /* Show logout div when parent is hovered */
-  position: absolute;
-}
+
 .custom-file-input {
   background-color: #1054FB;
   color: white;
