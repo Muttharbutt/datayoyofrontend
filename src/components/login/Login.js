@@ -28,7 +28,7 @@ function Login() {
     password: '',
   });
   const [error, setError] = useState(null);
-  const history = useNavigate();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const handleSignupChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -49,7 +49,7 @@ function Login() {
   const handleLoginSubmit = async (e) => {
     setLoading(true);
     e.preventDefault();
-   
+
     const axiosConfig = {
       url: `${process.env.REACT_APP_BACKEND_URL}/accounts/login/`,
       method: 'POST',
@@ -60,7 +60,7 @@ function Login() {
     };
     const response = await  axios.request(axiosConfig);
     const data = await response.data;
-    if (response.statusText=="OK") {
+    if (response.statusText === "OK") {
       setLoading(false);
         cookies.set('id', data.user_id, { path: '/' });
         cookies.set('first_name', data.first_name, { path: '/' });
@@ -68,11 +68,9 @@ function Login() {
         cookies.set('email', data.email, { path: '/' });
         cookies.set('access_token', data.access_token, { path: '/' });
         cookies.set('refresh_token', data.refresh_token, { path: '/' });
-        axios.defaults.headers.common['Authorization'] = 
+        axios.defaults.headers.common['Authorization'] =
         `Bearer ${data.access_token}`;
-        window.location.href = "http://localhost:3000/tableone";
-     
-        
+        navigate('/tableone');
         // Do something with the user ID, like redirecting to a new page or storing it in state
     } else {
         setLoading(false);

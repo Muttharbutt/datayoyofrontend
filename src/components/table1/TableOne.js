@@ -256,18 +256,17 @@ function TableOne() {
 
   useEffect(() => {
     let  cookies = new Cookies();
-    let access_token=cookies.get('access_token');
-   
-        let axiosConfig = {
-          method: 'GET',
-          url: `${process.env.REACT_APP_BACKEND_URL}/reports/reports/?user_id=${userId}`,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        };
+    let access_token = cookies.get('access_token');
+    let axiosConfig = {
+      method: 'GET',
+      url: `${process.env.REACT_APP_BACKEND_URL}/reports/reports/?user_id=${userId}`,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
     axios(axiosConfig)
     .then(response => {
-      if (response.statusText!="OK") {
+      if (response.statusText !== "OK") {
         throw new Error('Network response was not ok.');
       }
       return response.data;
@@ -583,7 +582,7 @@ function TableOne() {
           </div>
           ))
   }
-  
+
   </div>
   </div>
 
