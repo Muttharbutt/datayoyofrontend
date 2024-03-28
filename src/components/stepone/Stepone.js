@@ -169,7 +169,8 @@ function Stepone() {
 
              </div>
      {show1 && (
-        <div className="logoutdiv1">
+        <>
+        <div style={{backgroundColor:"white",border:"1px solid lightgrey", borderRadius:"10px",padding:'2%',position:"absolute"}}>
           <div className='textsetting'>
             <img style={{width:"40px"}} src={question} alt=""/>
             Informations importante : importation des données comptables.
@@ -179,6 +180,7 @@ function Stepone() {
             <li>Par convention de nommage, “N” concerne l’exercice audité en cours et “N-1” l’exercice précédent</li>
           </ul>
         </div>
+        </>
       )}
           <div className='divinsidestepone'>
             <h3>Exercice N</h3>

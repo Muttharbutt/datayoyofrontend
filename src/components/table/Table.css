@@ -9,7 +9,8 @@
   margin-left: 43%;
   font-weight: 600;
   font-size: 22px;
-  margin-bottom: 3%;
+  margin-top: 1%;
+  margin-bottom: 2%;
 }
 
 .tableinputstyle1 {
@@ -175,7 +176,7 @@ padding-bottom: 1%;
 }
 
 .button2 {
-  border-radius: 30px;
+  border-radius: 19px;
   background-color: #1054FB;
   color: white;
   border:none;
