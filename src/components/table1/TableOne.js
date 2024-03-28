@@ -19,6 +19,9 @@ import g3 from "../../assets/g3.png"
 import unnion from "../../assets/Union.png"
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import "@fontsource/raleway"; // Defaults to weight 400
+import "@fontsource/raleway/400.css"; // Specify weight
+import "@fontsource/raleway/400-italic.css"; // Specify weight and style
 
 const cookies = new Cookies();
 
