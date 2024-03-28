@@ -125,7 +125,7 @@ function Login() {
       <div className="settingbackground">
         <div className="loginheader">Bienvenue chez Datayoyo</div>
         <div className="flexdiv">
-        <div className="signupdiv">
+        <div className="signupdiv" style={{ marginLeft: "8%",marginRight:"4%"}}>
       <div className="formheader">Je m’inscris</div>
       <form onSubmit={handleSignupSubmit}>
         <input

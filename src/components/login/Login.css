@@ -1,7 +1,6 @@
 .settingbackground {
   background: url("../../assets/background.png") no-repeat ;
   height: 100vh;
-  background-size: cover;
 }
 .loginheader {
   font-size: 40px;
@@ -15,10 +14,10 @@
 .signupdiv {
   margin-top: 4%;
 padding-bottom: 3%;
-  width: 35%;
+  width: 40%;
   background-color: white;
   border-radius: 15px;
-  margin-left: 10%;
+ 
 }
 .formheader {
   font-size: 24px;

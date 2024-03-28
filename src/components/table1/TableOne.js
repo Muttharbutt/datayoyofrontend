@@ -469,7 +469,7 @@ function TableOne() {
                     window.open(generatePowerBiUrl(items[index+currentPage].account_number), '_blank', 'noopener,noreferrer');
                   }
                 }}
-              style={{cursor: items[index+currentPage].account_number ? 'pointer' : 'default', color: items[index + currentPage].account_number ? '#007bff' : '#000000',}}
+              style={{cursor: items[index+currentPage].account_number ? 'pointer' : 'default', color: items[index + currentPage].account_number ? '#007bff' : '#000000',marginLeft:"5px"}}
             >{items[index+currentPage].account_legal_name}
             </div>
             {/* <div onClick={() => {window.open(generatePowerBiUrl(items[index+currentPage].account_number), '_blank', 'noopener,noreferrer');}}>{items[index+currentPage].account_legal_name}</div> */}

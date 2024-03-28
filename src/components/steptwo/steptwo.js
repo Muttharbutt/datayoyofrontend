@@ -169,21 +169,21 @@ function Steptwo() {
       )}
       <div className="settingbackground" style={{height: "1280px"}}>
       <div className="loginheader">Nouveau rapport CAC BI</div>
-        <div className="settingside">Étape 2 : Rapprochement des champs</div>
+        <div className="settingside" style={{marginBottom:"3%"}}>Étape 2 : Rapprochement des champs</div>
         <div className="flexdiv" >
         <div className='boxone' >
         <div className="settingsetponeheader parent" style={{marginBottom:"3%"}}><span className='textspan'> <img style={{width:"40px"}} src={chain} alt=""/> Rapprochement des champs de la base de données N
           </span> </div>
-          <div className='whiteboxone'><h4 style={{marginBottom:"3%",marginTop:"-1%"}}>Champs obligatoires</h4>
+          <div className='whiteboxone'><h4 style={{marginBottom:"3%",marginTop:"-1%",marginLeft:"3%"}}>Champs obligatoires</h4>
           <div className='flexdiv'>
-          <div style={{width:"33%"}}>
+          <div style={{width:"33%",marginLeft:"3%"}}>
           <div style={{fontWeight:"500"}}>Numéro de compte</div>
           <select
               style={{
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['compte_n'] || mapping['compte_n'] === '' ? "2px solid red" : "none",
                 paddingLeft: "20px",
@@ -209,7 +209,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['compte_lib_n'] || mapping['compte_lib_n'] === '' ? "2px solid red" : "none",
                 paddingLeft: "20px",
@@ -235,7 +235,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['ecriture_numero_n'] || mapping['ecriture_numero_n'] === '' ? "2px solid red" : "none",
                 paddingLeft: "20px",
@@ -256,14 +256,14 @@ function Steptwo() {
           </div>
           </div>
           <div style={{marginTop:"3%"}} className='flexdiv'>
-          <div style={{width:"33%"}}>
+          <div style={{width:"33%",marginLeft:"3%"}}>
           <div style={{fontWeight:"500"}}>Libellé d’écriture</div>
           <select
               style={{
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['ecriture_lib_n'] || mapping['ecriture_lib_n'] === '' ? "2px solid red" : "none",
                 paddingLeft: "20px",
@@ -289,7 +289,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['code_journal_n'] || mapping['code_journal_n'] === '' ? "2px solid red" : "none",
                 paddingLeft: "20px",
@@ -315,7 +315,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['date_comptable_n'] || mapping['date_comptable_n'] === '' ? "2px solid red" : "none",
                 paddingLeft: "20px",
@@ -337,7 +337,7 @@ function Steptwo() {
           </div>
           <h4 style={{marginTop:"5%",marginBottom:"5%"}}>Sous quel format l’information relative au solde comptable est-elle renseignée ?</h4>
           <div className='flexdiv'>
-          <div style={{width:"33%"}}>
+          <div style={{width:"33%",marginLeft:"1%"}}>
               <input
                 style={{transform: "scale(1.3)"}}
                 type='radio'
@@ -377,7 +377,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['debit_n'] || mapping['debit_n'] === '' ? "2px solid red" : "none",
                 paddingLeft: "20px",
@@ -404,7 +404,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['credit_n'] || mapping['credit_n'] === '' ? "2px solid red" : "none",
                 paddingLeft: "20px",
@@ -437,7 +437,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['solde_n'] || mapping['solde_n'] === '' ? "2px solid red" : "none",
                 paddingLeft: "20px",
@@ -470,7 +470,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['montant_n'] || mapping['montant_n'] === '' ? "2px solid red" : "none",
                 paddingLeft: "20px",
@@ -497,7 +497,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['sens_n'] || mapping['sens_n'] === '' ? "2px solid red" : "none",
                 paddingLeft: "20px",
@@ -521,16 +521,16 @@ function Steptwo() {
 }
           </div>
           </div>
-            <div className='whiteboxone' style={{marginTop:"3%"}}><h4 style={{marginBottom:"3%",marginTop:"-1%"}}>Champs facultatifs</h4>
+            <div className='whiteboxone' style={{marginTop:"3%"}}><h4 style={{marginBottom:"3%",marginTop:"-1%",marginLeft:"3%"}}>Champs facultatifs</h4>
           <div className='flexdiv'>
-          <div style={{width:"33%"}}>
+          <div style={{width:"33%",marginLeft:"3%"}}>
           <div style={{fontWeight:"500"}}>Utilisateur</div>
           <select
               style={{
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['utilisateur_n'] || mapping['utilisateur_n'] === '' ? "2px solid orange" : "none",
                 paddingLeft: "20px",
@@ -556,7 +556,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['libelle_journal_n'] || mapping['libelle_journal_n'] === '' ? "2px solid orange" : "none",
                 paddingLeft: "20px",
@@ -582,7 +582,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['date_validation_n'] || mapping['date_validation_n'] === '' ? "2px solid orange" : "none",
                 paddingLeft: "20px",
@@ -603,14 +603,14 @@ function Steptwo() {
           </div>
           </div>
           <div style={{marginTop:"3%"}} className='flexdiv'>
-          <div style={{width:"33%"}}>
+          <div style={{width:"33%",marginLeft:"3%"}}>
           <div style={{fontWeight:"500"}}>Numéro auxiliaire</div>
           <select
               style={{
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['numero_auxiliare_n'] || mapping['numero_auxiliare_n'] === '' ? "2px solid orange" : "none",
                 paddingLeft: "20px",
@@ -636,7 +636,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['libelle_auxiliare_n'] || mapping['libelle_auxiliare_n'] === '' ? "2px solid orange" : "none",
                 paddingLeft: "20px",
@@ -662,7 +662,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['lettrage_n'] || mapping['lettrage_n'] === '' ? "2px solid orange" : "none",
                 paddingLeft: "20px",
@@ -682,7 +682,7 @@ function Steptwo() {
 </select>
           </div>
           </div>
-          <div className='flexdiv'>
+          <div className='flexdiv' style={{marginLeft:"3%",marginTop:"1%"}}>
           <div style={{width:"33%"}}>
           <div style={{fontWeight:"500"}}>Date lettrage</div>
           <select
@@ -690,7 +690,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['date_lettrage_n'] || mapping['date_lettrage_n'] === '' ? "2px solid orange" : "none",
                 paddingLeft: "20px",
@@ -716,7 +716,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['reference_piece_n'] || mapping['reference_piece_n'] === '' ? "2px solid orange" : "none",
                 paddingLeft: "20px",
@@ -742,7 +742,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['date_piece_n'] || mapping['date_piece_n'] === '' ? "2px solid orange" : "none",
                 paddingLeft: "20px",
@@ -761,7 +761,7 @@ function Steptwo() {
     ))}
 </select>
           </div>
-          </div> <div style={{marginTop:"3%"}} className='flexdiv'>
+          </div> <div style={{marginTop:"3%",marginLeft:"3%"}} className='flexdiv'>
           <div style={{width:"33%"}}>
           <div style={{fontWeight:"500"}}>Montant en devise</div>
           <select
@@ -769,7 +769,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['montant_devise_n'] || mapping['montant_devise_n'] === '' ? "2px solid orange" : "none",
                 paddingLeft: "20px",
@@ -795,7 +795,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['devise_n'] || mapping['devise_n'] === '' ? "2px solid orange" : "none",
                 paddingLeft: "20px",
@@ -821,7 +821,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['etablissement_n'] || mapping['etablissement_n'] === '' ? "2px solid orange" : "none",
                 paddingLeft: "20px",
@@ -846,8 +846,8 @@ function Steptwo() {
         <div className='boxone'>
         <div className="settingsetponeheader parent" style={{marginBottom:"3%"}}><span className='textspan'> <img style={{width:"40px"}} src={chain} alt=""/> Rapprochement des champs de la base de données N-1
           </span> </div>
-          <div className='whiteboxone'><h4 style={{marginBottom:"3%",marginTop:"-1%"}}>Champs obligatoires</h4>
-          <div className='flexdiv'>
+          <div className='whiteboxone'><h4 style={{marginBottom:"3%",marginTop:"-1%",marginLeft:"2%"}}>Champs obligatoires</h4>
+          <div className='flexdiv' style={{marginLeft:"3%"}}>
           <div style={{width:"33%"}}>
           <div style={{fontWeight:"500"}}>Numéro de compte</div>
           <select
@@ -855,7 +855,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['compte_n_minus_1'] || mapping['compte_n_minus_1'] === '' ? "2px solid red" : "none",
                 paddingLeft: "20px",
@@ -881,7 +881,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['compte_lib_n_minus_1'] || mapping['compte_lib_n_minus_1'] === '' ? "2px solid red" : "none",
                 paddingLeft: "20px",
@@ -907,7 +907,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['ecriture_numero_n_minus_1'] || mapping['ecriture_numero_n_minus_1'] === '' ? "2px solid red" : "none",
                 paddingLeft: "20px",
@@ -927,7 +927,7 @@ function Steptwo() {
 </select>
           </div>
           </div>
-          <div style={{marginTop:"3%"}} className='flexdiv'>
+          <div style={{marginTop:"3%",marginLeft:"3%"}} className='flexdiv'>
           <div style={{width:"33%"}}>
           <div style={{fontWeight:"500"}}>Libellé d’écriture</div>
           <select
@@ -935,7 +935,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['ecriture_lib_n_minus_1'] || mapping['ecriture_lib_n_minus_1'] === '' ? "2px solid red" : "none",
                 paddingLeft: "20px",
@@ -961,7 +961,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['code_journal_n_minus_1'] || mapping['code_journal_n_minus_1'] === '' ? "2px solid red" : "none",
                 paddingLeft: "20px",
@@ -987,7 +987,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['date_comptable_n_minus_1'] || mapping['date_comptable_n_minus_1'] === '' ? "2px solid red" : "none",
                 paddingLeft: "20px",
@@ -1007,8 +1007,8 @@ function Steptwo() {
 </select>
           </div>
           </div>
-          <h4 style={{marginTop:"5%",marginBottom:"5%"}}>Sous quel format l’information relative au solde comptable est-elle renseignée ?</h4>
-          <div className='flexdiv'>
+          <h4 style={{marginTop:"5%",marginBottom:"5%",marginLeft:"3%"}}>Sous quel format l’information relative au solde comptable est-elle renseignée ?</h4>
+          <div className='flexdiv' style={{marginLeft:"3%"}}>
             <div style={{width:"33%"}}>
               <input
                 style={{transform: "scale(1.3)"}}
@@ -1049,7 +1049,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['debit_n_minus_1'] || mapping['debit_n_minus_1'] === '' ? "2px solid red" : "none",
                 paddingLeft: "20px",
@@ -1076,7 +1076,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['credit_n_minus_1'] || mapping['credit_n_minus_1'] === '' ? "2px solid red" : "none",
                 paddingLeft: "20px",
@@ -1109,7 +1109,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['solde_n_minus_1'] || mapping['solde_n_minus_1'] === '' ? "2px solid red" : "none",
                 paddingLeft: "20px",
@@ -1142,7 +1142,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['montant_n_minus_1'] || mapping['montant_n_minus_1'] === '' ? "2px solid red" : "none",
                 paddingLeft: "20px",
@@ -1169,7 +1169,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['sens_n_minus_1'] || mapping['sens_n_minus_1'] === '' ? "2px solid red" : "none",
                 paddingLeft: "20px",
@@ -1193,16 +1193,16 @@ function Steptwo() {
 }
 </div>
 </div>
-<div className='whiteboxone' style={{marginTop:"3%"}}><h4 style={{marginBottom:"3%",marginTop:"-1%"}}>Champs facultatifs</h4>
+<div className='whiteboxone' style={{marginTop:"3%"}}><h4 style={{marginBottom:"3%",marginTop:"-1%",marginLeft:"3%"}}>Champs facultatifs</h4>
           <div className='flexdiv'>
-          <div style={{width:"33%"}}>
+          <div style={{width:"33%",marginLeft:"3%"}}>
           <div style={{fontWeight:"500"}}>Utilisateur</div>
           <select
               style={{
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['utilisateur_n_minus_1'] || mapping['utilisateur_n_minus_1'] === '' ? "2px solid orange" : "none",
                 paddingLeft: "20px",
@@ -1228,7 +1228,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['libelle_journal_n_minus_1'] || mapping['libelle_journal_n_minus_1'] === '' ? "2px solid orange" : "none",
                 paddingLeft: "20px",
@@ -1254,7 +1254,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['date_validation_n_minus_1'] || mapping['date_validation_n_minus_1'] === '' ? "2px solid orange" : "none",
                 paddingLeft: "20px",
@@ -1274,7 +1274,7 @@ function Steptwo() {
 </select>
           </div>
           </div>
-          <div style={{marginTop:"3%"}} className='flexdiv'>
+          <div style={{marginTop:"3%",marginLeft:"3%"}} className='flexdiv'>
           <div style={{width:"33%"}}>
           <div style={{fontWeight:"500"}}>Numéro auxiliaire</div>
           <select
@@ -1282,7 +1282,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['numero_auxiliare_n_minus_1'] || mapping['numero_auxiliare_n_minus_1'] === '' ? "2px solid orange" : "none",
                 paddingLeft: "20px",
@@ -1308,7 +1308,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['libelle_auxiliare_n_minus_1'] || mapping['libelle_auxiliare_n_minus_1'] === '' ? "2px solid orange" : "none",
                 paddingLeft: "20px",
@@ -1334,7 +1334,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['lettrage_n_minus_1'] || mapping['lettrage_n_minus_1'] === '' ? "2px solid orange" : "none",
                 paddingLeft: "20px",
@@ -1354,7 +1354,7 @@ function Steptwo() {
 </select>
           </div>
           </div>
-          <div className='flexdiv'>
+          <div className='flexdiv' style={{marginLeft:"3%"}}>
           <div style={{width:"33%"}}>
           <div style={{fontWeight:"500"}}>Date lettrage</div>
           <select
@@ -1362,7 +1362,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['date_lettrage_n_minus_1'] || mapping['date_lettrage_n_minus_1'] === '' ? "2px solid orange" : "none",
                 paddingLeft: "20px",
@@ -1388,7 +1388,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['reference_piece_n_minus_1'] || mapping['reference_piece_n_minus_1'] === '' ? "2px solid orange" : "none",
                 paddingLeft: "20px",
@@ -1414,7 +1414,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['date_piece_n_minus_1'] || mapping['date_piece_n_minus_1'] === '' ? "2px solid orange" : "none",
                 paddingLeft: "20px",
@@ -1434,7 +1434,7 @@ function Steptwo() {
 </select>
           </div>
           </div>
-          <div style={{marginTop:"3%"}} className='flexdiv'>
+          <div style={{marginTop:"3%",marginLeft:"3%"}} className='flexdiv'>
           <div style={{width:"33%"}}>
           <div style={{fontWeight:"500"}}>Montant en devise</div>
           <select
@@ -1442,7 +1442,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['montant_devise_n_minus_1'] || mapping['montant_devise_n_minus_1'] === '' ? "2px solid orange" : "none",
                 paddingLeft: "20px",
@@ -1468,7 +1468,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['devise_n_minus_1'] || mapping['devise_n_minus_1'] === '' ? "2px solid orange" : "none",
                 paddingLeft: "20px",
@@ -1494,7 +1494,7 @@ function Steptwo() {
                 width: "90%",
                 height: "40px",
                 borderRadius: "20px",
-                backgroundColor: "#EDEEFB",
+                backgroundColor: "white",
                 color: "#1054FB",
                 border: !mapping['etablissement_n_minus_1'] || mapping['etablissement_n_minus_1'] === '' ? "2px solid orange" : "none",
                 paddingLeft: "20px",
