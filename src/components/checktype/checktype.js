@@ -60,9 +60,13 @@ function Checktype({ fileN, fileNMinus1 }) {
     formData.append("end_date_n", cookies.get("dateCloseN"));
 
     try {
+      const access_token = cookies.get('access_token');
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/reports/reports/`, {
         method: "POST",
         body: formData,
+        headers: {
+          'Authorization': `Bearer ${access_token}`
+        }
       });
 
       if (response.ok) {

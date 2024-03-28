@@ -114,7 +114,12 @@ function TableOne() {
     const fetchAllUsers = async () => {
       try {
         // Perform a GET request to fetch all users
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/accounts/users/?user_id=${userId}`);
+        const access_token = cookies.get('access_token');
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/accounts/users/`, {
+          headers: {
+            'Authorization': `Bearer ${access_token}`
+          },
+        });
         if (!response.ok) throw new Error('Failed to fetch user data');
         const users = await response.json();
 
@@ -140,9 +145,6 @@ function TableOne() {
     const clientName = document.getElementById('clientName').value;
     const firstMonthFiscal = document.getElementById('firstMonthFiscal').value;
 
-    // Create a cookies instance
-    const cookies = new Cookies();
-
     // Save the values in cookies
     cookies.set('clientName', clientName, { path: '/' });
     cookies.set('firstMonthFiscal', firstMonthFiscal, { path: '/' });
@@ -156,14 +158,15 @@ function TableOne() {
 
   const updateReportSharing = async (reportId, updatedSharedWithUsers) => {
     try {
-      const cookies = new Cookies();
       const csrftoken = cookies.get('csrftoken');
+      const access_token = cookies.get('access_token');
       const report = originalItems.find(item => item.id.toString() === reportId.toString());
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/reports/reports/${report.id}/share/?user_id=${userId}`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/reports/reports/${report.id}/share/`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           'X-CSRFToken': csrftoken,
+          'Authorization': `Bearer ${access_token}`
         },
         credentials: 'include',
         body: JSON.stringify({ shared_with_users: updatedSharedWithUsers, shared_with_groups: report.shared_with_groups }),
@@ -221,8 +224,12 @@ function TableOne() {
 
   const handleDeleteReport = async (reportId) => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/reports/reports/${reportId}/?user_id=${userId}`, {
+      const access_token = cookies.get('access_token');
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/reports/reports/${reportId}/`, {
         method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${access_token}`
+        }
       });
 
       if (response.ok) {
@@ -255,14 +262,15 @@ function TableOne() {
   }, [searchQuery, originalItems]);
 
   useEffect(() => {
-    let  cookies = new Cookies();
-    let access_token = cookies.get('access_token');
-    let axiosConfig = {
+    const access_token = cookies.get('access_token');
+    const axiosConfig = {
       method: 'GET',
-      url: `${process.env.REACT_APP_BACKEND_URL}/reports/reports/?user_id=${userId}`,
+      url: `${process.env.REACT_APP_BACKEND_URL}/reports/reports/`,
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${access_token}`
       },
+      withCredentials: true,
     };
     axios(axiosConfig)
     .then(response => {
@@ -280,7 +288,12 @@ function TableOne() {
       const statusPromises = items.map(async (item) => {
         if (item.task_id) {
           try {
-            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/reports/task-status/${item.task_id}/`);
+            const access_token = cookies.get('access_token');
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/reports/task-status/${item.task_id}/`, {
+              headers: {
+                'Authorization': `Bearer ${access_token}`
+              }
+            });
             if (response.ok) {
               const statusData = await response.json();
               setStatuses((prevStatuses) => ({

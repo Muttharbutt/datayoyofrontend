@@ -103,12 +103,14 @@ function Steptwo() {
       body['scenario_n'] = scenarioN
       body['scenario_n_minus_1'] = scenarioNMinus1
       const csrftoken = cookies.get('csrftoken');
+      const access_token = cookies.get('access_token');
 
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/reports/mapping/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'X-CSRFToken': csrftoken,
+          'Authorization': `Bearer ${access_token}`
         },
         body: JSON.stringify(body),
         credentials: 'include',
